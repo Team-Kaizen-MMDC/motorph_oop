@@ -4,10 +4,11 @@
  */
 package domain;
 
+
 /**
  *
  * @author brianjancarlos
  */
-public class Employee {
+public abstract class Employee {
     
 }
