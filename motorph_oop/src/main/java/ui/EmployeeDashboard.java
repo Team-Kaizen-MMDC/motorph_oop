@@ -43,7 +43,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         txt_empid = new javax.swing.JTextField();
         txt_lname1 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel_EmpDashboard.setBorder(javax.swing.BorderFactory.createTitledBorder("Employee Dashboard"));
         jPanel_EmpDashboard.setName("Empoyee Dashboard"); // NOI18N
@@ -165,8 +165,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 .addComponent(jPanel_EmpDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        jPanel_EmpDashboard.getAccessibleContext().setAccessibleName("Employee Dashboard");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
