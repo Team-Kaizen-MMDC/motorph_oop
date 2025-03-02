@@ -9,6 +9,7 @@ import domain.Role;
 import domain.EmployeeID;
 import static java.lang.Integer.parseInt;
 import javax.swing.JOptionPane;
+import services.LoggerService;
 import services.UserService;
 
 /**
@@ -41,7 +42,7 @@ public class LoginFrame extends javax.swing.JFrame {
         lbl_motorphHeader = new javax.swing.JLabel();
         txt_username = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lbl_username.setText("EMPLOYEE ID");
 
@@ -107,12 +108,17 @@ public class LoginFrame extends javax.swing.JFrame {
         String employeeId = txt_username.getText();
         String password = new String(txtpass_password.getPassword());
 
+        LoggerService.logInfo("Login attempt for Employee ID: " + employeeId);
+
         UserAccount user = UserService.login(employeeId, password);
         if (user != null) {
+            LoggerService.logInfo("Login successful for Employee ID: " + user.getEmployeeId());
             JOptionPane.showMessageDialog(null, "Login Successful");
-            openDashboard(user);
+            //openDashboard(user);
+            openDashboard(user.getEmployeeId(), user.getEmpRole());
             dispose();
         } else {
+            LoggerService.logWarning("Invalid login attempt for Employee ID: " + employeeId);
             JOptionPane.showMessageDialog(null, "Invalid Credentials");
         }
 
@@ -121,18 +127,31 @@ public class LoginFrame extends javax.swing.JFrame {
     private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_usernameActionPerformed
-    private void openDashboard(UserAccount user) {
-        String roleName = Role.getRoleName(user.getEmpRole());
-        if (roleName.equals("HR")) {
-            new HRDashboard(user.getEmployeeId());
-        } else if (roleName.equals("Payroll Admin")) {
-            new PayrollDashboard(user.getEmployeeId());
-        } else if (roleName.equals("IT")) {
-            new ITDashboard(user.getEmployeeId());
+    private void openDashboard(int employeeId, int roleId) {
+        String role = Role.getRoleName(roleId);
+        LoggerService.logInfo("Opening dashboard for Employee ID: " + employeeId + " with Role: " + role);
+
+        if (role.equals("HR")) {
+            new HRDashboard(employeeId);
+        } else if (role.equals("Payroll Admin")) {
+            new PayrollDashboard(employeeId);
+        } else if (role.equals("IT")) {
+            new ITDashboard(employeeId);
         } else {
-            EmployeeDashboard employee_dashboard = new EmployeeDashboard(user.getEmployeeId());
+            EmployeeDashboard employee_dashboard = new EmployeeDashboard(employeeId);
             employee_dashboard.setVisible(true);
         }
+//        String roleName = Role.getRoleName(user.getEmpRole());
+//        if (roleName.equals("HR")) {
+//            new HRDashboard(user.getEmployeeId());
+//        } else if (roleName.equals("Payroll Admin")) {
+//            new PayrollDashboard(user.getEmployeeId());
+//        } else if (roleName.equals("IT")) {
+//            new ITDashboard(user.getEmployeeId());
+//        } else {
+//            EmployeeDashboard employee_dashboard = new EmployeeDashboard(user.getEmployeeId());
+//            employee_dashboard.setVisible(true);
+//        }
     }
 
     /**

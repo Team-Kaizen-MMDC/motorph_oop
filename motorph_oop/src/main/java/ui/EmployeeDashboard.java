@@ -67,7 +67,7 @@ public class EmployeeDashboard extends JFrame {
         lbl_status = new javax.swing.JLabel();
         txt_status = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel_EmpDashboard.setBorder(javax.swing.BorderFactory.createTitledBorder("Employee Dashboard"));
         jPanel_EmpDashboard.setName("Empoyee Dashboard"); // NOI18N
