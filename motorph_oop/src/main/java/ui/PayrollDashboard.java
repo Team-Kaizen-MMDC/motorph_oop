@@ -5,6 +5,7 @@
 package ui;
 
 import domain.EmployeeID;
+import services.LoggerService;
 
 /**
  *
@@ -19,6 +20,8 @@ public class PayrollDashboard extends javax.swing.JFrame {
      */
     public PayrollDashboard(int employeeId) {
         initComponents();
+        setLocationRelativeTo(null); // center the window
+        LoggerService.logInfo(" EmployeeDashboard: Requesting details for Employee ID: " + employeeId);
     }
 
     /**
