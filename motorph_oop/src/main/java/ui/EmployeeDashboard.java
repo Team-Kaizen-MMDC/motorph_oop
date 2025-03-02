@@ -23,13 +23,19 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         this.employeeId = employeeId;
         EmployeeID.empid = employeeId;
         setLocationRelativeTo(null);
-        txt_empid.setText(String.valueOf(EmployeeID.empid));
+        
         
         // Fetch employee details
         FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId);
         
         // Populate fields
         txt_fname.setText(employee.getFullName());
+        txt_empid.setText(String.valueOf(EmployeeID.empid));
+        txt_bday.setText(employee.getBirthday());
+        txt_phone.setText(employee.getPhoneNumber());
+        txtarea_address.setText(employee.getAddress());
+        txt_position.setText(employee.getJobPosition());
+        txt_status.setText(employee.getEmploymentStatus());
     }
 
     /**
@@ -43,11 +49,22 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
         jPanel_EmpDashboard = new javax.swing.JPanel();
         jPanel_UserActions = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        jPanel_EmployeeInformation = new javax.swing.JPanel();
         lbl_fullname = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txt_fname = new javax.swing.JTextField();
         txt_empid = new javax.swing.JTextField();
+        lbl_birthday = new javax.swing.JLabel();
+        txt_bday = new javax.swing.JTextField();
+        lbl_address = new javax.swing.JLabel();
+        lbl_phone1 = new javax.swing.JLabel();
+        txt_position = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtarea_address = new javax.swing.JTextArea();
+        lbl_position = new javax.swing.JLabel();
+        txt_phone = new javax.swing.JTextField();
+        lbl_status = new javax.swing.JLabel();
+        txt_status = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -67,7 +84,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Employee Information"));
+        jPanel_EmployeeInformation.setBorder(javax.swing.BorderFactory.createTitledBorder("Employee Information"));
 
         lbl_fullname.setText("Full Name");
 
@@ -85,35 +102,122 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        lbl_birthday.setText("Birthday");
+
+        txt_bday.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_bdayActionPerformed(evt);
+            }
+        });
+
+        lbl_address.setText("Address");
+
+        lbl_phone1.setText("Phone");
+
+        txt_position.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_positionActionPerformed(evt);
+            }
+        });
+
+        txtarea_address.setEditable(false);
+        txtarea_address.setColumns(20);
+        txtarea_address.setLineWrap(true);
+        txtarea_address.setRows(5);
+        txtarea_address.setToolTipText("Address");
+        txtarea_address.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(txtarea_address);
+
+        lbl_position.setText("Position");
+
+        txt_phone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_phoneActionPerformed(evt);
+            }
+        });
+
+        lbl_status.setText("Status");
+
+        txt_status.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_statusActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel_EmployeeInformationLayout = new javax.swing.GroupLayout(jPanel_EmployeeInformation);
+        jPanel_EmployeeInformation.setLayout(jPanel_EmployeeInformationLayout);
+        jPanel_EmployeeInformationLayout.setHorizontalGroup(
+            jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_EmployeeInformationLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lbl_fullname)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txt_fname, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_status)
+                    .addComponent(lbl_position)
+                    .addGroup(jPanel_EmployeeInformationLayout.createSequentialGroup()
+                        .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel_EmployeeInformationLayout.createSequentialGroup()
+                                .addComponent(lbl_phone1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txt_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel_EmployeeInformationLayout.createSequentialGroup()
+                                .addComponent(lbl_fullname)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txt_fname, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel_EmployeeInformationLayout.createSequentialGroup()
+                                .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(lbl_birthday))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_bday, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_empid, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_position, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_status, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
-                        .addComponent(txt_empid, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(269, Short.MAX_VALUE))
+                        .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_address))))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanel_EmployeeInformationLayout.setVerticalGroup(
+            jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_EmployeeInformationLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_fullname)
-                    .addComponent(txt_fname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txt_empid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(307, Short.MAX_VALUE))
+                    .addComponent(txt_fname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_address))
+                .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_EmployeeInformationLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel_EmployeeInformationLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txt_empid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel_EmployeeInformationLayout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(txt_bday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_EmployeeInformationLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbl_birthday)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_phone1)
+                            .addComponent(txt_phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbl_position)
+                            .addComponent(txt_position, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbl_status)
+                            .addComponent(txt_status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(175, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout jPanel_EmpDashboardLayout = new javax.swing.GroupLayout(jPanel_EmpDashboard);
@@ -122,7 +226,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             jPanel_EmpDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_EmpDashboardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel_EmployeeInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel_UserActions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -133,8 +237,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel_EmpDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel_EmpDashboardLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 147, Short.MAX_VALUE))
+                        .addComponent(jPanel_EmployeeInformation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 154, Short.MAX_VALUE))
                     .addComponent(jPanel_UserActions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -159,13 +263,29 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_fnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_fnameActionPerformed
+    private void txt_positionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_positionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_fnameActionPerformed
+    }//GEN-LAST:event_txt_positionActionPerformed
+
+    private void txt_bdayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_bdayActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_bdayActionPerformed
 
     private void txt_empidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_empidActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_empidActionPerformed
+
+    private void txt_fnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_fnameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_fnameActionPerformed
+
+    private void txt_phoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_phoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_phoneActionPerformed
+
+    private void txt_statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_statusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_statusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,11 +325,22 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel_EmpDashboard;
+    private javax.swing.JPanel jPanel_EmployeeInformation;
     private javax.swing.JPanel jPanel_UserActions;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_address;
+    private javax.swing.JLabel lbl_birthday;
     private javax.swing.JLabel lbl_fullname;
+    private javax.swing.JLabel lbl_phone1;
+    private javax.swing.JLabel lbl_position;
+    private javax.swing.JLabel lbl_status;
+    private javax.swing.JTextField txt_bday;
     private javax.swing.JTextField txt_empid;
     private javax.swing.JTextField txt_fname;
+    private javax.swing.JTextField txt_phone;
+    private javax.swing.JTextField txt_position;
+    private javax.swing.JTextField txt_status;
+    private javax.swing.JTextArea txtarea_address;
     // End of variables declaration//GEN-END:variables
 }
