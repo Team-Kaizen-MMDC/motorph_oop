@@ -114,7 +114,6 @@ public class LoginFrame extends javax.swing.JFrame {
         if (user != null) {
             LoggerService.logInfo("Login successful for Employee ID: " + user.getEmployeeId());
             JOptionPane.showMessageDialog(null, "Login Successful");
-            //openDashboard(user);
             openDashboard(user.getEmployeeId(), user.getEmpRole());
             dispose();
         } else {
@@ -129,7 +128,7 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_usernameActionPerformed
     private void openDashboard(int employeeId, int roleId) {
         String role = Role.getRoleName(roleId);
-        EmployeeID.empid = roleId;
+        EmployeeID.empid = employeeId;
         LoggerService.logInfo("Opening dashboard for Employee ID: " + employeeId + " with Role: " + role);
 
         // Debugging log
@@ -138,24 +137,14 @@ public class LoginFrame extends javax.swing.JFrame {
         if (role.equals("HR")) {
             new HRDashboard(employeeId);
         } else if (role.equals("Payroll Admin")) {
-            new PayrollDashboard(employeeId);
+            PayrollDashboard payroll_dashboard = new PayrollDashboard(employeeId);
+            payroll_dashboard.setVisible(true);
         } else if (role.equals("IT")) {
             new ITDashboard(employeeId);
         } else {
             EmployeeDashboard employee_dashboard = new EmployeeDashboard(employeeId);
             employee_dashboard.setVisible(true);
         }
-//        String roleName = Role.getRoleName(user.getEmpRole());
-//        if (roleName.equals("HR")) {
-//            new HRDashboard(user.getEmployeeId());
-//        } else if (roleName.equals("Payroll Admin")) {
-//            new PayrollDashboard(user.getEmployeeId());
-//        } else if (roleName.equals("IT")) {
-//            new ITDashboard(user.getEmployeeId());
-//        } else {
-//            EmployeeDashboard employee_dashboard = new EmployeeDashboard(user.getEmployeeId());
-//            employee_dashboard.setVisible(true);
-//        }
     }
 
     /**

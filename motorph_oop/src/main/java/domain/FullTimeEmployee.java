@@ -14,15 +14,9 @@ public class FullTimeEmployee extends Employee implements PayrollCalculator {
 
     public FullTimeEmployee(int employeeId, String firstName, String lastName, String birthday,
             String address, String phoneNumber, String employmentStatus,
-            String jobPosition, int supervisorId, Role role) {  // ✅ Correct signature
+            String jobPosition, int supervisorId, Role role) {  // Correct pattern
         super(employeeId, firstName, lastName, birthday, address, phoneNumber, employmentStatus, jobPosition, supervisorId, role);
     }
-//    public FullTimeEmployee(int employeeId, String firstName, String lastName, String birthday,
-//            String address, String phoneNumber, String employmentStatus,
-//            String jobPosition, int supervisorId, Role role) {
-//        super(employeeId, firstName, lastName, birthday, address, phoneNumber, employmentStatus, jobPosition, supervisorId, role);
-//    }
-
     // Implement PayrollCalculator interface
     @Override
     public double calculateSalary() {
@@ -34,7 +28,7 @@ public class FullTimeEmployee extends Employee implements PayrollCalculator {
         return salary * 0.15; // Example: 15% tax deduction
     }
 
-    // 🔹 Implement the abstract method 
+    //Implement the abstract method 
     @Override
     public void displayEmployeeDetails() {
 

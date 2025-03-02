@@ -27,7 +27,7 @@ public class EmployeeDashboard extends JFrame {
         EmployeeID.empid = employeeId;
         setLocationRelativeTo(null);
         
-        LoggerService.logInfo("🔍 EmployeeDashboard: Requesting details for Employee ID: " + employeeId);
+        LoggerService.logInfo(" EmployeeDashboard: Requesting details for Employee ID: " + employeeId);
         // Fetch employee details
         FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId);
         
