@@ -10,4 +10,11 @@
         <maven.compiler.release>17</maven.compiler.release>
         <exec.mainClass>com.teamkaizen.motorph_oop.Motorph_oop</exec.mainClass>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.24</version>
+        </dependency>
+    </dependencies>
 </project>

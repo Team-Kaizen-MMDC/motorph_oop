@@ -8,7 +8,7 @@ package domain;
  *
  * @author brianjancarlos
  */
-public class HR extends Employee {
+public class HR  {
    // super()
    // void HRmethods
             
