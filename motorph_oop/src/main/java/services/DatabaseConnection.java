@@ -12,7 +12,7 @@ import java.sql.SQLException;
  *
  * @author brianjancarlos
  */
-public class dbconnection {
+public class DatabaseConnection {
 
     private static final String URL = "jdbc:postgresql://localhost:5432/motorph_oop";
     private static final String USER = "postgres";

@@ -4,6 +4,13 @@
  */
 package ui;
 
+import domain.UserAccount;
+import domain.Role;
+import domain.EmployeeID;
+import static java.lang.Integer.parseInt;
+import javax.swing.JOptionPane;
+import services.UserService;
+
 /**
  *
  * @author brianjancarlos
@@ -42,6 +49,11 @@ public class LoginFrame extends javax.swing.JFrame {
         txtpass_password.setText("jPasswordField1");
 
         btn_login.setText("LOGIN");
+        btn_login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_loginActionPerformed(evt);
+            }
+        });
 
         lbl_motorphHeader.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         lbl_motorphHeader.setText("MOTORPH PAYROLL MANAGEMENT SYSTEM");
@@ -55,12 +67,11 @@ public class LoginFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(lbl_username)
-                            .addGap(48, 48, 48)
-                            .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(lbl_motorphHeader))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbl_username)
+                        .addGap(48, 48, 48)
+                        .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbl_motorphHeader)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbl_password)
                         .addGap(50, 50, 50)
@@ -89,6 +100,34 @@ public class LoginFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
+        String employeeId = txt_username.getText();
+        String password = new String(txtpass_password.getPassword());
+
+        UserAccount user = UserService.login(employeeId, password);
+        if (user != null) {
+            JOptionPane.showMessageDialog(null, "Login Successful");
+            openDashboard(user);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid Credentials");
+        }
+
+    }//GEN-LAST:event_btn_loginActionPerformed
+    private void openDashboard(UserAccount user) {
+        String roleName = Role.getRoleName(user.getEmpRole());
+        if (roleName.equals("HR")) {
+            new HRDashboard(user.getEmployeeId());
+        } else if (roleName.equals("Payroll Admin")) {
+            new PayrollDashboard(user.getEmployeeId());
+        } else if (roleName.equals("IT")) {
+            new ITDashboard(user.getEmployeeId());
+        } else {
+            EmployeeDashboard employee_dashboard = new EmployeeDashboard(user.getEmployeeId());
+            employee_dashboard.setVisible(true);
+        }
+    }
 
     /**
      * @param args the command line arguments
