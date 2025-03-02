@@ -18,14 +18,7 @@ import java.sql.SQLException;
 public class EmployeeService {
     public static FullTimeEmployee getEmployeeById(int employeeId) {
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String query = "SELECT e.employee_id, e.first_name, e.last_name, e.birthday, " +
-                           "e.address, e.phone_number, s.status_name AS employment_status, " +
-                           "p.position_name AS job_position, e.supervisor_id, u.emp_role " +
-                           "FROM Employee e " +
-                           "JOIN Employment_Statuses s ON e.status_id = s.status_id " +
-                           "JOIN Positions p ON e.position_id = p.position_id " +
-                           "JOIN UserAccounts u ON e.employee_id = u.employee_id " +
-                           "WHERE e.employee_id = ?";
+            String query = "SELECT * FROM EmployeeDetailsView WHERE employee_id = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, employeeId);
             ResultSet rs = stmt.executeQuery();
