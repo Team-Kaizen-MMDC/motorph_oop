@@ -23,12 +23,12 @@ public class DBtest {
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
             if (conn != null) {
-                System.out.println("✅ Database connection successful!");
+                System.out.println("Database connection successful!");
             } else {
-                System.out.println("❌ Failed to connect to the database.");
+                System.out.println("Failed to connect to the database.");
             }
         } catch (SQLException e) {
-            System.out.println("❌ Database connection error: " + e.getMessage());
+            System.out.println("Database connection error: " + e.getMessage());
         }
     }
 }

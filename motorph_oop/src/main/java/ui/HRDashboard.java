@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ui;
-
+import domain.EmployeeID;
+import javax.swing.*;
 /**
  *
  * @author brianjancarlos
@@ -16,6 +17,7 @@ public class HRDashboard extends javax.swing.JFrame {
      * Creates new form HRDashboard
      */
     public HRDashboard(int employeeId) {
+       // super("HR Dashboard");
         initComponents();
     }
 
@@ -74,7 +76,7 @@ public class HRDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HRDashboard(2).setVisible(true);
+                new HRDashboard(EmployeeID.empid).setVisible(true);
             }
         });
     }

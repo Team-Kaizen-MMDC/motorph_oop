@@ -4,6 +4,8 @@
  */
 package ui;
 
+import domain.EmployeeID;
+
 /**
  *
  * @author brianjancarlos
@@ -74,7 +76,7 @@ public class PayrollDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PayrollDashboard(4).setVisible(true);
+                new PayrollDashboard(EmployeeID.empid).setVisible(true);
             }
         });
     }
