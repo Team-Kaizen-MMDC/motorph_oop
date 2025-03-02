@@ -43,11 +43,9 @@ public class LoginFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lbl_username.setText("USERNAME:");
+        lbl_username.setText("EMPLOYEE ID");
 
         lbl_password.setText("PASSWORD");
-
-        txtpass_password.setText("jPasswordField1");
 
         btn_login.setText("LOGIN");
         btn_login.addActionListener(new java.awt.event.ActionListener() {
@@ -59,7 +57,11 @@ public class LoginFrame extends javax.swing.JFrame {
         lbl_motorphHeader.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         lbl_motorphHeader.setText("MOTORPH PAYROLL MANAGEMENT SYSTEM");
 
-        txt_username.setText("Enter Employee ID");
+        txt_username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_usernameActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -68,17 +70,16 @@ public class LoginFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_username)
-                        .addGap(48, 48, 48)
-                        .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lbl_motorphHeader)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_password)
-                        .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_login)
-                            .addComponent(txtpass_password, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lbl_password)
+                            .addComponent(lbl_username))
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txt_username, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                            .addComponent(txtpass_password)
+                            .addComponent(btn_login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -116,6 +117,10 @@ public class LoginFrame extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btn_loginActionPerformed
+
+    private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_usernameActionPerformed
     private void openDashboard(UserAccount user) {
         String roleName = Role.getRoleName(user.getEmpRole());
         if (roleName.equals("HR")) {
