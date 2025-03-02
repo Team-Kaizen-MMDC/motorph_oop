@@ -7,6 +7,8 @@ import domain.FullTimeEmployee;
 import domain.EmployeeID;
 import services.EmployeeService;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import services.LoggerService;
 /**
  *
  * @author brianjancarlos
@@ -25,10 +27,20 @@ public class EmployeeDashboard extends JFrame {
         EmployeeID.empid = employeeId;
         setLocationRelativeTo(null);
         
-        
+        LoggerService.logInfo("🔍 EmployeeDashboard: Requesting details for Employee ID: " + employeeId);
         // Fetch employee details
         FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId);
         
+        //  Prevent NullPointerException if employee is not found
+        if (employee == null) {
+            LoggerService.logWarning("EmployeeDashboard: Employee not found for ID: " + employeeId);
+            JOptionPane.showMessageDialog(null, "Employee not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            dispose();
+            return;
+        }
+        
+         LoggerService.logInfo("EmployeeDashboard: Employee found: " + employee.getFullName());
+         
         // Populate fields
         txt_fname.setText(employee.getFullName());
         txt_empid.setText(String.valueOf(EmployeeID.empid));

@@ -14,9 +14,14 @@ public class FullTimeEmployee extends Employee implements PayrollCalculator {
 
     public FullTimeEmployee(int employeeId, String firstName, String lastName, String birthday,
             String address, String phoneNumber, String employmentStatus,
-            String jobPosition, int supervisorId, Role role) {
+            String jobPosition, int supervisorId, Role role) {  // ✅ Correct signature
         super(employeeId, firstName, lastName, birthday, address, phoneNumber, employmentStatus, jobPosition, supervisorId, role);
     }
+//    public FullTimeEmployee(int employeeId, String firstName, String lastName, String birthday,
+//            String address, String phoneNumber, String employmentStatus,
+//            String jobPosition, int supervisorId, Role role) {
+//        super(employeeId, firstName, lastName, birthday, address, phoneNumber, employmentStatus, jobPosition, supervisorId, role);
+//    }
 
     // Implement PayrollCalculator interface
     @Override

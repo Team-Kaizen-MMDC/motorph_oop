@@ -129,7 +129,11 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_usernameActionPerformed
     private void openDashboard(int employeeId, int roleId) {
         String role = Role.getRoleName(roleId);
+        EmployeeID.empid = roleId;
         LoggerService.logInfo("Opening dashboard for Employee ID: " + employeeId + " with Role: " + role);
+
+        // Debugging log
+        LoggerService.logInfo("LoginFrame openDashboard(): Fetching Employee Details for ID: " + employeeId);
 
         if (role.equals("HR")) {
             new HRDashboard(employeeId);

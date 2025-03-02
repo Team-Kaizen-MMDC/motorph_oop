@@ -4,6 +4,8 @@
  */
 package domain;
 
+import services.LoggerService;
+
 /**
  *
  * @author brianjancarlos
@@ -30,14 +32,19 @@ public class Role {
     public static String getRoleName(int roleId) {
         switch (roleId) {
             case 1:
+                LoggerService.logInfo("Role ID " + roleId + " mapped to HR");
                 return "HR";
             case 2:
+                LoggerService.logInfo("Role ID " + roleId + " mapped to Payroll Admin");
                 return "Payroll Admin";
             case 3:
+                LoggerService.logInfo("Role ID " + roleId + " mapped to IT");
                 return "IT";
             case 4:
+                LoggerService.logInfo("Role ID " + roleId + " mapped to Employee");
                 return "Employee";
             default:
+                LoggerService.logWarning("Unknown role ID " + roleId);
                 return "Unknown";
         }
     }
