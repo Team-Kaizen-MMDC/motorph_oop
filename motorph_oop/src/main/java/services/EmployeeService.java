@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public class EmployeeService {
     public static FullTimeEmployee getEmployeeById(int employeeId) {
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String query = "SELECT * FROM EmployeeDetailsView WHERE employee_id = ?";
+            String query = "SELECT * FROM EmployeeDetailsView WHERE employee_id = ?";    // Using the SQL View
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, employeeId);
             ResultSet rs = stmt.executeQuery();

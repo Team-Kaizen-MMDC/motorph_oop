@@ -8,6 +8,8 @@ package services;
  *
  * @author brianjancarlos
  */
+
+// Interface: Defines tax calculation behavior
 public interface PayrollCalculator {
 
     double calculateTax(double salary);

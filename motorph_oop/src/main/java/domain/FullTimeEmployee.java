@@ -18,6 +18,7 @@ public class FullTimeEmployee extends Employee implements PayrollCalculator {
         super(employeeId, firstName, lastName, birthday, address, phoneNumber, employmentStatus, jobPosition, supervisorId, role);
     }
 
+    // Implement PayrollCalculator interface
     @Override
     public double calculateSalary() {
         return 50000.00 - calculateTax(50000.00); // Example: Fixed salary minus tax
@@ -28,7 +29,7 @@ public class FullTimeEmployee extends Employee implements PayrollCalculator {
         return salary * 0.15; // Example: 15% tax deduction
     }
 
-    // 🔹 Implement the abstract method with Java Swing
+    // 🔹 Implement the abstract method 
     @Override
     public void displayEmployeeDetails() {
 

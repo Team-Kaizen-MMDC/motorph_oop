@@ -6,11 +6,12 @@ package ui;
 import domain.FullTimeEmployee;
 import domain.EmployeeID;
 import services.EmployeeService;
+import javax.swing.JFrame;
 /**
  *
  * @author brianjancarlos
  */
-public class EmployeeDashboard extends javax.swing.JFrame {
+public class EmployeeDashboard extends JFrame {
 
     private int employeeId;
     
