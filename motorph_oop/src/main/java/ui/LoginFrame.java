@@ -5,6 +5,9 @@
 package ui;
 
 import domain.UserAccount;
+import domain.Role;
+import domain.EmployeeID;
+import static java.lang.Integer.parseInt;
 import javax.swing.JOptionPane;
 import services.UserService;
 
@@ -99,28 +102,30 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-        String username = txt_username.getText();
+        String employeeId = txt_username.getText();
         String password = new String(txtpass_password.getPassword());
 
-        UserAccount user = UserService.login(username, password);
+        UserAccount user = UserService.login(employeeId, password);
         if (user != null) {
             JOptionPane.showMessageDialog(null, "Login Successful");
-            openDashboard(user.getRole(), user.getEmployeeId());
+            openDashboard(user);
             dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Invalid Credentials");
         }
 
     }//GEN-LAST:event_btn_loginActionPerformed
-    private void openDashboard(String role, int employeeId) {
-        if (role.equals("HR")) {
-            new HRDashboard(employeeId);
-        } else if (role.equals("Payroll Admin")) {
-            new PayrollDashboard(employeeId);
-        } else if (role.equals("IT")) {
-            new ITDashboard(employeeId);
+    private void openDashboard(UserAccount user) {
+        String roleName = Role.getRoleName(user.getEmpRole());
+        if (roleName.equals("HR")) {
+            new HRDashboard(user.getEmployeeId());
+        } else if (roleName.equals("Payroll Admin")) {
+            new PayrollDashboard(user.getEmployeeId());
+        } else if (roleName.equals("IT")) {
+            new ITDashboard(user.getEmployeeId());
         } else {
-            new EmployeeDashboard(employeeId);
+            EmployeeDashboard employee_dashboard = new EmployeeDashboard(user.getEmployeeId());
+            employee_dashboard.setVisible(true);
         }
     }
 

@@ -5,6 +5,7 @@
 package services;
 
 import domain.UserAccount;
+import domain.EmployeeID;
 import java.sql.*;
 
 /**
@@ -13,21 +14,21 @@ import java.sql.*;
  */
 public class UserService {
 
-    public static UserAccount login(String username, String password) {
-        try (Connection conn = dbconnection.getConnection()) {
-            String query = "SELECT * FROM UserAccounts WHERE username = ? AND password = ?";
+    public static UserAccount login(String employeeId, String password) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String query = "SELECT * FROM UserAccounts WHERE employee_id = ? AND emp_password = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, username);
+            stmt.setInt(1, Integer.parseInt(employeeId));
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
-
+            EmployeeID.empid = Integer.parseInt(employeeId);
+            
             if (rs.next()) {
                 return new UserAccount(
                         rs.getInt("user_id"),
                         rs.getInt("employee_id"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("emp_role")
+                        rs.getString("emp_password"),
+                        rs.getInt("emp_role")
                 );
             }
         } catch (SQLException e) {

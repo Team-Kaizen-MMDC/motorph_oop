@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ui;
-
+import domain.EmployeeID;
 /**
  *
  * @author brianjancarlos
@@ -11,12 +11,15 @@ package ui;
 public class EmployeeDashboard extends javax.swing.JFrame {
 
     private int employeeId;
+    
 
     /**
      * Creates new form EmployeeDashboard
      */
     public EmployeeDashboard(int employeeId) {
         initComponents();
+        this.employeeId = employeeId;
+        EmployeeID.empid = employeeId;
     }
 
     /**
@@ -209,7 +212,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new EmployeeDashboard().setVisible(true);
+                new EmployeeDashboard(EmployeeID.empid).setVisible(true);
             }
         });
     }

@@ -50,9 +50,6 @@
         </Property>
         <Property name="name" type="java.lang.String" value="Empoyee Dashboard" noResource="true"/>
       </Properties>
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Employee Dashboard"/>
-      </AccessibilityProperties>
 
       <Layout>
         <DimensionLayout dim="0">

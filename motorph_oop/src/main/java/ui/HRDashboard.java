@@ -74,7 +74,7 @@ public class HRDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HRDashboard().setVisible(true);
+                new HRDashboard(2).setVisible(true);
             }
         });
     }

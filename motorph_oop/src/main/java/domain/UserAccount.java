@@ -12,16 +12,14 @@ public class UserAccount {
 
     private int userId;
     private int employeeId;
-    private String username;
-    private String password;
-    private String role;
+    private String empPassword;
+    private int empRole; // Role ID (1 = HR, 2 = Payroll Admin, 3 = IT, 4 = Employee)
 
-    public UserAccount(int userId, int employeeId, String username, String password, String role) {
+    public UserAccount(int userId, int employeeId, String empPassword, int empRole) {
         this.userId = userId;
         this.employeeId = employeeId;
-        this.username = username;
-        this.password = password;
-        this.role = role;
+        this.empPassword = empPassword;
+        this.empRole = empRole;
     }
 
     public int getUserId() {
@@ -32,16 +30,12 @@ public class UserAccount {
         return employeeId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmpPassword() {
+        return empPassword;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getRole() {
-        return role;
+    public int getEmpRole() {
+        return empRole;
     }
 
 }
