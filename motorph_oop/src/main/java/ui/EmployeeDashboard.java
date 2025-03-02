@@ -20,7 +20,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         initComponents();
         this.employeeId = employeeId;
         EmployeeID.empid = employeeId;
-        
+        setLocationRelativeTo(null);
         txt_empid.setText(String.valueOf(EmployeeID.empid));
     }
 
