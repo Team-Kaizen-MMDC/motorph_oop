@@ -7,6 +7,11 @@ package domain;
 import java.sql.Timestamp;
 import services.AttendanceService;
 import services.LoggerService;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -34,7 +39,7 @@ public abstract class Employee implements UserAction, AttendanceTracker {
     protected String philhealthNumber;
     protected String tinNumber;
     protected String pagibigNumber;
-    private boolean isTimedIn;
+    boolean isTimedIn;
 
     public Employee(int employeeId, String firstName, String lastName, String birthday,
             String address, String phoneNumber, String employmentStatus,
@@ -152,8 +157,6 @@ public abstract class Employee implements UserAction, AttendanceTracker {
         return isTimedIn;
     }
 
-   
-
     // Payroll Calculation
     public double calculateSalary() {
         return basicSalary - calculateTax(basicSalary);
@@ -168,7 +171,7 @@ public abstract class Employee implements UserAction, AttendanceTracker {
     public void timeIn() {
         if (!isTimedIn) {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            AttendanceService.logTimeIn(employeeId, timestamp);
+            AttendanceService.logTimeIn(employeeId);
             isTimedIn = true;
             LoggerService.logInfo("Employee ID " + employeeId + " has timed in at " + timestamp);
         } else {
@@ -178,19 +181,18 @@ public abstract class Employee implements UserAction, AttendanceTracker {
 
     @Override
     public void timeOut() {
-        if (isTimedIn) {
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            AttendanceService.logTimeOut(employeeId, timestamp);
-            isTimedIn = false;
-            LoggerService.logInfo("Employee ID " + employeeId + " has timed out at " + timestamp);
+        if (AttendanceService.isTimedIn(employeeId)) { //  Now checks database
+            Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+            AttendanceService.logTimeOut(employeeId);
+            LoggerService.logInfo(" Employee ID " + employeeId + " has timed out at " + timestamp);
         } else {
-            LoggerService.logWarning("Employee ID " + employeeId + " cannot time out before timing in.");
+            LoggerService.logWarning(" [Employee.timeOut] Employee ID " + employeeId + " cannot time out before timing in.");
         }
     }
 
-    @Override
-    public boolean isTimedIn() {
+
+    
+    public boolean isTimedIn(int employeeId) {
         return isTimedIn;
     }
-
 }

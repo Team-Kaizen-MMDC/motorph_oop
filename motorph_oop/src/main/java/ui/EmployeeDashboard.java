@@ -101,6 +101,11 @@ public class EmployeeDashboard extends JFrame {
         jPanel_UserActions.setBorder(javax.swing.BorderFactory.createTitledBorder("User Actions"));
 
         btn_timeout.setText("Time-OUT");
+        btn_timeout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_timeoutActionPerformed(evt);
+            }
+        });
 
         btn_timein.setText("Time-IN");
         btn_timein.addActionListener(new java.awt.event.ActionListener() {
@@ -401,9 +406,14 @@ public class EmployeeDashboard extends JFrame {
     }//GEN-LAST:event_txt_fnameActionPerformed
 
     private void btn_timeinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_timeinActionPerformed
-        FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
+       FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
        employee.timeIn();
     }//GEN-LAST:event_btn_timeinActionPerformed
+
+    private void btn_timeoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_timeoutActionPerformed
+       FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
+       employee.timeOut();
+    }//GEN-LAST:event_btn_timeoutActionPerformed
 
     /**
      * @param args the command line arguments

@@ -57,34 +57,13 @@ public class FullTimeEmployee extends Employee implements PayrollCalculator {
         return salary * 0.15; // Example: 15% tax deduction
     }
 
-    // Implement the abstract method 
-//    @Override
-//    public void displayEmployeeDetails() {
-//
-//    }
+    @Override
+    public boolean isTimedIn(int employeeId) {
+        return isTimedIn;
+    }
 
-    // Getters for new fields
- 
+    @Override
+    public boolean isTimedIn() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
-//    public FullTimeEmployee(int employeeId, String firstName, String lastName, String birthday,
-//            String address, String phoneNumber, String employmentStatus,
-//            String jobPosition, int supervisorId, Role role) {  // Correct pattern
-//        super(employeeId, firstName, lastName, birthday, address, phoneNumber, employmentStatus, jobPosition, supervisorId, role);
-//    }
-//    // Implement PayrollCalculator interface
-//    @Override
-//    public double calculateSalary() {
-//        return 50000.00 - calculateTax(50000.00); // Example: Fixed salary minus tax
-//    }
-//
-//    @Override
-//    public double calculateTax(double salary) {
-//        return salary * 0.15; // Example: 15% tax deduction
-//    }
-//
-//    //Implement the abstract method 
-//    @Override
-//    public void displayEmployeeDetails() {
-//
-//    }
-//}
