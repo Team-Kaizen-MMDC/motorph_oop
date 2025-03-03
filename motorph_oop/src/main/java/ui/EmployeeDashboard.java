@@ -65,6 +65,8 @@ public class EmployeeDashboard extends JFrame {
 
         jPanel_EmpDashboard = new javax.swing.JPanel();
         jPanel_UserActions = new javax.swing.JPanel();
+        btn_timeout = new javax.swing.JButton();
+        btn_timein = new javax.swing.JButton();
         jPanel_EmployeeInformation = new javax.swing.JPanel();
         lbl_fullname = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -98,15 +100,40 @@ public class EmployeeDashboard extends JFrame {
 
         jPanel_UserActions.setBorder(javax.swing.BorderFactory.createTitledBorder("User Actions"));
 
+        btn_timeout.setText("Time-OUT");
+
+        btn_timein.setText("Time-IN");
+        btn_timein.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_timeinActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel_UserActionsLayout = new javax.swing.GroupLayout(jPanel_UserActions);
         jPanel_UserActions.setLayout(jPanel_UserActionsLayout);
         jPanel_UserActionsLayout.setHorizontalGroup(
             jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 218, Short.MAX_VALUE)
+            .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(btn_timeout)
+                .addContainerGap(124, Short.MAX_VALUE))
+            .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
+                    .addGap(16, 16, 16)
+                    .addComponent(btn_timein, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(124, Short.MAX_VALUE)))
         );
         jPanel_UserActionsLayout.setVerticalGroup(
             jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(btn_timeout)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
+                    .addGap(24, 24, 24)
+                    .addComponent(btn_timein)
+                    .addContainerGap(360, Short.MAX_VALUE)))
         );
 
         jPanel_EmployeeInformation.setBorder(javax.swing.BorderFactory.createTitledBorder("Employee Information"));
@@ -242,7 +269,7 @@ public class EmployeeDashboard extends JFrame {
                             .addComponent(lbl_sss)
                             .addGap(18, 18, 18)
                             .addComponent(txt_sss, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel_EmployeeInformationLayout.setVerticalGroup(
             jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -373,6 +400,11 @@ public class EmployeeDashboard extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_fnameActionPerformed
 
+    private void btn_timeinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_timeinActionPerformed
+        FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
+       employee.timeIn();
+    }//GEN-LAST:event_btn_timeinActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -410,6 +442,8 @@ public class EmployeeDashboard extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_timein;
+    private javax.swing.JButton btn_timeout;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

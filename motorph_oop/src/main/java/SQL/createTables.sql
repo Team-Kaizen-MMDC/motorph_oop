@@ -8,6 +8,7 @@
  */
 
 
+
 -- DROP TABLE IF EXISTS Employee CASCADE;
 -- Create Updated Employee Table
 CREATE TABLE Employee (
@@ -78,7 +79,7 @@ CREATE TABLE Compensation_Details (
 );
 
 -- Create Attendance Table
-CREATE TABLE Attendance (
+CREATE TABLE attendance (
     attendance_id INT PRIMARY KEY,
     employee_id INT,
     date DATE,
@@ -86,6 +87,11 @@ CREATE TABLE Attendance (
     logout_time TIMESTAMP,
     FOREIGN KEY (employee_id) REFERENCES Employee(employee_id)
 );
+
+-- UPDATE Attendance Table
+CREATE SEQUENCE attendance_attendance_id_seq;
+ALTER TABLE attendance 
+ALTER COLUMN attendance_id SET DEFAULT nextval('attendance_attendance_id_seq');
 
 -- Import Withholding Tax Data (If you need a specific table, create one before importing)
 DROP TABLE IF EXISTS Withholding_Tax CASCADE;
