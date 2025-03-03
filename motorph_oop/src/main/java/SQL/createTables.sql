@@ -93,6 +93,17 @@ CREATE SEQUENCE attendance_attendance_id_seq;
 ALTER TABLE attendance 
 ALTER COLUMN attendance_id SET DEFAULT nextval('attendance_attendance_id_seq');
 
+-- First create a sequence if it doesn't exist
+CREATE SEQUENCE IF NOT EXISTS attendance_id_seq;
+
+-- Then alter the column to use the sequence
+ALTER TABLE attendance 
+  ALTER COLUMN attendance_id SET DEFAULT nextval('attendance_id_seq');
+
+-- Optional: Set the sequence to start after your highest ID
+SELECT setval('attendance_id_seq', (SELECT MAX(attendance_id) FROM attendance));
+
+
 -- Import Withholding Tax Data (If you need a specific table, create one before importing)
 DROP TABLE IF EXISTS Withholding_Tax CASCADE;
 CREATE TABLE Withholding_Tax (
