@@ -18,18 +18,24 @@ import services.LoggerService;
  */
 public class EmployeeService {
 
-    public static FullTimeEmployee getEmployeeById(int employeeId) {
-        LoggerService.logInfo("Employee Service: Fetching employee details for ID: " + employeeId);
+    //  Fetch from EmployeeFullDetailsView (Includes Gov IDs & Compensation)
+    public static FullTimeEmployee getEmployeeById(int employeeId, boolean fetchFullDetails) {
+        if (!fetchFullDetails) {
+            return getEmployeeById(employeeId, false); // Calls basic method
+        }
 
-        FullTimeEmployee employee = null; //  Prevents NullPointerException
+        LoggerService.logInfo("Fetching full employee details for ID: " + employeeId);
+
+        FullTimeEmployee employee = null;
+
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String query = "SELECT * FROM EmployeeDetailsView WHERE employee_id = ?";
+            String query = "SELECT * FROM EmployeeFullDetailsView WHERE employee_id = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, employeeId);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                LoggerService.logInfo(" Employee Service: Found employee ID: " + rs.getInt("employee_id"));
+                LoggerService.logInfo("Employee Service: Found full employee details for ID: " + rs.getInt("employee_id"));
 
                 employee = new FullTimeEmployee(
                         rs.getInt("employee_id"),
@@ -40,17 +46,37 @@ public class EmployeeService {
                         rs.getString("phone_number"),
                         rs.getString("employment_status"),
                         rs.getString("job_position"),
-                        rs.getInt("supervisor_id"), 
-                        new Role(rs.getInt("role_id"), rs.getString("emp_role"))
+                        rs.getInt("supervisor_id"),
+                        new Role(rs.getInt("role_id"), rs.getString("emp_role")),
+                        rs.getString("sss_number"),
+                        rs.getString("philhealth_number"),
+                        rs.getString("tin_number"),
+                        rs.getString("pagibig_number"),
+                        rs.getDouble("basic_salary"),
+                        rs.getDouble("rice_subsidy"),
+                        rs.getDouble("phone_allowance"),
+                        rs.getDouble("clothing_allowance"),
+                        rs.getDouble("gross_semi_monthly_rate"),
+                        rs.getDouble("hourly_rate")
                 );
 
-                LoggerService.logInfo("Employee Service: Successfully retrieved employee details for ID: " + employeeId);
+                // Log additional fields from EmployeeFullDetailsView
+                LoggerService.logInfo("Gov IDs: SSS: " + rs.getString("sss_number")
+                        + ", PhilHealth: " + rs.getString("philhealth_number")
+                        + ", TIN: " + rs.getString("tin_number")
+                        + ", Pag-IBIG: " + rs.getString("pagibig_number"));
+
+                LoggerService.logInfo("Compensation: Salary: " + rs.getDouble("basic_salary")
+                        + ", Rice Subsidy: " + rs.getDouble("rice_subsidy")
+                        + ", Phone Allowance: " + rs.getDouble("phone_allowance")
+                        + ", Clothing Allowance: " + rs.getDouble("clothing_allowance"));
+
+                LoggerService.logInfo("Successfully retrieved full employee details for ID: " + employeeId);
             } else {
-                LoggerService.logWarning("Employee Service: No employee found with ID: " + employeeId);
-                LoggerService.logWarning("Employee Service: Check if this ID exists in EmployeeDetailsView.");
+                LoggerService.logWarning("Employee Service: No full employee details found for ID: " + employeeId);
             }
         } catch (SQLException e) {
-            LoggerService.logError("Employee Service: Database error while fetching employee ID: " + employeeId, e);
+            LoggerService.logError("Database error while fetching full employee details for ID: " + employeeId, e);
         }
         return employee;
     }
