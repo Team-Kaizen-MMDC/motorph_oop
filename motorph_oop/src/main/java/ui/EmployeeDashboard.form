@@ -70,7 +70,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Component id="jPanel_EmployeeInformation" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="154" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="142" max="32767" attributes="0"/>
                       </Group>
                       <Component id="jPanel_UserActions" max="32767" attributes="0"/>
                   </Group>
@@ -117,6 +117,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lbl_tin" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_sss" min="-2" max="-2" attributes="0"/>
                           <Component id="lbl_status" min="-2" max="-2" attributes="0"/>
                           <Component id="lbl_position" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
@@ -142,6 +144,8 @@
                                           <Component id="txt_empid" min="-2" pref="156" max="-2" attributes="0"/>
                                           <Component id="txt_position" alignment="0" min="-2" pref="156" max="-2" attributes="0"/>
                                           <Component id="txt_status" alignment="0" min="-2" pref="156" max="-2" attributes="0"/>
+                                          <Component id="txt_sss" alignment="0" min="-2" pref="156" max="-2" attributes="0"/>
+                                          <Component id="txt_tin" alignment="0" min="-2" pref="156" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -203,7 +207,17 @@
                                   <Component id="lbl_status" min="-2" max="-2" attributes="0"/>
                                   <Component id="txt_status" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="175" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lbl_sss" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txt_sss" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lbl_tin" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txt_tin" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace pref="117" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -293,6 +307,26 @@
             <Component class="javax.swing.JTextField" name="txt_status">
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_statusActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_sss">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="SSS"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txt_sss">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_sssActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_tin">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="TIN"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txt_tin">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_tinActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
