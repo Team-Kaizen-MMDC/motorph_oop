@@ -13,7 +13,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -45,7 +45,6 @@ public class AttendanceService {
         Timestamp timeIn = Timestamp.valueOf(LocalDateTime.now()); //  Corrected
         Date loginDate = Date.valueOf(LocalDate.now());
         LoggerService.logInfo("loginDate: " + loginDate);
-        //Time timeIn = Time.valueOf(LocalTime.now());
         LoggerService.logInfo("timeIn: " + timeIn);
         Time timeOut = null; // Set the timeout value as needed
 
@@ -60,7 +59,9 @@ public class AttendanceService {
 
             if (rs.next() && rs.getInt(1) > 0) {
                 // Employee already has an active session
-                LoggerService.logWarning("Employee ID " + employeeId + " already has an active session today");
+                String message = "Employee ID " + employeeId + " already has an active session today.";
+                LoggerService.logWarning(message);
+                JOptionPane.showMessageDialog(null, message, "Time-In Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -72,9 +73,13 @@ public class AttendanceService {
             stmt.setTimestamp(3, timeIn); //  Stores full timestamp for login
             stmt.setTimestamp(4, null); //  Initially null for logout
             stmt.executeUpdate();
-            LoggerService.logInfo("Time-in recorded for Employee ID: " + employeeId + " at " + timeIn);
+            String successMessage = "Time-in recorded successfully for Employee ID: " + employeeId + " at " + timeIn;
+            LoggerService.logInfo(successMessage);
+            JOptionPane.showMessageDialog(null, successMessage, "Time-In Success", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
-            LoggerService.logError("Database error logging time-in for Employee ID: " + employeeId, e);
+            String errorMessage = "Database error logging time-in for Employee ID: " + employeeId;
+            LoggerService.logError(errorMessage, e);
+            JOptionPane.showMessageDialog(null, errorMessage + "\n" + e.getMessage(), "Time-In Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -90,12 +95,18 @@ public class AttendanceService {
             int rowsUpdated = stmt.executeUpdate();
 
             if (rowsUpdated > 0) {
-                LoggerService.logInfo("Time-out recorded for Employee ID: " + employeeId + " at " + timeOut);
+                String successMessage = "Time-out recorded successfully for Employee ID: " + employeeId + " at " + timeOut;
+                LoggerService.logInfo(successMessage);
+                JOptionPane.showMessageDialog(null, successMessage, "Time-Out Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                LoggerService.logWarning("No matching time-in found for Employee ID: " + employeeId);
+                String warningMessage = "No matching time-in found for Employee ID: " + employeeId + ". Please check your records.";
+                LoggerService.logWarning(warningMessage);
+                JOptionPane.showMessageDialog(null, warningMessage, "Time-Out Error", JOptionPane.WARNING_MESSAGE);
             }
         } catch (SQLException e) {
-            LoggerService.logError("Database error logging time-out for Employee ID: " + employeeId, e);
+            String errorMessage = "Database error logging time-out for Employee ID: " + employeeId;
+            LoggerService.logError(errorMessage, e);
+            JOptionPane.showMessageDialog(null, errorMessage + "\n" + e.getMessage(), "Time-Out Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
