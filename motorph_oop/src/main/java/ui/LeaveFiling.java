@@ -58,7 +58,7 @@ public class LeaveFiling extends javax.swing.JFrame {
         lbl_remarks = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_remarks = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        btn_applyLeave = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -84,10 +84,10 @@ public class LeaveFiling extends javax.swing.JFrame {
         txt_remarks.setRows(5);
         jScrollPane1.setViewportView(txt_remarks);
 
-        jButton1.setText("Apply");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_applyLeave.setText("Apply");
+        btn_applyLeave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_applyLeaveActionPerformed(evt);
             }
         });
 
@@ -112,7 +112,7 @@ public class LeaveFiling extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cmb_leavetype, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lbl_leavetype)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btn_applyLeave, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(37, 37, 37)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -150,7 +150,7 @@ public class LeaveFiling extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(cmb_leavetype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btn_applyLeave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,15 +188,15 @@ public class LeaveFiling extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_applyLeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_applyLeaveActionPerformed
         int employeeId = EmployeeID.empid;
         LoggerService.logInfo("Employee ID:" + employeeId);
         String leaveType = "Vacation";
         Date startDate = new Date(jDateChooser_startDate.getDate().getTime());
         Date endDate = new Date(jDateChooser_toDate.getDate().getTime());
         String remarks = txt_remarks.getText();
-        LeaveService.fileLeave(employeeId, leaveType, startDate, endDate, remarks);        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        LeaveService.fileLeave(employeeId, leaveType, startDate, endDate, remarks);        
+    }//GEN-LAST:event_btn_applyLeaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,8 +234,8 @@ public class LeaveFiling extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_applyLeave;
     private javax.swing.JComboBox<String> cmb_leavetype;
-    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDateChooser_startDate;
     private com.toedter.calendar.JDateChooser jDateChooser_toDate;
     private javax.swing.JMenu jMenu1;

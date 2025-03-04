@@ -27,7 +27,13 @@ public class LeaveService {
             JOptionPane.showMessageDialog(null, errorMessage, "Leave Filing Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
+        // Check if an existing leave overlaps with the requested dates
+        if (isLeaveOverlapping(employeeId, startDate, endDate)) {
+            String errorMessage = "Employee ID " + employeeId + " already has a leave filed on the requested dates.";
+            LoggerService.logWarning(errorMessage);
+            JOptionPane.showMessageDialog(null, errorMessage, "Leave Filing Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         // Get employee details
         String firstName = "";
         String lastName = "";
@@ -75,5 +81,28 @@ public class LeaveService {
             LoggerService.logError(errorMessage, e);
             JOptionPane.showMessageDialog(null, errorMessage + "\n" + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    // Check if an existing leave overlaps with the requested dates
+    private static boolean isLeaveOverlapping(int employeeId, Date startDate, Date endDate) {
+        boolean leaveExists = false;
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String query = "SELECT COUNT(*) FROM leave_requests WHERE employee_id = ? AND "
+                    + "(start_date <= ? AND end_date >= ?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, employeeId);
+            stmt.setDate(2, new java.sql.Date(endDate.getTime()));   // Ensures overlap detection
+            stmt.setDate(3, new java.sql.Date(startDate.getTime())); // Ensures overlap detection
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next() && rs.getInt(1) > 0) {
+                leaveExists = true;
+            }
+        } catch (SQLException e) {
+            LoggerService.logError("Database error checking existing leave for Employee ID: " + employeeId, e);
+        }
+
+        return leaveExists;
     }
 }
