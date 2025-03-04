@@ -12,6 +12,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -186,7 +187,9 @@ public abstract class Employee implements UserAction, AttendanceTracker {
             AttendanceService.logTimeOut(employeeId);
             LoggerService.logInfo(" Employee ID " + employeeId + " has timed out at " + timestamp);
         } else {
-            LoggerService.logWarning(" [Employee.timeOut] Employee ID " + employeeId + " cannot time out before timing in.");
+            String errorMessage = " [Employee.timeOut] Employee ID " + employeeId + " cannot time out before timing in.";
+            LoggerService.logWarning(errorMessage);
+            JOptionPane.showMessageDialog(null, errorMessage, "Time-Out Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -9,23 +9,29 @@
 
 
 
--- DROP TABLE IF EXISTS Employee CASCADE;
--- Create Updated Employee Table
+DROP TABLE IF EXISTS Employee CASCADE;
+
 CREATE TABLE Employee (
-    employee_id INT PRIMARY KEY,
-    last_name VARCHAR(50) NOT NULL,
-    first_name VARCHAR(50) NOT NULL,
-    birthday DATE,
-    address TEXT,
-    phone_number VARCHAR(15),
-    status_id INT NOT NULL,
-    position_id INT NOT NULL,
-    supervisor_id INT,
-    compensation_id INT,
-    FOREIGN KEY (status_id) REFERENCES Employment_Statuses(status_id) ON DELETE SET NULL,
-    FOREIGN KEY (position_id) REFERENCES Positions(position_id) ON DELETE SET NULL,
-    FOREIGN KEY (supervisor_id) REFERENCES Employee(employee_id) ON DELETE SET NULL,
-    FOREIGN KEY (compensation_id) REFERENCES Compensation_Details(compensation_id) ON DELETE SET NULL
+    employee_id SERIAL PRIMARY KEY,           -- Auto-incrementing primary key
+    last_name VARCHAR(50) NOT NULL,           -- Last name
+    first_name VARCHAR(50) NOT NULL,          -- First name
+    birthday DATE NOT NULL,                   -- Birth date
+    address TEXT NOT NULL,                    -- Address
+    phone_number VARCHAR(15) UNIQUE NOT NULL, -- Unique phone number
+    status_id INT NOT NULL,                   -- Employment status reference
+    position_id INT NOT NULL,                 -- Job position reference
+    supervisor_id INT,                         -- Reference to another employee (supervisor)
+    compensation_id INT,                       -- Reference to compensation details
+    role_id INT,                               -- Employee role
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    -- Foreign Key Constraints
+    CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES Employment_Statuses(status_id) ON DELETE CASCADE,
+    CONSTRAINT fk_position FOREIGN KEY (position_id) REFERENCES Positions(position_id) ON DELETE CASCADE,
+    CONSTRAINT fk_supervisor FOREIGN KEY (supervisor_id) REFERENCES Employee(employee_id) ON DELETE SET NULL,
+    CONSTRAINT fk_compensation FOREIGN KEY (compensation_id) REFERENCES Compensation_Details(compensation_id) ON DELETE SET NULL,
+    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES Roles(role_id) ON DELETE SET NULL
 );
 
 -- Create Employment Statuses Table

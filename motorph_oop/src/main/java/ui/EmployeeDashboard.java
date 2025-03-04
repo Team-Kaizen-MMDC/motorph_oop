@@ -29,7 +29,7 @@ public class EmployeeDashboard extends JFrame {
         
         LoggerService.logInfo(" EmployeeDashboard: Requesting details for Employee ID: " + employeeId);
         // Fetch employee details
-        //FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId);
+
          FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
         //  Prevent NullPointerException if employee is not found
         if (employee == null) {
@@ -67,6 +67,7 @@ public class EmployeeDashboard extends JFrame {
         jPanel_UserActions = new javax.swing.JPanel();
         btn_timeout = new javax.swing.JButton();
         btn_timein = new javax.swing.JButton();
+        btn_fileleave = new javax.swing.JButton();
         jPanel_EmployeeInformation = new javax.swing.JPanel();
         lbl_fullname = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -89,11 +90,12 @@ public class EmployeeDashboard extends JFrame {
         txt_tin = new javax.swing.JTextField();
         lbl_philhealth = new javax.swing.JLabel();
         txt_philhealth = new javax.swing.JTextField();
+        lbl_role = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel_EmpDashboard.setBorder(javax.swing.BorderFactory.createTitledBorder("Employee Dashboard"));
         jPanel_EmpDashboard.setName("Empoyee Dashboard"); // NOI18N
@@ -114,13 +116,22 @@ public class EmployeeDashboard extends JFrame {
             }
         });
 
+        btn_fileleave.setText("File a Leave");
+        btn_fileleave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_fileleaveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel_UserActionsLayout = new javax.swing.GroupLayout(jPanel_UserActions);
         jPanel_UserActions.setLayout(jPanel_UserActionsLayout);
         jPanel_UserActionsLayout.setHorizontalGroup(
             jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(btn_timeout)
+                .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_fileleave)
+                    .addComponent(btn_timeout))
                 .addContainerGap(124, Short.MAX_VALUE))
             .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
@@ -133,6 +144,8 @@ public class EmployeeDashboard extends JFrame {
             .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addComponent(btn_timeout)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_fileleave)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
@@ -225,6 +238,8 @@ public class EmployeeDashboard extends JFrame {
             }
         });
 
+        lbl_role.setText("Role");
+
         javax.swing.GroupLayout jPanel_EmployeeInformationLayout = new javax.swing.GroupLayout(jPanel_EmployeeInformation);
         jPanel_EmployeeInformation.setLayout(jPanel_EmployeeInformationLayout);
         jPanel_EmployeeInformationLayout.setHorizontalGroup(
@@ -275,11 +290,16 @@ public class EmployeeDashboard extends JFrame {
                             .addGap(18, 18, 18)
                             .addComponent(txt_sss, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_EmployeeInformationLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbl_role)
+                .addGap(75, 75, 75))
         );
         jPanel_EmployeeInformationLayout.setVerticalGroup(
             jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_EmployeeInformationLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addComponent(lbl_role)
+                .addGap(17, 17, 17)
                 .addGroup(jPanel_EmployeeInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_fullname)
                     .addComponent(txt_fname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -415,6 +435,11 @@ public class EmployeeDashboard extends JFrame {
        employee.timeOut();
     }//GEN-LAST:event_btn_timeoutActionPerformed
 
+    private void btn_fileleaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fileleaveActionPerformed
+        LeaveFiling x = new LeaveFiling();
+        x.setVisible(true);
+    }//GEN-LAST:event_btn_fileleaveActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -452,6 +477,7 @@ public class EmployeeDashboard extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_fileleave;
     private javax.swing.JButton btn_timein;
     private javax.swing.JButton btn_timeout;
     private javax.swing.JLabel jLabel3;
@@ -468,6 +494,7 @@ public class EmployeeDashboard extends JFrame {
     private javax.swing.JLabel lbl_philhealth;
     private javax.swing.JLabel lbl_phone1;
     private javax.swing.JLabel lbl_position;
+    private javax.swing.JLabel lbl_role;
     private javax.swing.JLabel lbl_sss;
     private javax.swing.JLabel lbl_status;
     private javax.swing.JLabel lbl_tin;
