@@ -15,6 +15,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import services.LoggerService;
 import domain.LeaveRecords;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import services.DatabaseConnection;
 
 /**
@@ -32,6 +37,7 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
         ResultSet rs = null;
         lbl_empid.setText(String.valueOf(EmployeeID.empid));
         listAllLeaves();
+
     }
 
     /**
@@ -71,6 +77,11 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbl_leaveapproval);
 
         btn_leaveapproval.setText("Approve/Reject");
+        btn_leaveapproval.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_leaveapprovalActionPerformed(evt);
+            }
+        });
 
         lbl_user.setText("User:");
 
@@ -137,6 +148,108 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void refreshTable() {
+        listAllLeaves();
+    }
+
+    private void recordAttendance(int empID, java.sql.Date startDate, java.sql.Time defaultTimeIn, java.sql.Time defaultTimeOut) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String query = "INSERT INTO attendance (employee_id, date, login_time, logout_time) VALUES (?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, empID);
+            statement.setDate(2, startDate);
+            statement.setTime(3, defaultTimeIn);
+            statement.setTime(4, defaultTimeOut);
+            statement.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Attendance recorded successfully. ");
+        } catch (SQLException ex) {
+            String statusMessage = "Failed to record attendance.";
+            LoggerService.logError(statusMessage, ex);
+            JOptionPane.showMessageDialog(this, statusMessage);
+        }
+    }
+
+    private void deleteRecord(int empID, java.sql.Date startDate) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String sql = "DELETE FROM attendance WHERE employee_id = ? AND date = ?";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, empID);
+            pstmt.setDate(2, startDate);
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                String statusMessage = "Attendance Record deleted successfully: " + empID;
+                LoggerService.logInfo(statusMessage);
+                JOptionPane.showMessageDialog(this, statusMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                String statusMessage = "No record found to delete: " + empID;
+                LoggerService.logInfo(statusMessage);
+                JOptionPane.showMessageDialog(this, "No record found to delete.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
+            pstmt.close();
+            connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error deleting record.", "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void btn_leaveapprovalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveapprovalActionPerformed
+        int selectedRow = tbl_leaveapproval.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a leave request to approve or reject.", "Selection Required", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Object[] options = {"Approve", "Reject", "Cancel"};
+        int choice = JOptionPane.showOptionDialog(this, "Do you want to approve or reject the selected leave request?", "Approve/Reject Leave", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+
+        if (choice == JOptionPane.CANCEL_OPTION || choice == JOptionPane.CLOSED_OPTION) {
+            // User cancelled or closed the dialog
+            return;
+        }
+
+        String status = (choice == JOptionPane.YES_OPTION) ? "Approved" : "Rejected";
+        int leaveId = (Integer) tbl_leaveapproval.getValueAt(selectedRow, 0); // Assuming leave_id is in the first column
+
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            String sql = "UPDATE leave_requests SET status = ? WHERE leave_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, status);
+            pstmt.setInt(2, leaveId);
+            pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
+
+            // Refresh the table
+            refreshTable();
+
+            JOptionPane.showMessageDialog(this, "The leave request has been " + status.toLowerCase() + ".", "Request " + status, JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error updating leave request status.", "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+        int empID = Integer.parseInt(tbl_leaveapproval.getValueAt(selectedRow, 1).toString());
+        String fname = tbl_leaveapproval.getValueAt(selectedRow, 2).toString();
+        String lname = tbl_leaveapproval.getValueAt(selectedRow, 3).toString();
+        Date startDate = Date.valueOf(tbl_leaveapproval.getValueAt(selectedRow, 5).toString());
+        //Date endDate = Date.valueOf(tbl_leaveapproval.getValueAt(selectedRow, 6).toString());
+        Time defaultTimeIn = Time.valueOf("08:00:00");
+        Time defaultTimeOut = Time.valueOf("17:00:00");
+//          Timestamp defaultTimeIn = Timestamp.valueOf(Timestamp);
+//          Timestamp defaultTimeOut = Timestamp.valueOf("17:00:00");
+
+        if ("Approved".equals(status)) {
+            recordAttendance(empID, startDate, defaultTimeIn, defaultTimeOut);
+        } else if ("Rejected".equals(status)) {
+            deleteRecord(empID, startDate);
+        }
+    }//GEN-LAST:event_btn_leaveapprovalActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -193,7 +306,7 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
 
             DefaultTableModel model = (DefaultTableModel) tbl_leaveapproval.getModel();
             model.setRowCount(0); // Clear existing data
-            model.setColumnIdentifiers(new String[]{"Leave ID", "Employee ID", "Name","Surname", "Leave_Type","Start Date","End Date","Remarks", "Status"});
+            model.setColumnIdentifiers(new String[]{"Leave ID", "Employee ID", "Name", "Surname", "Leave_Type", "Start Date", "End Date", "Remarks", "Status"});
 
             while (rs.next()) {
                 LeaveRecords record = new LeaveRecords(
@@ -228,10 +341,6 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-    }
-
-    public void refreshTable() {
-        listAllLeaves();
     }
 
 }
