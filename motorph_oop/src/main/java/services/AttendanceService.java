@@ -13,6 +13,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import javax.swing.JOptionPane;
 
 /**
@@ -42,7 +43,8 @@ public class AttendanceService {
     }
 
     public static void logTimeIn(int employeeId) {
-        Timestamp timeIn = Timestamp.valueOf(LocalDateTime.now()); //  Corrected
+        //Timestamp timeIn = Timestamp.valueOf(LocalDateTime.now()); //  Corrected
+        Time timeIn = Time.valueOf(LocalTime.now()); 
         Date loginDate = Date.valueOf(LocalDate.now());
         LoggerService.logInfo("loginDate: " + loginDate);
         LoggerService.logInfo("timeIn: " + timeIn);
@@ -70,8 +72,8 @@ public class AttendanceService {
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, employeeId);
             stmt.setDate(2, loginDate); //  Correct way to store the date
-            stmt.setTimestamp(3, timeIn); //  Stores full timestamp for login
-            stmt.setTimestamp(4, null); //  Initially null for logout
+            stmt.setTime(3, timeIn); //  Stores full timestamp for login
+            stmt.setTime(4, null); //  Initially null for logout
             stmt.executeUpdate();
             String successMessage = "Time-in recorded successfully for Employee ID: " + employeeId + " at " + timeIn;
             LoggerService.logInfo(successMessage);
@@ -84,13 +86,14 @@ public class AttendanceService {
     }
 
     public static void logTimeOut(int employeeId) {
-        Timestamp timeOut = Timestamp.valueOf(LocalDateTime.now());
+        //Timestamp timeOut = Timestamp.valueOf(LocalDateTime.now());
+        Time timeOut = Time.valueOf(LocalTime.now());
         Date loginDate = Date.valueOf(LocalDate.now());
         try (Connection conn = DatabaseConnection.getConnection()) {
             String query = "UPDATE attendance SET logout_time = ? WHERE attendance_id = (SELECT attendance_id FROM attendance WHERE employee_id"
                     + " = ? AND date = CURRENT_DATE AND logout_time IS NULL ORDER BY login_time DESC LIMIT 1)";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setTimestamp(1, timeOut);
+            stmt.setTime(1, timeOut);
             stmt.setInt(2, employeeId);
             int rowsUpdated = stmt.executeUpdate();
 

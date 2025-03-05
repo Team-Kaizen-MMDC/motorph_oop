@@ -68,6 +68,7 @@ public class HRDashboard extends JFrame {
         btn_timeout = new javax.swing.JButton();
         btn_timein = new javax.swing.JButton();
         btn_fileleave = new javax.swing.JButton();
+        btn_leaveapproval = new javax.swing.JButton();
         jPanel_EmployeeInformation = new javax.swing.JPanel();
         lbl_fullname = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -122,6 +123,13 @@ public class HRDashboard extends JFrame {
             }
         });
 
+        btn_leaveapproval.setText("Leave Approval");
+        btn_leaveapproval.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_leaveapprovalActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel_UserActionsLayout = new javax.swing.GroupLayout(jPanel_UserActions);
         jPanel_UserActions.setLayout(jPanel_UserActionsLayout);
         jPanel_UserActionsLayout.setHorizontalGroup(
@@ -129,14 +137,15 @@ public class HRDashboard extends JFrame {
             .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_fileleave)
-                    .addComponent(btn_timeout))
-                .addContainerGap(124, Short.MAX_VALUE))
+                    .addComponent(btn_timeout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_fileleave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_leaveapproval, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
                     .addGap(16, 16, 16)
-                    .addComponent(btn_timein, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(124, Short.MAX_VALUE)))
+                    .addComponent(btn_timein, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         jPanel_UserActionsLayout.setVerticalGroup(
             jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,6 +154,8 @@ public class HRDashboard extends JFrame {
                 .addComponent(btn_timeout)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_fileleave)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_leaveapproval)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
@@ -378,8 +389,6 @@ public class HRDashboard extends JFrame {
                 .addContainerGap())
         );
 
-        jPanel_EmpDashboard.getAccessibleContext().setAccessibleName("HR Dashboard");
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -430,9 +439,14 @@ public class HRDashboard extends JFrame {
     }//GEN-LAST:event_btn_timeoutActionPerformed
 
     private void btn_fileleaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fileleaveActionPerformed
-        LeaveFiling x = new LeaveFiling();
-        x.setVisible(true);
+        LeaveFiling leaveFiling = new LeaveFiling();
+        leaveFiling.setVisible(true);
     }//GEN-LAST:event_btn_fileleaveActionPerformed
+
+    private void btn_leaveapprovalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveapprovalActionPerformed
+        LeaveApprovalDashboard leaveApprovalDashboard = new LeaveApprovalDashboard();
+        leaveApprovalDashboard.setVisible(true);
+    }//GEN-LAST:event_btn_leaveapprovalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -473,6 +487,7 @@ public class HRDashboard extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_fileleave;
+    private javax.swing.JButton btn_leaveapproval;
     private javax.swing.JButton btn_timein;
     private javax.swing.JButton btn_timeout;
     private javax.swing.JLabel jLabel3;
