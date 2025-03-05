@@ -191,7 +191,7 @@ public class LeaveFiling extends javax.swing.JFrame {
     private void btn_applyLeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_applyLeaveActionPerformed
         int employeeId = EmployeeID.empid;
         LoggerService.logInfo("Employee ID:" + employeeId);
-        String leaveType = "Vacation";
+        String leaveType = String.valueOf(cmb_leavetype.getSelectedItem());
         Date startDate = new Date(jDateChooser_startDate.getDate().getTime());
         Date endDate = new Date(jDateChooser_toDate.getDate().getTime());
         String remarks = txt_remarks.getText();
