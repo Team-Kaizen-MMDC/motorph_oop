@@ -10,7 +10,7 @@ import services.PayrollCalculator;
  *
  * @author brianjancarlos
  */
-public class HRAdmin extends Employee implements PayrollCalculator {
+public class HRAdmin extends Employee implements PayrollCalculator, LeaveApproval {
 
     private String sssNumber;
     private String philhealthNumber;
@@ -66,4 +66,9 @@ public class HRAdmin extends Employee implements PayrollCalculator {
     public boolean isTimedIn() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    @Override
+    public void ApproveLeave() {
+        
+}
 }
