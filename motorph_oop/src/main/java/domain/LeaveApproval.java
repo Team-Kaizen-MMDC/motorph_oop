@@ -9,5 +9,8 @@ package domain;
  * @author brianjancarlos
  */
 public interface LeaveApproval {
-    void ApproveLeave();
+
+    void approveLeave(int leaveId);
+
+    void rejectLeave(int leaveId);
 }

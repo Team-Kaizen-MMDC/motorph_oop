@@ -4,7 +4,13 @@
  */
 package domain;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import services.DatabaseConnection;
 import services.PayrollCalculator;
+import services.LoggerService;
 
 /**
  *
@@ -46,6 +52,7 @@ public class HRAdmin extends Employee implements PayrollCalculator, LeaveApprova
         this.grossSemiMonthlyRate = grossSemiMonthlyRate;
         this.hourlyRate = hourlyRate;
     }
+    
 
     @Override
     public double calculateSalary() {
@@ -66,9 +73,29 @@ public class HRAdmin extends Employee implements PayrollCalculator, LeaveApprova
     public boolean isTimedIn() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
-    public void ApproveLeave() {
-        
-}
+    public void approveLeave(int leaveId) {
+        updateLeaveStatus(leaveId, "Approved");
+    }
+
+    @Override
+    public void rejectLeave(int leaveId) {
+        updateLeaveStatus(leaveId, "Rejected");
+    }
+    
+    private void updateLeaveStatus(int leaveId, String status) {
+        String sql = "UPDATE leave_requests SET status = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, status);
+            pstmt.setInt(2, leaveId);
+            pstmt.executeUpdate();
+            LoggerService.logInfo("Leave ID " + leaveId + " " + status);
+            JOptionPane.showMessageDialog(null, "Leave request " + status + " successfully!");
+        } catch (SQLException e) {
+            LoggerService.logError("Error updating leave status", e);
+            JOptionPane.showMessageDialog(null, "Error processing leave request", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }

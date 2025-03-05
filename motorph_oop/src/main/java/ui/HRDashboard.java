@@ -439,12 +439,13 @@ public class HRDashboard extends JFrame {
     }//GEN-LAST:event_btn_timeoutActionPerformed
 
     private void btn_fileleaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fileleaveActionPerformed
-        LeaveFiling x = new LeaveFiling();
-        x.setVisible(true);
+        LeaveFiling leaveFiling = new LeaveFiling();
+        leaveFiling.setVisible(true);
     }//GEN-LAST:event_btn_fileleaveActionPerformed
 
     private void btn_leaveapprovalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveapprovalActionPerformed
-        // TODO add your handling code here:
+        LeaveApprovalDashboard leaveApprovalDashboard = new LeaveApprovalDashboard();
+        leaveApprovalDashboard.setVisible(true);
     }//GEN-LAST:event_btn_leaveapprovalActionPerformed
 
     /**
