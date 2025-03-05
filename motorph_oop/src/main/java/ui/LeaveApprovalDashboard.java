@@ -30,7 +30,8 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         ResultSet rs = null;
-       lbl_empid.setText(String.valueOf(EmployeeID.empid));
+        lbl_empid.setText(String.valueOf(EmployeeID.empid));
+        listAllLeaves();
     }
 
     /**
@@ -183,15 +184,16 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
     private javax.swing.JTable tbl_leaveapproval;
     // End of variables declaration//GEN-END:variables
 
-   public void listAllLeaves() {
+    public void listAllLeaves() {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            String sql = "SELECT * FROM leaves ORDER BY leave_id DESC";
+            String sql = "SELECT * FROM leave_requests ORDER BY leave_id DESC";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
 
             DefaultTableModel model = (DefaultTableModel) tbl_leaveapproval.getModel();
             model.setRowCount(0); // Clear existing data
+            model.setColumnIdentifiers(new String[]{"Leave ID", "Employee ID", "Name","Surname", "Leave_Type","Start Date","End Date","Remarks", "Status"});
 
             while (rs.next()) {
                 LeaveRecords record = new LeaveRecords(
@@ -199,9 +201,9 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
                         rs.getString("employee_id"),
                         rs.getString("first_name"),
                         rs.getString("last_name"),
+                        rs.getString("leave_type"),
                         rs.getString("start_date"),
                         rs.getString("end_date"),
-                        rs.getString("leave_type"),
                         rs.getString("remarks"),
                         rs.getString("status")
                 );
@@ -232,43 +234,4 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
         listAllLeaves();
     }
 
-    private void recordAttendance(int empID, String fname, String lname, java.sql.Date startDate, java.sql.Time defaultTimeIn, java.sql.Time defaultTimeOut) {
-        try {
-            Connection connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO attendance_record (employee_id, last_name, first_name, login_date, timein, timeout) VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, empID);
-            statement.setString(2, fname);
-            statement.setString(3, lname);
-            statement.setDate(4, startDate);
-            statement.setTime(5, defaultTimeIn);
-            statement.setTime(6, defaultTimeOut);
-            statement.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Attendance recorded successfully. ");
-        } catch (SQLException ex) {
-            LoggerService.logError("Failed to record attendance", ex);
-            JOptionPane.showMessageDialog(this, "Failed to record attendance.");
-        }
-    }
-
-    private void deleteRecord(int empID, java.sql.Date startDate) {
-        try {
-            Connection connection = DatabaseConnection.getConnection();
-            String sql = "DELETE FROM attendance_record WHERE employee_id = ? AND login_date = ?";
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1, empID);
-            pstmt.setDate(2, startDate);
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows > 0) {
-                JOptionPane.showMessageDialog(this, "Attendance Record deleted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "No record found to delete.", "Info", JOptionPane.INFORMATION_MESSAGE);
-            }
-            pstmt.close();
-            connection.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error deleting record.", "Database Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 }
