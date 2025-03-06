@@ -150,3 +150,30 @@ LEFT JOIN Positions p ON e.position_id = p.position_id
 LEFT JOIN Employee sup ON e.supervisor_id = sup.employee_id
 LEFT JOIN UserAccounts u ON e.employee_id = u.employee_id
 LEFT JOIN Roles r ON u.emp_role = r.role_id;
+
+CREATE VIEW EmployeefullDetailsView AS
+SELECT edv.employee_id,
+    edv.first_name,
+    edv.last_name,
+    edv.birthday,
+    edv.address,
+    edv.phone_number,
+    edv.employment_status,
+    edv.job_position,
+    edv.supervisor_id,
+    edv.supervisor_name,
+    edv.role_id,
+    edv.emp_role,
+    g.sss_number,
+    g.philhealth_number,
+    g.tin_number,
+    g.pagibig_number,
+    c.basic_salary,
+    c.rice_subsidy,
+    c.phone_allowance,
+    c.clothing_allowance,
+    c.gross_semi_monthly_rate,
+    c.hourly_rate
+   FROM employeedetailsview edv
+     LEFT JOIN government_ids g ON edv.employee_id = g.employee_id
+     LEFT JOIN compensation_details c ON edv.employee_id = c.employee_id;
