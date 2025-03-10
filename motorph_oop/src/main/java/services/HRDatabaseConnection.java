@@ -35,6 +35,7 @@ public class HRDatabaseConnection implements EmployeeManagement{
             return false;
         }
     }
+    
     @Override
     public List<HRAdmin> getAllEmployeeDetails() {
         List<HRAdmin> employeeDetails = new ArrayList<>();
