@@ -3,12 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package domain;
-
+import java.util.List;
 /**
  *
  * @author brianjancarlos
  */
 public interface EmployeeManagement {
 
-    void getAllEmployeeDetails();
+    List<HRAdmin> getAllEmployeeDetails();
 }

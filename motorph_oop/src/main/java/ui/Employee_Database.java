@@ -28,6 +28,7 @@ import java.util.Arrays;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.JTextComponent;
+import services.LoggerService;
 
 public class Employee_Database extends javax.swing.JFrame {
 
@@ -136,7 +137,7 @@ public class Employee_Database extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbl_employees);
 
         lbl_MotorPHEmployeeDetails.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lbl_MotorPHEmployeeDetails.setText("MotorPH Employee Details");
+        lbl_MotorPHEmployeeDetails.setText("MotorPH Employee Database");
 
         jPanel1.setBackground(new java.awt.Color(60, 63, 75));
 
@@ -696,7 +697,9 @@ public class Employee_Database extends javax.swing.JFrame {
                 model.addRow(rowData);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Employee: Database: Failed to connect to the database.");
+            String message = "Employee: Database: Failed to connect to the database.";
+            LoggerService.logWarning(message);
+            JOptionPane.showMessageDialog(this, message);
         }
     }
 

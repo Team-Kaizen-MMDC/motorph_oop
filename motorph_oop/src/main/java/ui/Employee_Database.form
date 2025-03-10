@@ -199,7 +199,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="MotorPH Employee Details"/>
+        <Property name="text" type="java.lang.String" value="MotorPH Employee Database"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
