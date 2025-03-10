@@ -6,7 +6,10 @@ package domain;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import services.DatabaseConnection;
 import services.PayrollCalculator;
@@ -51,6 +54,91 @@ public class HRAdmin extends Employee implements PayrollCalculator, LeaveApprova
         this.clothingAllowance = clothingAllowance;
         this.grossSemiMonthlyRate = grossSemiMonthlyRate;
         this.hourlyRate = hourlyRate;
+    }
+
+    
+    public String getSssNumber() {
+        return sssNumber;
+    }
+
+    public String getPhilhealthNumber() {
+        return philhealthNumber;
+    }
+
+    public String getTinNumber() {
+        return tinNumber;
+    }
+
+    public String getPagibigNumber() {
+        return pagibigNumber;
+    }
+
+    public double getBasicSalary() {
+        return basicSalary;
+    }
+
+    public double getRiceSubsidy() {
+        return riceSubsidy;
+    }
+
+    public double getPhoneAllowance() {
+        return phoneAllowance;
+    }
+
+    public double getClothingAllowance() {
+        return clothingAllowance;
+    }
+
+    public double getGrossSemiMonthlyRate() {
+        return grossSemiMonthlyRate;
+    }
+
+    public double getHourlyRate() {
+        return hourlyRate;
+    }
+
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmploymentStatus() {
+        return employmentStatus;
+    }
+
+    public String getJobPosition() {
+        return jobPosition;
+    }
+
+    public int getSupervisorId() {
+        return supervisorId;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public boolean isIsTimedIn() {
+        return isTimedIn;
     }
     
 
@@ -98,4 +186,7 @@ public class HRAdmin extends Employee implements PayrollCalculator, LeaveApprova
             JOptionPane.showMessageDialog(null, "Error processing leave request", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+
+   
 }
