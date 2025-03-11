@@ -183,11 +183,9 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
         String fname = tbl_leaveapproval.getValueAt(selectedRow, 2).toString();
         String lname = tbl_leaveapproval.getValueAt(selectedRow, 3).toString();
         Date startDate = Date.valueOf(tbl_leaveapproval.getValueAt(selectedRow, 5).toString());
-        //Date endDate = Date.valueOf(tbl_leaveapproval.getValueAt(selectedRow, 6).toString());
         Time defaultTimeIn = Time.valueOf("08:00:00");
         Time defaultTimeOut = Time.valueOf("17:00:00");
-        //          Timestamp defaultTimeIn = Timestamp.valueOf(Timestamp);
-        //          Timestamp defaultTimeOut = Timestamp.valueOf("17:00:00");
+
 
         if ("Approved".equals(status)) {
             recordAttendance(empID, startDate, defaultTimeIn, defaultTimeOut);

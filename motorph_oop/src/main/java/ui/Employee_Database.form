@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jFormattedTextField1"/>
+      </Properties>
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="MotorPH Employee View"/>
@@ -41,8 +48,8 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="lbl_MotorPHEmployeeDetails" min="-2" pref="245" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="295" max="-2" attributes="0"/>
+                      <Component id="lbl_MotorPHEmployeeDetails" min="-2" pref="280" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="260" max="-2" attributes="0"/>
                       <Component id="lbl_loggedInAs" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="lbl_emp" min="-2" max="-2" attributes="0"/>
@@ -331,7 +338,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="173" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -343,10 +350,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="txt_philhealth_num" alignment="0" max="32767" attributes="0"/>
                               <Component id="txt_sss_num" alignment="1" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="txt_tin_number" min="-2" pref="416" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="txt_tin_number" alignment="0" min="-2" pref="416" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -361,17 +365,20 @@
                               <Component id="txt_pagibig_num" max="32767" attributes="0"/>
                               <Component id="txt_supervisor" max="32767" attributes="0"/>
                               <Component id="txt_position" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txt_status" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="jcombo_status" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="188" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lbl_employee_id" linkSize="4" min="-2" pref="17" max="-2" attributes="0"/>
@@ -440,8 +447,8 @@
                           <Component id="lbl_phone" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="txt_status" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbl_status" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jcombo_status" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
@@ -510,7 +517,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_birthday">
           <Properties>
-            <Property name="text" type="java.lang.String" value="yyyy-MM-dd"/>
+            <Property name="text" type="java.lang.String" value="2000-01-01"/>
             <Property name="toolTipText" type="java.lang.String" value="yyyy-MM-dd"/>
           </Properties>
         </Component>
@@ -524,12 +531,6 @@
         <Component class="javax.swing.JLabel" name="lbl_philhealth_num">
           <Properties>
             <Property name="text" type="java.lang.String" value="Philhealth"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txt_status">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Probationary"/>
-            <Property name="toolTipText" type="java.lang.String" value="Regular or Probationary"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_first_name">
@@ -568,6 +569,21 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txt_philhealth_num">
+        </Component>
+        <Component class="javax.swing.JComboBox" name="jcombo_status">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="4">
+                <StringItem index="0" value="Item 1"/>
+                <StringItem index="1" value="Item 2"/>
+                <StringItem index="2" value="Item 3"/>
+                <StringItem index="3" value="Item 4"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
