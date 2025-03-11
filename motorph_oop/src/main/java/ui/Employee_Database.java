@@ -557,12 +557,33 @@ public class Employee_Database extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Record Added: " + txt_first_name.getText() + " " + txt_last_name.getText(), "Add Record", JOptionPane.INFORMATION_MESSAGE);
 
             // Close resources
-            rsEmp.close();
-            pstmtEmp.close();
-            rsGovt.close();
-            pstmtGovt.close();
-            conn.close();
-            refreshTable();
+            try {
+                // Close resources
+                if (rsEmp != null) {
+                    rsEmp.close();
+                    LoggerService.logInfo("ResultSet rsEmp closed successfully");
+                }
+                if (pstmtEmp != null) {
+                    pstmtEmp.close();
+                    LoggerService.logInfo("PreparedStatement pstmtEmp closed successfully");
+                }
+                if (rsGovt != null) {
+                    rsGovt.close();
+                    LoggerService.logInfo("ResultSet rsGovt closed successfully");
+                }
+                if (pstmtGovt != null) {
+                    pstmtGovt.close();
+                    LoggerService.logInfo("PreparedStatement pstmtGovt closed successfully");
+                }
+                if (conn != null) {
+                    conn.close();
+                    LoggerService.logInfo("Database connection closed successfully");
+                }
+                refreshTable();
+                LoggerService.logInfo("Table refreshed successfully");
+            } catch (SQLException e) {
+                LoggerService.logError("Error closing database resources: ", e);
+            }
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
