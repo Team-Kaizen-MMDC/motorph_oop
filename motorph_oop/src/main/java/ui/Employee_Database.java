@@ -454,14 +454,14 @@ public class Employee_Database extends javax.swing.JFrame {
         txtarea_address.setLineWrap(true);
         txtarea_address.setText(model.getValueAt(selected_row, 4).toString());
         txt_phone.setText(model.getValueAt(selected_row, 5).toString());
-        //txt_status.setText(model.getValueAt(selected_row, 6).toString());
+        jcombo_status.setSelectedItem(model.getValueAt(selected_row, 6).toString());
         txt_sss_num.setText(model.getValueAt(selected_row, 7).toString());
         txt_philhealth_num.setText(model.getValueAt(selected_row, 8).toString());
         txt_tin_number.setText(model.getValueAt(selected_row, 9).toString());
         txt_pagibig_num.setText(model.getValueAt(selected_row, 10).toString());
         txt_position.setText(model.getValueAt(selected_row, 11).toString());
         txt_supervisor.setText(model.getValueAt(selected_row, 12).toString());
-        jcombo_status.setSelectedItem(model.getValueAt(selected_row, 6).toString());
+
     }//GEN-LAST:event_tbl_employeesMouseClicked
 
     private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
@@ -476,7 +476,6 @@ public class Employee_Database extends javax.swing.JFrame {
             field.setText(null);
         }
         txt_birthday.setText("yyyy-MM-dd");
-        //txt_status.setText("Probationary");
         txt_searchbox.setToolTipText("Search");
         txt_searchbox.setText("Search..");
         Search("*"); // Resets Searchbox and refresh the JTable
@@ -575,7 +574,7 @@ public class Employee_Database extends javax.swing.JFrame {
     private void btn_delete_recordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_delete_recordActionPerformed
         int selected_row = tbl_employees.getSelectedRow();
         if (selected_row == -1) {
-            JOptionPane.showMessageDialog(null, "No record selected", "Error", JOptionPane.ERROR_MESSAGE, null);
+            JOptionPane.showMessageDialog(null, "No record selected", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -584,32 +583,95 @@ public class Employee_Database extends javax.swing.JFrame {
         int employee_id = Integer.parseInt(model.getValueAt(selected_row, 0).toString());
 
         // Show a confirmation dialog box
-        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this record?: " + employee_id, "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+        int confirm = JOptionPane.showConfirmDialog(null,
+                "Are you sure you want to delete this record?: Employee ID " + employee_id,
+                "Confirm Deletion",
+                JOptionPane.YES_NO_OPTION);
+
         if (confirm == JOptionPane.YES_OPTION) {
+            Connection conn = null;
             try {
-                // Establish a connection to the database using import DatabaseConnectionManager Class
-                Connection conn = DatabaseConnection.getConnection();
+                // Establish connection and disable auto-commit
+                conn = DatabaseConnection.getConnection();
+                conn.setAutoCommit(false);
 
-                // Prepare a SQL DELETE statement
-                String sql = "DELETE FROM employee WHERE employee_id = ?";
-                PreparedStatement pstmt = conn.prepareStatement(sql);
+                // Delete from government_ids first (due to foreign key constraint)
+                String sqlGovt = "DELETE FROM government_ids WHERE employee_id = ?";
+                PreparedStatement pstmtGovt = conn.prepareStatement(sqlGovt);
+                pstmtGovt.setInt(1, employee_id);
+                pstmtGovt.executeUpdate();
 
-                // Set the employee_id
-                pstmt.setInt(1, employee_id);
+                // Then delete from employee table
+                String sqlEmp = "DELETE FROM employee WHERE employee_id = ?";
+                PreparedStatement pstmtEmp = conn.prepareStatement(sqlEmp);
+                pstmtEmp.setInt(1, employee_id);
+                pstmtEmp.executeUpdate();
 
-                // Execute the DELETE statement
-                pstmt.executeUpdate();
+                // Commit transaction
+                conn.commit();
+                JOptionPane.showMessageDialog(null, "Record deleted successfully", "Delete Record", JOptionPane.INFORMATION_MESSAGE);
 
-                // Refresh the JTable
+                // Refresh the table
                 refreshTable();
-
-                // Close the connection
-                conn.close();
             } catch (SQLException e) {
-                // Handle any SQL exceptions
-                JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
+                // Roll back transaction on error
+                if (conn != null) {
+                    try {
+                        conn.rollback();
+                    } catch (SQLException ex) {
+                        LoggerService.logError("Error rolling back transaction: ", ex);
+                    }
+                }
+                JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                LoggerService.logError("Database Error: ", e);
+            } finally {
+                // Close connection
+                if (conn != null) {
+                    try {
+                        conn.close();
+                    } catch (SQLException ex) {
+                        LoggerService.logError("Error closing connection: ", ex);
+                    }
+                }
             }
         }
+//        int selected_row = tbl_employees.getSelectedRow();
+//        if (selected_row == -1) {
+//            JOptionPane.showMessageDialog(null, "No record selected", "Error", JOptionPane.ERROR_MESSAGE, null);
+//            return;
+//        }
+//
+//        // Get the employee_id of the selected row
+//        DefaultTableModel model = (DefaultTableModel) tbl_employees.getModel();
+//        int employee_id = Integer.parseInt(model.getValueAt(selected_row, 0).toString());
+//
+//        // Show a confirmation dialog box
+//        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this record?: " + employee_id, "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+//        if (confirm == JOptionPane.YES_OPTION) {
+//            try {
+//                // Establish a connection to the database using import DatabaseConnectionManager Class
+//                Connection conn = DatabaseConnection.getConnection();
+//
+//                // Prepare a SQL DELETE statement
+//                String sql = "DELETE FROM employee WHERE employee_id = ?";
+//                PreparedStatement pstmt = conn.prepareStatement(sql);
+//
+//                // Set the employee_id
+//                pstmt.setInt(1, employee_id);
+//
+//                // Execute the DELETE statement
+//                pstmt.executeUpdate();
+//
+//                // Refresh the JTable
+//                refreshTable();
+//
+//                // Close the connection
+//                conn.close();
+//            } catch (SQLException e) {
+//                // Handle any SQL exceptions
+//                JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
+//            }
+//        }
     }//GEN-LAST:event_btn_delete_recordActionPerformed
 
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
