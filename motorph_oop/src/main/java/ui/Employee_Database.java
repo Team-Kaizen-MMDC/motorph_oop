@@ -635,88 +635,93 @@ public class Employee_Database extends javax.swing.JFrame {
                 }
             }
         }
-//        int selected_row = tbl_employees.getSelectedRow();
-//        if (selected_row == -1) {
-//            JOptionPane.showMessageDialog(null, "No record selected", "Error", JOptionPane.ERROR_MESSAGE, null);
-//            return;
-//        }
-//
-//        // Get the employee_id of the selected row
-//        DefaultTableModel model = (DefaultTableModel) tbl_employees.getModel();
-//        int employee_id = Integer.parseInt(model.getValueAt(selected_row, 0).toString());
-//
-//        // Show a confirmation dialog box
-//        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this record?: " + employee_id, "Confirm Deletion", JOptionPane.YES_NO_OPTION);
-//        if (confirm == JOptionPane.YES_OPTION) {
-//            try {
-//                // Establish a connection to the database using import DatabaseConnectionManager Class
-//                Connection conn = DatabaseConnection.getConnection();
-//
-//                // Prepare a SQL DELETE statement
-//                String sql = "DELETE FROM employee WHERE employee_id = ?";
-//                PreparedStatement pstmt = conn.prepareStatement(sql);
-//
-//                // Set the employee_id
-//                pstmt.setInt(1, employee_id);
-//
-//                // Execute the DELETE statement
-//                pstmt.executeUpdate();
-//
-//                // Refresh the JTable
-//                refreshTable();
-//
-//                // Close the connection
-//                conn.close();
-//            } catch (SQLException e) {
-//                // Handle any SQL exceptions
-//                JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
-//            }
-//        }
     }//GEN-LAST:event_btn_delete_recordActionPerformed
 
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
+        // Validate fields first 
+        if (!validateFields()) {
+            return;
+        }
 
+        Connection conn = null;
         try {
-            // Check correct inputs from textfields
-            if (!validateFields()) {
-                return;
+            // Establish connection and disable auto-commit
+            conn = DatabaseConnection.getConnection();
+            conn.setAutoCommit(false);
+
+            // First, get position_id from position name
+            String sqlPosition = "SELECT position_id FROM positions WHERE position_name = ?";
+            PreparedStatement pstmtPosition = conn.prepareStatement(sqlPosition);
+            pstmtPosition.setString(1, txt_position.getText());
+            ResultSet rsPosition = pstmtPosition.executeQuery();
+
+            int positionId;
+            if (rsPosition.next()) {
+                positionId = rsPosition.getInt("position_id");
+            } else {
+                throw new SQLException("Position not found: " + txt_position.getText());
             }
-            // Establish a connection to the database using import DatabaseConnectionManager Class
-            Connection conn = DatabaseConnection.getConnection();
 
-            // Create a SQL UPDATE statement
-            String sql = "UPDATE employee SET last_name = ?, first_name = ?, birthday = ?, address = ?, phone_number = ?, status_id = ?,"
-                    + "compensation_id = ?, role_id = ?,  WHERE employee_id = ?";
+            // Update employee table
+            String sqlEmp = "UPDATE employee SET last_name = ?, first_name = ?, birthday = ?, "
+                    + "address = ?, phone_number = ?, status_id = ?, position_id = ?, "
+                    + "supervisor_id = ? WHERE employee_id = ?";
 
-            // Prepare the statement
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            PreparedStatement pstmtEmp = conn.prepareStatement(sqlEmp);
+            pstmtEmp.setString(1, txt_last_name.getText());
+            pstmtEmp.setString(2, txt_first_name.getText());
+            pstmtEmp.setDate(3, java.sql.Date.valueOf(txt_birthday.getText()));
+            pstmtEmp.setString(4, txtarea_address.getText());
+            pstmtEmp.setString(5, txt_phone.getText());
+            pstmtEmp.setInt(6, getStatusIdFromComboBox(jcombo_status));
+            pstmtEmp.setInt(7, positionId);  // Use the retrieved position_id
+            pstmtEmp.setInt(8, Integer.parseInt(txt_supervisor.getText()));
+            pstmtEmp.setInt(9, Integer.parseInt(txt_employee_id.getText()));
 
-            // Set the values from the text fields
-            pstmt.setString(1, txt_first_name.getText());
-            pstmt.setString(2, txt_last_name.getText());
-            pstmt.setDate(3, java.sql.Date.valueOf(txt_birthday.getText()));
-            pstmt.setString(4, txtarea_address.getText());
-            pstmt.setString(5, txt_phone.getText());
-//            pstmt.setString(6, txt_status.getText());
-            pstmt.setString(7, txt_sss_num.getText());
-            pstmt.setString(8, txt_philhealth_num.getText());
-            pstmt.setString(9, txt_tin_number.getText());
-            pstmt.setString(10, txt_pagibig_num.getText());
-            pstmt.setString(11, txt_position.getText());
-            pstmt.setString(12, txt_supervisor.getText());
-            pstmt.setInt(13, Integer.parseInt(txt_employee_id.getText()));
+            pstmtEmp.executeUpdate();
 
-            // Execute the statement
-            pstmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Record Updated Name: " + txt_first_name.getText() + " " + txt_last_name.getText(), "Edit Record", JOptionPane.INFORMATION_MESSAGE, null);
+            // Update government_ids table
+            String sqlGovt = "UPDATE government_ids SET sss_number = ?, philhealth_number = ?, "
+                    + "tin_number = ?, pagibig_number = ? WHERE employee_id = ?";
 
-            // Close the connection
-            conn.close();
+            PreparedStatement pstmtGovt = conn.prepareStatement(sqlGovt);
+            pstmtGovt.setString(1, txt_sss_num.getText());
+            pstmtGovt.setString(2, txt_philhealth_num.getText());
+            pstmtGovt.setString(3, txt_tin_number.getText());
+            pstmtGovt.setString(4, txt_pagibig_num.getText());
+            pstmtGovt.setInt(5, Integer.parseInt(txt_employee_id.getText()));
+
+            pstmtGovt.executeUpdate();
+
+            // Commit transaction
+            conn.commit();
+            JOptionPane.showMessageDialog(null,
+                    "Record Updated: " + txt_first_name.getText() + " " + txt_last_name.getText(),
+                    "Edit Record",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            // Refresh the table
             refreshTable();
-
         } catch (SQLException e) {
-            // Handle any SQL exceptions
-            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
+            // Roll back transaction on error
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    LoggerService.logError("Error rolling back transaction: ", ex);
+                }
+            }
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            LoggerService.logError("Database Error: ", e);
+        } finally {
+            // Close connection
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    LoggerService.logError("Error closing connection: ", ex);
+                }
+            }
         }
     }//GEN-LAST:event_btn_editActionPerformed
 
