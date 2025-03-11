@@ -41,6 +41,6 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add CHANGELOG.md
           git commit -m "Update CHANGELOG.md for PR #${NUMBER}"
-          git push https://x-access-token:${{ secrets.GH_PAT }}@Team-Kaizen-MMDC/motorph_oop.git HEAD:main
+          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com@Team-Kaizen-MMDC/motorph_oop.git HEAD:main
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
