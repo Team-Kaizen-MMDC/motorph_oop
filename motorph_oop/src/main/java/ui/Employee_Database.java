@@ -8,12 +8,14 @@ package ui;
  *
  * @author brianjancarlos
  */
-import domain.EmployeeID;
+import java.util.HashMap;
+import java.util.Map;
 import domain.EmployeeID;
 import domain.HRAdmin;
 import domain.HRAdmin;
-import services.EmployeeDatabaseService;
+import domain.EmployeeStatusComboItem;
 import services.HRDatabaseConnection;
+import javax.swing.JComboBox;
 import java.sql.Connection;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -29,6 +31,7 @@ import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.JTextComponent;
 import services.LoggerService;
+import java.sql.ResultSet;
 
 public class Employee_Database extends javax.swing.JFrame {
 
@@ -40,6 +43,7 @@ public class Employee_Database extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); // center the window
         InitializeForm();
+        loadEmployeeStatuses();
         refreshTable();
         lbl_emp.setText(String.valueOf(EmployeeID.empid));
     }
@@ -54,6 +58,7 @@ public class Employee_Database extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_employees = new javax.swing.JTable();
         lbl_MotorPHEmployeeDetails = new javax.swing.JLabel();
@@ -81,7 +86,6 @@ public class Employee_Database extends javax.swing.JFrame {
         txt_supervisor = new javax.swing.JTextField();
         lbl_status = new javax.swing.JLabel();
         lbl_philhealth_num = new javax.swing.JLabel();
-        txt_status = new javax.swing.JTextField();
         lbl_first_name = new javax.swing.JLabel();
         lbl_position = new javax.swing.JLabel();
         lbl_address = new javax.swing.JLabel();
@@ -90,9 +94,12 @@ public class Employee_Database extends javax.swing.JFrame {
         lbl_tin_num = new javax.swing.JLabel();
         lbl_supervisor = new javax.swing.JLabel();
         txt_philhealth_num = new javax.swing.JTextField();
+        jcombo_status = new javax.swing.JComboBox<>();
         txt_searchbox = new javax.swing.JTextField();
         lbl_loggedInAs = new javax.swing.JLabel();
         lbl_emp = new javax.swing.JLabel();
+
+        jFormattedTextField1.setText("jFormattedTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MotorPH Employee View");
@@ -222,15 +229,12 @@ public class Employee_Database extends javax.swing.JFrame {
         txtarea_address.setWrapStyleWord(true);
         jScrollPane3.setViewportView(txtarea_address);
 
-        txt_birthday.setText("yyyy-MM-dd");
+        txt_birthday.setText("2000-01-01");
         txt_birthday.setToolTipText("yyyy-MM-dd");
 
         lbl_status.setText("Status");
 
         lbl_philhealth_num.setText("Philhealth");
-
-        txt_status.setText("Probationary");
-        txt_status.setToolTipText("Regular or Probationary");
 
         lbl_first_name.setText("First Name");
 
@@ -245,6 +249,8 @@ public class Employee_Database extends javax.swing.JFrame {
         lbl_tin_num.setText("TIN");
 
         lbl_supervisor.setText("Supervisor");
+
+        jcombo_status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -276,7 +282,7 @@ public class Employee_Database extends javax.swing.JFrame {
                             .addComponent(txt_birthday)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_last_name))))
-                .addGap(173, 173, 173)
+                .addGap(65, 65, 65)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -287,9 +293,7 @@ public class Employee_Database extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_philhealth_num)
                             .addComponent(txt_sss_num, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txt_tin_number, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(txt_tin_number, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lbl_supervisor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -301,15 +305,17 @@ public class Employee_Database extends javax.swing.JFrame {
                             .addComponent(txt_pagibig_num)
                             .addComponent(txt_supervisor)
                             .addComponent(txt_position)
-                            .addComponent(txt_status))))
-                .addGap(80, 80, 80))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jcombo_status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(188, 188, 188))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txt_birthday, txt_employee_id, txt_first_name, txt_last_name, txt_phone});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_employee_id, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -361,12 +367,12 @@ public class Employee_Database extends javax.swing.JFrame {
                         .addComponent(txt_phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lbl_phone))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txt_status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lbl_status)))
+                        .addComponent(lbl_status)
+                        .addComponent(jcombo_status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(11, 11, 11))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_address, lbl_birthday, lbl_employee_id, lbl_first_name, lbl_last_name, lbl_phone, lbl_status, txt_birthday, txt_employee_id, txt_first_name, txt_last_name, txt_phone, txt_status});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_address, lbl_birthday, lbl_employee_id, lbl_first_name, lbl_last_name, lbl_phone, lbl_status, txt_birthday, txt_employee_id, txt_first_name, txt_last_name, txt_phone});
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_pagibig_num, lbl_philhealth_num, lbl_position, lbl_sss_num, lbl_supervisor, lbl_tin_num});
 
@@ -404,8 +410,8 @@ public class Employee_Database extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbl_MotorPHEmployeeDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(295, 295, 295)
+                        .addComponent(lbl_MotorPHEmployeeDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(260, 260, 260)
                         .addComponent(lbl_loggedInAs)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbl_emp)))
@@ -448,13 +454,14 @@ public class Employee_Database extends javax.swing.JFrame {
         txtarea_address.setLineWrap(true);
         txtarea_address.setText(model.getValueAt(selected_row, 4).toString());
         txt_phone.setText(model.getValueAt(selected_row, 5).toString());
-        txt_status.setText(model.getValueAt(selected_row, 6).toString());
+        //txt_status.setText(model.getValueAt(selected_row, 6).toString());
         txt_sss_num.setText(model.getValueAt(selected_row, 7).toString());
         txt_philhealth_num.setText(model.getValueAt(selected_row, 8).toString());
         txt_tin_number.setText(model.getValueAt(selected_row, 9).toString());
         txt_pagibig_num.setText(model.getValueAt(selected_row, 10).toString());
         txt_position.setText(model.getValueAt(selected_row, 11).toString());
         txt_supervisor.setText(model.getValueAt(selected_row, 12).toString());
+        jcombo_status.setSelectedItem(model.getValueAt(selected_row, 6).toString());
     }//GEN-LAST:event_tbl_employeesMouseClicked
 
     private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
@@ -469,7 +476,7 @@ public class Employee_Database extends javax.swing.JFrame {
             field.setText(null);
         }
         txt_birthday.setText("yyyy-MM-dd");
-        txt_status.setText("Probationary");
+        //txt_status.setText("Probationary");
         txt_searchbox.setToolTipText("Search");
         txt_searchbox.setText("Search..");
         Search("*"); // Resets Searchbox and refresh the JTable
@@ -494,39 +501,74 @@ public class Employee_Database extends javax.swing.JFrame {
             }
             // Establish a connection to the database
             Connection conn = DatabaseConnection.getConnection();
+            conn.setAutoCommit(false);
+            // Insert into employee table first
+            int roleId = 4; // Employee
+            int statusId = getStatusIdFromComboBox(jcombo_status);
 
-            // Create a SQL INSERT statement
-            String sql = "INSERT INTO employee (last_name, first_name, birthday, address, phone_number, status_id, supervisor_id, compensation_id, "
-                    + "role_id) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?,)";
+            String sqlEmp = "INSERT INTO employee (last_name, first_name, birthday, address, phone_number, status_id, position_id, supervisor_id, role_id) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING employee_id";
 
-            // Prepare the statement
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            PreparedStatement pstmtEmp = conn.prepareStatement(sqlEmp);
+            pstmtEmp.setString(1, txt_last_name.getText());
+            pstmtEmp.setString(2, txt_first_name.getText());
+            pstmtEmp.setDate(3, java.sql.Date.valueOf(txt_birthday.getText()));
+            pstmtEmp.setString(4, txtarea_address.getText());
+            pstmtEmp.setString(5, txt_phone.getText());
+            pstmtEmp.setInt(6, statusId);
+            pstmtEmp.setInt(7, Integer.parseInt(txt_position.getText()));
+            pstmtEmp.setInt(8, Integer.parseInt(txt_supervisor.getText()));
+            pstmtEmp.setInt(9, roleId);
 
-            // Set the values from the text fields
-            pstmt.setString(1, txt_first_name.getText());
-            pstmt.setString(2, txt_last_name.getText());
-            pstmt.setDate(3, java.sql.Date.valueOf(txt_birthday.getText()));
-            pstmt.setString(4, txtarea_address.getText());
-            pstmt.setString(5, txt_phone.getText());
-            pstmt.setString(6, txt_status.getText());
-            pstmt.setString(7, txt_sss_num.getText());
-            pstmt.setString(8, txt_philhealth_num.getText());
-            pstmt.setString(9, txt_tin_number.getText());
-            pstmt.setString(10, txt_pagibig_num.getText());
-            pstmt.setString(11, txt_position.getText());
-            pstmt.setString(12, txt_supervisor.getText());
+            // Execute and retrieve generated employee_id
+            ResultSet rsEmp = pstmtEmp.executeQuery();
+            int employeeId = -1;
+            if (rsEmp.next()) {
+                employeeId = rsEmp.getInt("employee_id");
+                LoggerService.logInfo("Generated Employee ID: " + employeeId);
+            } else {
+                LoggerService.logWarning("Failed to retrieve generated Employee ID.");
+                conn.rollback();
+                return;
+            }
 
-            // Execute the statement
-            pstmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Record Added Name: " + txt_first_name.getText() + " " + txt_last_name.getText(), "Add Record", JOptionPane.INFORMATION_MESSAGE, null);
+            // Insert into government_ids table using retrieved employee_id
+            String sqlGovt = "INSERT INTO government_ids (employee_id, sss_number, philhealth_number, tin_number, pagibig_number) "
+                    + "VALUES (?, ?, ?, ?, ?) RETURNING gov_id";
+            PreparedStatement pstmtGovt = conn.prepareStatement(sqlGovt);
+            pstmtGovt.setInt(1, employeeId);
+            pstmtGovt.setString(2, txt_sss_num.getText());
+            pstmtGovt.setString(3, txt_philhealth_num.getText());
+            pstmtGovt.setString(4, txt_tin_number.getText());
+            pstmtGovt.setString(5, txt_pagibig_num.getText());
 
-            // Close the connection
+            ResultSet rsGovt = pstmtGovt.executeQuery();
+            int govtId = 0;
+            if (rsGovt.next()) {
+                govtId = rsGovt.getInt("gov_id");
+                LoggerService.logInfo("Generated Government ID Record: " + govtId);
+            } else {
+                LoggerService.logWarning("Failed to retrieve generated Government ID.");
+                conn.rollback();
+                return;
+            }
+
+            // Commit transaction
+            conn.commit();
+            JOptionPane.showMessageDialog(null, "Record Added: " + txt_first_name.getText() + " " + txt_last_name.getText(), "Add Record", JOptionPane.INFORMATION_MESSAGE);
+
+            // Close resources
+            rsEmp.close();
+            pstmtEmp.close();
+            rsGovt.close();
+            pstmtGovt.close();
             conn.close();
             refreshTable();
 
         } catch (SQLException e) {
-            // Handle any SQL exceptions
-            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            LoggerService.logError("Database Error: ", e);
+
     }//GEN-LAST:event_btn_add_recordActionPerformed
     }
 
@@ -593,7 +635,7 @@ public class Employee_Database extends javax.swing.JFrame {
             pstmt.setDate(3, java.sql.Date.valueOf(txt_birthday.getText()));
             pstmt.setString(4, txtarea_address.getText());
             pstmt.setString(5, txt_phone.getText());
-            pstmt.setString(6, txt_status.getText());
+//            pstmt.setString(6, txt_status.getText());
             pstmt.setString(7, txt_sss_num.getText());
             pstmt.setString(8, txt_philhealth_num.getText());
             pstmt.setString(9, txt_tin_number.getText());
@@ -615,6 +657,53 @@ public class Employee_Database extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
         }
     }//GEN-LAST:event_btn_editActionPerformed
+
+    private int getStatusIdFromComboBox(JComboBox<String> jcombo_status) {
+        // use this to convert selected jcombo box item to status_id value
+
+        String selectedStatus = jcombo_status.getSelectedItem().toString();
+        Map<String, Integer> statusMap = new HashMap<>();
+        statusMap.put("Probationary", 1);
+        statusMap.put("Regular", 2);
+
+        // Retrieve the corresponding status_id
+        Integer statusId = statusMap.get(selectedStatus); // Get ID from the map
+
+        if (statusId != null) {
+            LoggerService.logInfo("Selected Status: " + selectedStatus);
+            LoggerService.logInfo("Corresponding Status ID: " + statusId);
+            return statusId; // Return the status ID as an int
+        } else {
+            LoggerService.logWarning("Status ID not found for: " + selectedStatus);
+            return -1; // Return -1 as an error indicator if status is not found
+        }
+    }
+
+    private void loadEmployeeStatuses() {
+        try {
+            // Establish a database connection
+            Connection conn = DatabaseConnection.getConnection();
+            String sql = "SELECT status_name FROM employment_statuses";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            // Clear existing items
+            jcombo_status.removeAllItems();
+
+            // Populate JComboBox with only status names
+            while (rs.next()) {
+                String statusName = rs.getString("status_name");
+                jcombo_status.addItem(statusName);
+            }
+
+            // Close resources
+            rs.close();
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error loading statuses: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     private void tbl_employeesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_employeesMouseExited
         // TODO add your handling code here:
@@ -646,7 +735,7 @@ public class Employee_Database extends javax.swing.JFrame {
 
     private boolean validateFields() {
         // Check if any field is empty
-        if (txt_first_name.getText().isEmpty() || txt_last_name.getText().isEmpty() || txt_birthday.getText().isEmpty() || txtarea_address.getText().isEmpty() || txt_phone.getText().isEmpty() || txt_status.getText().isEmpty() || txt_sss_num.getText().isEmpty() || txt_philhealth_num.getText().isEmpty() || txt_tin_number.getText().isEmpty() || txt_pagibig_num.getText().isEmpty() || txt_position.getText().isEmpty() || txt_supervisor.getText().isEmpty()) {
+        if (txt_first_name.getText().isEmpty() || txt_last_name.getText().isEmpty() || txt_birthday.getText().isEmpty() || txtarea_address.getText().isEmpty() || txt_phone.getText().isEmpty() || txt_sss_num.getText().isEmpty() || txt_philhealth_num.getText().isEmpty() || txt_tin_number.getText().isEmpty() || txt_pagibig_num.getText().isEmpty() || txt_position.getText().isEmpty() || txt_supervisor.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "All fields are mandatory", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -668,12 +757,6 @@ public class Employee_Database extends javax.swing.JFrame {
             LocalDate.parse(txt_birthday.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         } catch (DateTimeParseException e) {
             JOptionPane.showMessageDialog(null, "Invalid date value:" + txt_birthday.getText() + " Please enter in yyyy-MM-dd format", "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        // Check if txt_status is either "Regular" or "Probationary"
-        String status = txt_status.getText();
-        if (!status.equals("Regular") && !status.equals("Probationary")) {
-            JOptionPane.showMessageDialog(null, "Invalid status value: " + status + ". Please enter either 'Regular' or 'Probationary'", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
@@ -779,10 +862,12 @@ public class Employee_Database extends javax.swing.JFrame {
     private javax.swing.JButton btn_clear;
     private javax.swing.JButton btn_delete_record;
     private javax.swing.JButton btn_edit;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JComboBox<String> jcombo_status;
     private javax.swing.JLabel lbl_MotorPHEmployeeDetails;
     private javax.swing.JLabel lbl_address;
     private javax.swing.JLabel lbl_birthday;
@@ -810,7 +895,6 @@ public class Employee_Database extends javax.swing.JFrame {
     private javax.swing.JTextField txt_position;
     private javax.swing.JTextField txt_searchbox;
     private javax.swing.JTextField txt_sss_num;
-    private javax.swing.JTextField txt_status;
     private javax.swing.JTextField txt_supervisor;
     private javax.swing.JTextField txt_tin_number;
     private javax.swing.JTextArea txtarea_address;

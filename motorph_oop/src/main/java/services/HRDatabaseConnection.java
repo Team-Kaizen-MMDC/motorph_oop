@@ -19,7 +19,7 @@ import domain.EmployeeManagement;
  *
  * @author brianjancarlos
  */
-public class HRDatabaseConnection implements EmployeeManagement{
+public class HRDatabaseConnection implements EmployeeManagement {
 
     private Connection connection;
     private static final String URL = "jdbc:postgresql://localhost:5432/motorph_oop";
@@ -35,7 +35,7 @@ public class HRDatabaseConnection implements EmployeeManagement{
             return false;
         }
     }
-    
+
     @Override
     public List<HRAdmin> getAllEmployeeDetails() {
         List<HRAdmin> employeeDetails = new ArrayList<>();
@@ -113,7 +113,7 @@ public class HRDatabaseConnection implements EmployeeManagement{
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (NumberFormatException e) {
-                LoggerService.logError("Error parsing numeric values: " , e);
+                LoggerService.logError("Error parsing numeric values: ", e);
                 //System.err.println("Error parsing numeric values: " + e.getMessage());
                 e.printStackTrace();
             }
