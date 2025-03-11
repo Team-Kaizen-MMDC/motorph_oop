@@ -475,7 +475,7 @@ public class Employee_Database extends javax.swing.JFrame {
         for (JTextComponent field : fields) {
             field.setText(null);
         }
-        txt_birthday.setText("yyyy-MM-dd");
+        txt_birthday.setText("2000-01-01");
         txt_searchbox.setToolTipText("Search");
         txt_searchbox.setText("Search..");
         Search("*"); // Resets Searchbox and refresh the JTable
