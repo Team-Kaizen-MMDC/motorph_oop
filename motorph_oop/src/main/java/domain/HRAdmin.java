@@ -16,7 +16,7 @@ import services.LoggerService;
  *
  * @author brianjancarlos
  */
-public class HRAdmin extends Employee implements PayrollCalculator, LeaveApproval {
+public class HRAdmin extends Employee implements LeaveApproval {
 
     private String sssNumber;
     private String philhealthNumber;

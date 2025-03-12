@@ -68,6 +68,7 @@ public class EmployeeDashboard extends JFrame {
         btn_timeout = new javax.swing.JButton();
         btn_timein = new javax.swing.JButton();
         btn_fileleave = new javax.swing.JButton();
+        btn_fileleave1 = new javax.swing.JButton();
         jPanel_EmployeeInformation = new javax.swing.JPanel();
         lbl_fullname = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -123,6 +124,13 @@ public class EmployeeDashboard extends JFrame {
             }
         });
 
+        btn_fileleave1.setText("Payslip");
+        btn_fileleave1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_fileleave1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel_UserActionsLayout = new javax.swing.GroupLayout(jPanel_UserActions);
         jPanel_UserActions.setLayout(jPanel_UserActionsLayout);
         jPanel_UserActionsLayout.setHorizontalGroup(
@@ -131,7 +139,8 @@ public class EmployeeDashboard extends JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_timeout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_fileleave, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                    .addComponent(btn_fileleave, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                    .addComponent(btn_fileleave1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
@@ -146,7 +155,9 @@ public class EmployeeDashboard extends JFrame {
                 .addComponent(btn_timeout)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_fileleave)
-                .addContainerGap(289, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btn_fileleave1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
                     .addGap(24, 24, 24)
@@ -338,7 +349,7 @@ public class EmployeeDashboard extends JFrame {
                     .addComponent(txt_tin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_philhealth)
                     .addComponent(txt_philhealth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel_EmpDashboardLayout = new javax.swing.GroupLayout(jPanel_EmpDashboard);
@@ -440,6 +451,11 @@ public class EmployeeDashboard extends JFrame {
         x.setVisible(true);
     }//GEN-LAST:event_btn_fileleaveActionPerformed
 
+    private void btn_fileleave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fileleave1ActionPerformed
+        Payslip x = new Payslip();
+        x.setVisible(true);
+    }//GEN-LAST:event_btn_fileleave1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -478,6 +494,7 @@ public class EmployeeDashboard extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_fileleave;
+    private javax.swing.JButton btn_fileleave1;
     private javax.swing.JButton btn_timein;
     private javax.swing.JButton btn_timeout;
     private javax.swing.JLabel jLabel3;
