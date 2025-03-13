@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 import domain.EmployeeID;
 import domain.HRAdmin;
-import domain.HRAdmin;
-import domain.EmployeeStatusComboItem;
 import services.HRDatabaseConnection;
 import javax.swing.JComboBox;
 import java.sql.Connection;
@@ -552,6 +550,24 @@ public class Employee_Database extends javax.swing.JFrame {
                 return;
             }
 
+            // Insert into compensation_details table using the generated employee_id
+            java.time.LocalDate localDate = java.time.LocalDate.now();
+            java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+            String sqlComp = "INSERT INTO compensation_details (employee_id, effective_date, basic_salary, rice_subsidy, phone_allowance, "
+                    + "clothing_allowance, gross_semi_monthly_rate, hourly_rate) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmtComp = conn.prepareStatement(sqlComp);
+            pstmtComp.setInt(1, employeeId);
+            pstmtComp.setDate(2, sqlDate); // Ensure valid date format
+            pstmtComp.setBigDecimal(3, new java.math.BigDecimal(24000));
+            pstmtComp.setBigDecimal(4, new java.math.BigDecimal(1500));
+            pstmtComp.setBigDecimal(5, new java.math.BigDecimal(500));
+            pstmtComp.setBigDecimal(6, new java.math.BigDecimal(500));
+            pstmtComp.setBigDecimal(7, new java.math.BigDecimal(12000));
+            pstmtComp.setBigDecimal(8, new java.math.BigDecimal(142.86));
+
+            pstmtComp.executeUpdate();
+
             // Commit transaction
             conn.commit();
             JOptionPane.showMessageDialog(null, "Record Added: " + txt_first_name.getText() + " " + txt_last_name.getText(), "Add Record", JOptionPane.INFORMATION_MESSAGE);
@@ -574,6 +590,10 @@ public class Employee_Database extends javax.swing.JFrame {
                 if (pstmtGovt != null) {
                     pstmtGovt.close();
                     LoggerService.logInfo("PreparedStatement pstmtGovt closed successfully");
+                }
+                if (pstmtComp != null) {
+                    pstmtComp.close();
+                    LoggerService.logInfo("PreparedStatement pstmtComp closed successfully");
                 }
                 if (conn != null) {
                     conn.close();
@@ -627,6 +647,12 @@ public class Employee_Database extends javax.swing.JFrame {
                 PreparedStatement pstmtEmp = conn.prepareStatement(sqlEmp);
                 pstmtEmp.setInt(1, employee_id);
                 pstmtEmp.executeUpdate();
+
+                // Delete related compensation details first
+                String sqlDeleteComp = "DELETE FROM compensation_details WHERE employee_id = ?";
+                PreparedStatement pstmtComp = conn.prepareStatement(sqlDeleteComp);
+                pstmtComp.setInt(1, employee_id);
+                pstmtComp.executeUpdate();
 
                 // Commit transaction
                 conn.commit();
