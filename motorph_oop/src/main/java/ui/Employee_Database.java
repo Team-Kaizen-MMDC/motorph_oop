@@ -42,6 +42,7 @@ public class Employee_Database extends javax.swing.JFrame {
         setLocationRelativeTo(null); // center the window
         InitializeForm();
         loadEmployeeStatuses();
+        loadPositions();
         refreshTable();
         lbl_emp.setText(String.valueOf(EmployeeID.empid));
     }
@@ -69,7 +70,6 @@ public class Employee_Database extends javax.swing.JFrame {
         lbl_pagibig_num = new javax.swing.JLabel();
         lbl_sss_num = new javax.swing.JLabel();
         lbl_employee_id = new javax.swing.JLabel();
-        txt_position = new javax.swing.JTextField();
         lbl_last_name = new javax.swing.JLabel();
         txt_first_name = new javax.swing.JTextField();
         txt_sss_num = new javax.swing.JTextField();
@@ -93,6 +93,7 @@ public class Employee_Database extends javax.swing.JFrame {
         lbl_supervisor = new javax.swing.JLabel();
         txt_philhealth_num = new javax.swing.JTextField();
         jcombo_status = new javax.swing.JComboBox<>();
+        jCombo_position = new javax.swing.JComboBox<>();
         txt_searchbox = new javax.swing.JTextField();
         lbl_loggedInAs = new javax.swing.JLabel();
         lbl_emp = new javax.swing.JLabel();
@@ -250,6 +251,8 @@ public class Employee_Database extends javax.swing.JFrame {
 
         jcombo_status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jCombo_position.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -302,10 +305,8 @@ public class Employee_Database extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_pagibig_num)
                             .addComponent(txt_supervisor)
-                            .addComponent(txt_position)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jcombo_status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                            .addComponent(jCombo_position, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jcombo_status, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(188, 188, 188))
         );
 
@@ -348,8 +349,8 @@ public class Employee_Database extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_position, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbl_position, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbl_position, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCombo_position, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_supervisor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -502,6 +503,7 @@ public class Employee_Database extends javax.swing.JFrame {
             // Insert into employee table first
             int roleId = 4; // Employee
             int statusId = getStatusIdFromComboBox(jcombo_status);
+            int positionId = getPositionIdFromComboBox(jCombo_position);
 
             String sqlEmp = "INSERT INTO employee (last_name, first_name, birthday, address, phone_number, status_id, position_id, supervisor_id, role_id) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING employee_id";
@@ -513,7 +515,7 @@ public class Employee_Database extends javax.swing.JFrame {
             pstmtEmp.setString(4, txtarea_address.getText());
             pstmtEmp.setString(5, txt_phone.getText());
             pstmtEmp.setInt(6, statusId);
-            pstmtEmp.setInt(7, Integer.parseInt(txt_position.getText()));
+            pstmtEmp.setInt(7, positionId);
             pstmtEmp.setInt(8, Integer.parseInt(txt_supervisor.getText()));
             pstmtEmp.setInt(9, roleId);
 
@@ -696,18 +698,18 @@ public class Employee_Database extends javax.swing.JFrame {
             conn = DatabaseConnection.getConnection();
             conn.setAutoCommit(false);
 
-            // First, get position_id from position name
-            String sqlPosition = "SELECT position_id FROM positions WHERE position_name = ?";
-            PreparedStatement pstmtPosition = conn.prepareStatement(sqlPosition);
-            pstmtPosition.setString(1, txt_position.getText());
-            ResultSet rsPosition = pstmtPosition.executeQuery();
-
-            int positionId;
-            if (rsPosition.next()) {
-                positionId = rsPosition.getInt("position_id");
-            } else {
-                throw new SQLException("Position not found: " + txt_position.getText());
-            }
+//            // First, get position_id from position name
+//            String sqlPosition = "SELECT position_id FROM positions WHERE position_name = ?";
+//            PreparedStatement pstmtPosition = conn.prepareStatement(sqlPosition);
+//            pstmtPosition.setString(1, txt_position.getText());
+//            ResultSet rsPosition = pstmtPosition.executeQuery();
+//
+//            int positionId;
+//            if (rsPosition.next()) {
+//                positionId = rsPosition.getInt("position_id");
+//            } else {
+//                throw new SQLException("Position not found: " + txt_position.getText());
+//            }
 
             // Update employee table
             String sqlEmp = "UPDATE employee SET last_name = ?, first_name = ?, birthday = ?, "
@@ -721,7 +723,8 @@ public class Employee_Database extends javax.swing.JFrame {
             pstmtEmp.setString(4, txtarea_address.getText());
             pstmtEmp.setString(5, txt_phone.getText());
             pstmtEmp.setInt(6, getStatusIdFromComboBox(jcombo_status));
-            pstmtEmp.setInt(7, positionId);  // Use the retrieved position_id
+            pstmtEmp.setInt(7, getPositionIdFromComboBox(jCombo_position));
+            //pstmtEmp.setInt(7, positionId);  // Use the retrieved position_id
             pstmtEmp.setInt(8, Integer.parseInt(txt_supervisor.getText()));
             pstmtEmp.setInt(9, Integer.parseInt(txt_employee_id.getText()));
 
@@ -772,52 +775,6 @@ public class Employee_Database extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_editActionPerformed
 
-    private int getStatusIdFromComboBox(JComboBox<String> jcombo_status) {
-        // use this to convert selected jcombo box item to status_id value
-
-        String selectedStatus = jcombo_status.getSelectedItem().toString();
-        Map<String, Integer> statusMap = new HashMap<>();
-        statusMap.put("Probationary", 1);
-        statusMap.put("Regular", 2);
-
-        // Retrieve the corresponding status_id
-        Integer statusId = statusMap.get(selectedStatus); // Get ID from the map
-
-        if (statusId != null) {
-            LoggerService.logInfo("Selected Status: " + selectedStatus);
-            LoggerService.logInfo("Corresponding Status ID: " + statusId);
-            return statusId; // Return the status ID as an int
-        } else {
-            LoggerService.logWarning("Status ID not found for: " + selectedStatus);
-            return -1; // Return -1 as an error indicator if status is not found
-        }
-    }
-
-    private void loadEmployeeStatuses() {
-        try {
-            // Establish a database connection
-            Connection conn = DatabaseConnection.getConnection();
-            String sql = "SELECT status_name FROM employment_statuses";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
-
-            // Clear existing items
-            jcombo_status.removeAllItems();
-
-            // Populate JComboBox with only status names
-            while (rs.next()) {
-                String statusName = rs.getString("status_name");
-                jcombo_status.addItem(statusName);
-            }
-
-            // Close resources
-            rs.close();
-            pstmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error loading statuses: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     private void tbl_employeesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_employeesMouseExited
         // TODO add your handling code here:
@@ -922,6 +879,120 @@ public class Employee_Database extends javax.swing.JFrame {
         }
     }
 
+    private void loadEmployeeStatuses() {
+        try {
+            // Establish a database connection
+            Connection conn = DatabaseConnection.getConnection();
+            String sql = "SELECT status_name FROM employment_statuses";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            // Clear existing items
+            jcombo_status.removeAllItems();
+
+            // Populate JComboBox with only status names
+            while (rs.next()) {
+                String statusName = rs.getString("status_name");
+                jcombo_status.addItem(statusName);
+            }
+
+            // Close resources
+            rs.close();
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error loading statuses: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private int getStatusIdFromComboBox(JComboBox<String> jcombo_status) {
+        // use this to convert selected jcombo box item to status_id value
+
+        String selectedStatus = jcombo_status.getSelectedItem().toString();
+        Map<String, Integer> statusMap = new HashMap<>();
+        statusMap.put("Probationary", 1);
+        statusMap.put("Regular", 2);
+
+        // Retrieve the corresponding status_id
+        Integer statusId = statusMap.get(selectedStatus); // Get ID from the map
+
+        if (statusId != null) {
+            LoggerService.logInfo("Selected Status: " + selectedStatus);
+            LoggerService.logInfo("Corresponding Status ID: " + statusId);
+            return statusId; // Return the status ID as an int
+        } else {
+            LoggerService.logWarning("Status ID not found for: " + selectedStatus);
+            return -1; // Return -1 as an error indicator if status is not found
+        }
+    }
+
+    private void loadPositions() {
+        try {
+            // Establish a database connection
+            Connection conn = DatabaseConnection.getConnection();
+            String sql = "SELECT position_name FROM positions";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            // Clear existing items
+            jCombo_position.removeAllItems();
+
+            // Populate JComboBox with only position names
+            while (rs.next()) {
+                String positionName = rs.getString("position_name");
+                jCombo_position.addItem(positionName);
+            }
+
+            // Close resources
+            rs.close();
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error loading positions: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private int getPositionIdFromComboBox(JComboBox<String> jcombo_position) {
+        // Convert selected JComboBox item to position_id value
+        String selectedPosition = jcombo_position.getSelectedItem().toString();
+
+        // Create a HashMap to store position mappings
+        Map<String, Integer> positionMap = new HashMap<>();
+
+        try {
+            // Establish database connection
+            Connection conn = DatabaseConnection.getConnection();
+            String sql = "SELECT position_id, position_name FROM positions";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            // Populate the HashMap with database values
+            while (rs.next()) {
+                positionMap.put(rs.getString("position_name"), rs.getInt("position_id"));
+            }
+
+            // Close resources
+            rs.close();
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error loading position mappings: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+            return -1; // Return error indicator
+        }
+
+        // Retrieve the corresponding position_id
+        Integer positionId = positionMap.get(selectedPosition);
+
+        if (positionId != null) {
+            LoggerService.logInfo("Selected Position: " + selectedPosition);
+            LoggerService.logInfo("Corresponding Position ID: " + positionId);
+            return positionId; // Return the position ID as an int
+        } else {
+            LoggerService.logWarning("Position ID not found for: " + selectedPosition);
+            return -1; // Return -1 as an error indicator if position is not found
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -976,6 +1047,7 @@ public class Employee_Database extends javax.swing.JFrame {
     private javax.swing.JButton btn_clear;
     private javax.swing.JButton btn_delete_record;
     private javax.swing.JButton btn_edit;
+    private javax.swing.JComboBox<String> jCombo_position;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1006,7 +1078,6 @@ public class Employee_Database extends javax.swing.JFrame {
     private javax.swing.JTextField txt_pagibig_num;
     private javax.swing.JTextField txt_philhealth_num;
     private javax.swing.JTextField txt_phone;
-    private javax.swing.JTextField txt_position;
     private javax.swing.JTextField txt_searchbox;
     private javax.swing.JTextField txt_sss_num;
     private javax.swing.JTextField txt_supervisor;
