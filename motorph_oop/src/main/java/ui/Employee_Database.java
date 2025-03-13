@@ -114,7 +114,7 @@ public class Employee_Database extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Employee ID", "Last Name", "First Name", "Birthday", "Address", "Phone", "Status", "SSS", "Philhealth", "TIN", "Pag-Ibig ID", "Position", "Immediate Supervisor"
+                "Employee ID", "First Name", "Last Name", "Birthday", "Address", "Phone", "Status", "SSS", "Philhealth", "TIN", "Pag-Ibig ID", "Position", "Immediate Supervisor"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -885,12 +885,12 @@ public class Employee_Database extends javax.swing.JFrame {
             List<HRAdmin> employeeDetailArray = conn.getAllEmployeeDetails();
             conn.close();
 
-            for (HRAdmin EmployeeDetail : employeeDetailArray) {
-                Object[] rowData = {EmployeeDetail.getEmployeeId(), EmployeeDetail.getFirstName(), EmployeeDetail.getLastName(),
-                    EmployeeDetail.getBirthday(), EmployeeDetail.getAddress(), EmployeeDetail.getPhoneNumber(),
-                    EmployeeDetail.getEmploymentStatus(), EmployeeDetail.getSssNumber(), EmployeeDetail.getPhilhealthNumber(),
-                    EmployeeDetail.getTinNumber(), EmployeeDetail.getPagibigNumber(),
-                    EmployeeDetail.getJobPosition(), EmployeeDetail.getSupervisorId()};
+            for (HRAdmin employeeDetail : employeeDetailArray) {
+                Object[] rowData = {employeeDetail.getEmployeeId(), employeeDetail.getFirstName(), employeeDetail.getLastName(),
+                    employeeDetail.getBirthday(), employeeDetail.getAddress(), employeeDetail.getPhoneNumber(),
+                    employeeDetail.getEmploymentStatus(), employeeDetail.getSssNumber(), employeeDetail.getPhilhealthNumber(),
+                    employeeDetail.getTinNumber(), employeeDetail.getPagibigNumber(),
+                    employeeDetail.getJobPosition(), employeeDetail.getSupervisorId()};
                 model.addRow(rowData);
             }
         } else {
