@@ -4,13 +4,9 @@
  */
 package domain;
 
-import java.sql.Timestamp;
 import services.AttendanceService;
 import services.LoggerService;
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 

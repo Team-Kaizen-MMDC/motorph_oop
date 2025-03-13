@@ -10,9 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import javax.swing.JOptionPane;
 
@@ -44,7 +42,7 @@ public class AttendanceService {
 
     public static void logTimeIn(int employeeId) {
         //Timestamp timeIn = Timestamp.valueOf(LocalDateTime.now()); //  Corrected
-        Time timeIn = Time.valueOf(LocalTime.now()); 
+        Time timeIn = Time.valueOf(LocalTime.now());
         Date loginDate = Date.valueOf(LocalDate.now());
         LoggerService.logInfo("loginDate: " + loginDate);
         LoggerService.logInfo("timeIn: " + timeIn);
@@ -110,6 +108,50 @@ public class AttendanceService {
             String errorMessage = "Database error logging time-out for Employee ID: " + employeeId;
             LoggerService.logError(errorMessage, e);
             JOptionPane.showMessageDialog(null, errorMessage + "\n" + e.getMessage(), "Time-Out Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // This is only used in LeaveApproval Dashboard
+    public static void recordAttendance(int empID, java.sql.Date startDate, java.sql.Time defaultTimeIn, java.sql.Time defaultTimeOut) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String query = "INSERT INTO attendance (employee_id, date, login_time, logout_time) VALUES (?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, empID);
+            statement.setDate(2, startDate);
+            statement.setTime(3, defaultTimeIn);
+            statement.setTime(4, defaultTimeOut);
+            statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Attendance recorded successfully. ");
+        } catch (SQLException ex) {
+            String statusMessage = "Failed to record attendance.";
+            LoggerService.logError(statusMessage, ex);
+            JOptionPane.showMessageDialog(null, statusMessage);
+        }
+    }
+
+    public static void deleteRecord(int empID, java.sql.Date startDate) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String sql = "DELETE FROM attendance WHERE employee_id = ? AND date = ?";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, empID);
+            pstmt.setDate(2, startDate);
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                String statusMessage = "Attendance Record deleted successfully: " + empID;
+                LoggerService.logInfo(statusMessage);
+                JOptionPane.showMessageDialog(null, statusMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                String statusMessage = "No record found to delete: " + empID;
+                LoggerService.logInfo(statusMessage);
+                JOptionPane.showMessageDialog(null, "No record found to delete.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
+            pstmt.close();
+            connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error deleting record.", "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -6,10 +6,7 @@ package domain;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
 import services.DatabaseConnection;
 import services.PayrollCalculator;
@@ -56,8 +53,8 @@ public class HRAdmin extends Employee implements PayrollCalculator, LeaveApprova
         this.hourlyRate = hourlyRate;
         this.supervisorId = supervisorId;
     }
-
     
+
     public String getSssNumber() {
         return sssNumber;
     }
@@ -141,7 +138,6 @@ public class HRAdmin extends Employee implements PayrollCalculator, LeaveApprova
     public boolean isIsTimedIn() {
         return isTimedIn;
     }
-    
 
     @Override
     public double calculateSalary() {
@@ -172,11 +168,10 @@ public class HRAdmin extends Employee implements PayrollCalculator, LeaveApprova
     public void rejectLeave(int leaveId) {
         updateLeaveStatus(leaveId, "Rejected");
     }
-    
+
     private void updateLeaveStatus(int leaveId, String status) {
         String sql = "UPDATE leave_requests SET status = ? WHERE id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, status);
             pstmt.setInt(2, leaveId);
             pstmt.executeUpdate();
@@ -187,7 +182,4 @@ public class HRAdmin extends Employee implements PayrollCalculator, LeaveApprova
             JOptionPane.showMessageDialog(null, "Error processing leave request", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-
-   
 }
