@@ -54,6 +54,7 @@ public class HRAdmin extends Employee implements PayrollCalculator, LeaveApprova
         this.clothingAllowance = clothingAllowance;
         this.grossSemiMonthlyRate = grossSemiMonthlyRate;
         this.hourlyRate = hourlyRate;
+        this.supervisorId = supervisorId;
     }
 
     
