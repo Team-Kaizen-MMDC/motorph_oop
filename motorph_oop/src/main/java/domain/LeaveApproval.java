@@ -13,4 +13,7 @@ public interface LeaveApproval {
     void approveLeave(int leaveId);
 
     void rejectLeave(int leaveId);
+    
+    //void recordAttendance(int empID, java.sql.Date startDate, java.sql.Time defaultTimeIn, java.sql.Time defaultTimeOut); 
+
 }

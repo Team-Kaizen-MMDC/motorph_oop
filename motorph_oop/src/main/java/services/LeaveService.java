@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import java.sql.*;
 import java.util.Date;
 
-
 /**
  *
  * @author brianjancarlos
@@ -102,4 +101,5 @@ public class LeaveService {
 
         return leaveExists;
     }
+
 }

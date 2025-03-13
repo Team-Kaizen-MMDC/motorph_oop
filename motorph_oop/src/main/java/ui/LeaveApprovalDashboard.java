@@ -16,6 +16,7 @@ import domain.LeaveRecords;
 import java.sql.Date;
 import java.sql.Time;
 import services.DatabaseConnection;
+import services.AttendanceService;
 
 /**
  *
@@ -177,7 +178,9 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "The leave request has been " + status.toLowerCase() + ".", "Request " + status, JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error updating leave request status.", "Database Error", JOptionPane.ERROR_MESSAGE);
+            String messageStatus = "Error updating leave request status";
+            LoggerService.logError(messageStatus, ex);
+            JOptionPane.showMessageDialog(this, messageStatus, "Database Error", JOptionPane.ERROR_MESSAGE);
         }
         int empID = Integer.parseInt(tbl_leaveapproval.getValueAt(selectedRow, 1).toString());
         String fname = tbl_leaveapproval.getValueAt(selectedRow, 2).toString();
@@ -186,59 +189,19 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
         Time defaultTimeIn = Time.valueOf("08:00:00");
         Time defaultTimeOut = Time.valueOf("17:00:00");
 
-
         if ("Approved".equals(status)) {
-            recordAttendance(empID, startDate, defaultTimeIn, defaultTimeOut);
+
+            AttendanceService.recordAttendance(empID, startDate, defaultTimeIn, defaultTimeOut);
+            LoggerService.logInfo("Leave recorded in Attenance table : " + empID + " | " + startDate);
         } else if ("Rejected".equals(status)) {
-            deleteRecord(empID, startDate);
+            AttendanceService.deleteRecord(empID, startDate);
+            LoggerService.logInfo("Leave deleted in Attenance table : " + empID + " | " + startDate);
         }
     }//GEN-LAST:event_btn_leaveapprovalActionPerformed
 
     public void refreshTable() {
         listAllLeaves();
-    }
-
-    private void recordAttendance(int empID, java.sql.Date startDate, java.sql.Time defaultTimeIn, java.sql.Time defaultTimeOut) {
-        try {
-            Connection connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO attendance (employee_id, date, login_time, logout_time) VALUES (?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, empID);
-            statement.setDate(2, startDate);
-            statement.setTime(3, defaultTimeIn);
-            statement.setTime(4, defaultTimeOut);
-            statement.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Attendance recorded successfully. ");
-        } catch (SQLException ex) {
-            String statusMessage = "Failed to record attendance.";
-            LoggerService.logError(statusMessage, ex);
-            JOptionPane.showMessageDialog(this, statusMessage);
-        }
-    }
-
-    private void deleteRecord(int empID, java.sql.Date startDate) {
-        try {
-            Connection connection = DatabaseConnection.getConnection();
-            String sql = "DELETE FROM attendance WHERE employee_id = ? AND date = ?";
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1, empID);
-            pstmt.setDate(2, startDate);
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows > 0) {
-                String statusMessage = "Attendance Record deleted successfully: " + empID;
-                LoggerService.logInfo(statusMessage);
-                JOptionPane.showMessageDialog(this, statusMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                String statusMessage = "No record found to delete: " + empID;
-                LoggerService.logInfo(statusMessage);
-                JOptionPane.showMessageDialog(this, "No record found to delete.", "Info", JOptionPane.INFORMATION_MESSAGE);
-            }
-            pstmt.close();
-            connection.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error deleting record.", "Database Error", JOptionPane.ERROR_MESSAGE);
-        }
+        LoggerService.logInfo("Table Refreshed");
     }
 
     /**
