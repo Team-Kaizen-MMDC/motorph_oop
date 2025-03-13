@@ -458,7 +458,7 @@ public class Employee_Database extends javax.swing.JFrame {
         txt_philhealth_num.setText(model.getValueAt(selected_row, 8).toString());
         txt_tin_number.setText(model.getValueAt(selected_row, 9).toString());
         txt_pagibig_num.setText(model.getValueAt(selected_row, 10).toString());
-        txt_position.setText(model.getValueAt(selected_row, 11).toString());
+        jCombo_position.setSelectedItem(model.getValueAt(selected_row, 11).toString());
         txt_supervisor.setText(model.getValueAt(selected_row, 12).toString());
 
     }//GEN-LAST:event_tbl_employeesMouseClicked
@@ -468,7 +468,7 @@ public class Employee_Database extends javax.swing.JFrame {
         List<JTextComponent> fields = Arrays.asList(
                 txt_employee_id, txt_first_name, txt_last_name, txtarea_address,
                 txt_phone, txt_sss_num, txt_philhealth_num, txt_tin_number,
-                txt_pagibig_num, txt_position, txt_supervisor
+                txt_pagibig_num, txt_supervisor
         );
 
         for (JTextComponent field : fields) {
@@ -552,12 +552,14 @@ public class Employee_Database extends javax.swing.JFrame {
                 return;
             }
 
-            // Insert into compensation_details table using the generated employee_id
+            // Insert into compensation_details and retrieve compensation_id
             java.time.LocalDate localDate = java.time.LocalDate.now();
             java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
-            String sqlComp = "INSERT INTO compensation_details (employee_id, effective_date, basic_salary, rice_subsidy, phone_allowance, "
-                    + "clothing_allowance, gross_semi_monthly_rate, hourly_rate) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlComp = "INSERT INTO compensation_details (employee_id, effective_date, basic_salary, rice_subsidy, phone_allowance, clothing_allowance, gross_semi_monthly_rate, hourly_rate) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING compensation_id";
+//            String sqlComp = "INSERT INTO compensation_details (employee_id, effective_date, basic_salary, rice_subsidy, phone_allowance, "
+//                    + "clothing_allowance, gross_semi_monthly_rate, hourly_rate) "
+//                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmtComp = conn.prepareStatement(sqlComp);
             pstmtComp.setInt(1, employeeId);
             pstmtComp.setDate(2, sqlDate); // Ensure valid date format
@@ -568,7 +570,17 @@ public class Employee_Database extends javax.swing.JFrame {
             pstmtComp.setBigDecimal(7, new java.math.BigDecimal(12000));
             pstmtComp.setBigDecimal(8, new java.math.BigDecimal(142.86));
 
-            pstmtComp.executeUpdate();
+            ResultSet rsComp = pstmtComp.executeQuery();
+            int compensationId = 0;
+            if (rsComp.next()) {
+                compensationId = rsComp.getInt("compensation_id");
+            }
+            // Update employee table with compensation_id
+            String sqlUpdateEmp = "UPDATE employee SET compensation_id = ? WHERE employee_id = ?";
+            PreparedStatement pstmtUpdateEmp = conn.prepareStatement(sqlUpdateEmp);
+            pstmtUpdateEmp.setInt(1, compensationId);
+            pstmtUpdateEmp.setInt(2, employeeId);
+            pstmtUpdateEmp.executeUpdate();
 
             // Commit transaction
             conn.commit();
@@ -698,19 +710,6 @@ public class Employee_Database extends javax.swing.JFrame {
             conn = DatabaseConnection.getConnection();
             conn.setAutoCommit(false);
 
-//            // First, get position_id from position name
-//            String sqlPosition = "SELECT position_id FROM positions WHERE position_name = ?";
-//            PreparedStatement pstmtPosition = conn.prepareStatement(sqlPosition);
-//            pstmtPosition.setString(1, txt_position.getText());
-//            ResultSet rsPosition = pstmtPosition.executeQuery();
-//
-//            int positionId;
-//            if (rsPosition.next()) {
-//                positionId = rsPosition.getInt("position_id");
-//            } else {
-//                throw new SQLException("Position not found: " + txt_position.getText());
-//            }
-
             // Update employee table
             String sqlEmp = "UPDATE employee SET last_name = ?, first_name = ?, birthday = ?, "
                     + "address = ?, phone_number = ?, status_id = ?, position_id = ?, "
@@ -806,7 +805,7 @@ public class Employee_Database extends javax.swing.JFrame {
 
     private boolean validateFields() {
         // Check if any field is empty
-        if (txt_first_name.getText().isEmpty() || txt_last_name.getText().isEmpty() || txt_birthday.getText().isEmpty() || txtarea_address.getText().isEmpty() || txt_phone.getText().isEmpty() || txt_sss_num.getText().isEmpty() || txt_philhealth_num.getText().isEmpty() || txt_tin_number.getText().isEmpty() || txt_pagibig_num.getText().isEmpty() || txt_position.getText().isEmpty() || txt_supervisor.getText().isEmpty()) {
+        if (txt_first_name.getText().isEmpty() || txt_last_name.getText().isEmpty() || txt_birthday.getText().isEmpty() || txtarea_address.getText().isEmpty() || txt_phone.getText().isEmpty() || txt_sss_num.getText().isEmpty() || txt_philhealth_num.getText().isEmpty() || txt_tin_number.getText().isEmpty() || txt_pagibig_num.getText().isEmpty() || txt_supervisor.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "All fields are mandatory", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -948,7 +947,8 @@ public class Employee_Database extends javax.swing.JFrame {
             pstmt.close();
             conn.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error loading positions: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error loading positions: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
