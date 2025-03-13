@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author brianjancarlos
  */
-public abstract class Employee implements UserAction, AttendanceTracker {
+public abstract class Employee implements AttendanceTracker {
 
     protected int employeeId;
     protected String firstName;

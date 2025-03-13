@@ -12,6 +12,8 @@ import java.sql.*;
  *
  * @author brianjancarlos
  */
+
+// Used in LoginFrame
 public class UserService {
 
     public static UserAccount login(String employeeId, String password) {
