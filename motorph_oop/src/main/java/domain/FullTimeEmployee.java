@@ -4,13 +4,13 @@
  */
 package domain;
 
-import services.PayrollCalculator;
+
 
 /**
  *
  * @author brianjancarlos
  */
-public class FullTimeEmployee extends Employee implements PayrollCalculator {
+public class FullTimeEmployee extends Employee  {
 
     private String sssNumber;
     private String philhealthNumber;
