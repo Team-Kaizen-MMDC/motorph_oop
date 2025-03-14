@@ -125,6 +125,11 @@ public class ITDashboard extends JFrame {
         });
 
         btn_passManager.setText("Password Management");
+        btn_passManager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_passManagerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel_UserActionsLayout = new javax.swing.GroupLayout(jPanel_UserActions);
         jPanel_UserActions.setLayout(jPanel_UserActionsLayout);
@@ -445,6 +450,11 @@ public class ITDashboard extends JFrame {
         LeaveFiling x = new LeaveFiling();
         x.setVisible(true);
     }//GEN-LAST:event_btn_fileleaveActionPerformed
+
+    private void btn_passManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_passManagerActionPerformed
+        PasswordManagerDashboard x = new PasswordManagerDashboard();
+        x.setVisible(true);
+    }//GEN-LAST:event_btn_passManagerActionPerformed
 
     /**
      * @param args the command line arguments

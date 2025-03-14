@@ -32,7 +32,7 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         ResultSet rs = null;
         lbl_empid.setText(String.valueOf(EmployeeID.empid));
-        listAllLeaves();
+        listAllUsers();
 
     }
 
@@ -45,21 +45,25 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel_passmanager = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_leaveapproval = new javax.swing.JTable();
-        btn_leaveapproval = new javax.swing.JButton();
+        tbl_users_passwords = new javax.swing.JTable();
+        btn_resetpassword = new javax.swing.JButton();
         lbl_user = new javax.swing.JLabel();
         lbl_empid = new javax.swing.JLabel();
+        lbl_selectedEmpId = new javax.swing.JLabel();
+        txt_selectedEmpId = new javax.swing.JTextField();
+        lbl_selectedEmpId1 = new javax.swing.JLabel();
+        txt_selectedEmpPassword = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Leave Approval"));
+        jPanel_passmanager.setBorder(javax.swing.BorderFactory.createTitledBorder("User Password Manager"));
 
-        tbl_leaveapproval.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_users_passwords.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -70,12 +74,17 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tbl_leaveapproval);
+        tbl_users_passwords.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_users_passwordsMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbl_users_passwords);
 
-        btn_leaveapproval.setText("Approve/Reject");
-        btn_leaveapproval.addActionListener(new java.awt.event.ActionListener() {
+        btn_resetpassword.setText("Reset Password");
+        btn_resetpassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_leaveapprovalActionPerformed(evt);
+                btn_resetpasswordActionPerformed(evt);
             }
         });
 
@@ -83,34 +92,62 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
 
         lbl_empid.setText("empID");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        lbl_selectedEmpId.setText("Employee ID");
+
+        txt_selectedEmpId.setEnabled(false);
+
+        lbl_selectedEmpId1.setText("Password");
+
+        javax.swing.GroupLayout jPanel_passmanagerLayout = new javax.swing.GroupLayout(jPanel_passmanager);
+        jPanel_passmanager.setLayout(jPanel_passmanagerLayout);
+        jPanel_passmanagerLayout.setHorizontalGroup(
+            jPanel_passmanagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_passmanagerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_leaveapproval, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel_passmanagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_passmanagerLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lbl_user)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbl_empid)))
-                .addGap(14, 14, 14))
+                        .addComponent(lbl_empid)
+                        .addGap(70, 70, 70))
+                    .addGroup(jPanel_passmanagerLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel_passmanagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_resetpassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel_passmanagerLayout.createSequentialGroup()
+                                .addGroup(jPanel_passmanagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_selectedEmpId)
+                                    .addComponent(lbl_selectedEmpId1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel_passmanagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_selectedEmpId)
+                                    .addComponent(txt_selectedEmpPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE))))
+                        .addContainerGap())))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_user)
-                    .addComponent(lbl_empid))
-                .addGap(54, 54, 54)
-                .addComponent(btn_leaveapproval, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel_passmanagerLayout.setVerticalGroup(
+            jPanel_passmanagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_passmanagerLayout.createSequentialGroup()
+                .addGroup(jPanel_passmanagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel_passmanagerLayout.createSequentialGroup()
+                        .addGroup(jPanel_passmanagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbl_user)
+                            .addComponent(lbl_empid))
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel_passmanagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbl_selectedEmpId)
+                            .addComponent(txt_selectedEmpId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel_passmanagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbl_selectedEmpId1)
+                            .addComponent(txt_selectedEmpPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)
+                        .addComponent(btn_resetpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel_passmanagerLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(142, 142, 142))
         );
 
@@ -128,30 +165,35 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel_passmanager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel_passmanager, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_leaveapprovalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveapprovalActionPerformed
-        int selectedRow = tbl_leaveapproval.getSelectedRow();
+    private void btn_resetpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetpasswordActionPerformed
+        int selectedRow = tbl_users_passwords.getSelectedRow();
 
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a leave request to approve or reject.", "Selection Required", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Please select a leave request to approve or reject.",
+                    "Selection Required", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         Object[] options = {"Approve", "Reject", "Cancel"};
-        int choice = JOptionPane.showOptionDialog(this, "Do you want to approve or reject the selected leave request?", "Approve/Reject Leave", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+        int choice = JOptionPane.showOptionDialog(this,
+                "Do you want to approve or reject the selected leave request?",
+                "Approve/Reject Leave", JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
 
         if (choice == JOptionPane.CANCEL_OPTION || choice == JOptionPane.CLOSED_OPTION) {
             // User cancelled or closed the dialog
@@ -159,7 +201,7 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
         }
 
         String status = (choice == JOptionPane.YES_OPTION) ? "Approved" : "Rejected";
-        int leaveId = (Integer) tbl_leaveapproval.getValueAt(selectedRow, 0); // Assuming leave_id is in the first column
+        int leaveId = (Integer) tbl_users_passwords.getValueAt(selectedRow, 0); // Assuming leave_id is in the first column
 
         try {
             Connection conn = DatabaseConnection.getConnection();
@@ -175,32 +217,47 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
             // Refresh the table
             refreshTable();
 
-            JOptionPane.showMessageDialog(this, "The leave request has been " + status.toLowerCase() + ".", "Request " + status, JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "The leave request has been " + status.toLowerCase() + ".",
+                    "Request " + status, JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             ex.printStackTrace();
             String messageStatus = "Error updating leave request status";
             LoggerService.logError(messageStatus, ex);
-            JOptionPane.showMessageDialog(this, messageStatus, "Database Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, messageStatus, "Database Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
-        int empID = Integer.parseInt(tbl_leaveapproval.getValueAt(selectedRow, 1).toString());
-        String fname = tbl_leaveapproval.getValueAt(selectedRow, 2).toString();
-        String lname = tbl_leaveapproval.getValueAt(selectedRow, 3).toString();
-        Date startDate = Date.valueOf(tbl_leaveapproval.getValueAt(selectedRow, 5).toString());
+        int empID = Integer.parseInt(tbl_users_passwords.getValueAt(selectedRow,
+                1).toString());
+        String fname = tbl_users_passwords.getValueAt(selectedRow, 2).toString();
+        String lname = tbl_users_passwords.getValueAt(selectedRow, 3).toString();
+        Date startDate = Date.valueOf(tbl_users_passwords.
+                getValueAt(selectedRow, 5).toString());
         Time defaultTimeIn = Time.valueOf("08:00:00");
         Time defaultTimeOut = Time.valueOf("17:00:00");
 
         if ("Approved".equals(status)) {
 
-            AttendanceService.recordAttendance(empID, startDate, defaultTimeIn, defaultTimeOut);
-            LoggerService.logInfo("Leave recorded in Attenance table : " + empID + " | " + startDate);
+            AttendanceService.recordAttendance(empID, startDate, defaultTimeIn,
+                    defaultTimeOut);
+            LoggerService.logInfo(
+                    "Leave recorded in Attenance table : " + empID + " | " + startDate);
         } else if ("Rejected".equals(status)) {
             AttendanceService.deleteRecord(empID, startDate);
-            LoggerService.logInfo("Leave deleted in Attenance table : " + empID + " | " + startDate);
+            LoggerService.logInfo(
+                    "Leave deleted in Attenance table : " + empID + " | " + startDate);
         }
-    }//GEN-LAST:event_btn_leaveapprovalActionPerformed
+    }//GEN-LAST:event_btn_resetpasswordActionPerformed
+
+    private void tbl_users_passwordsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_users_passwordsMouseClicked
+        int selected_row = tbl_users_passwords.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) tbl_users_passwords.getModel();
+        txt_selectedEmpId.setText(model.getValueAt(selected_row, 1).toString());
+        txt_selectedEmpPassword.setText(model.getValueAt(selected_row, 2).toString());
+    }//GEN-LAST:event_tbl_users_passwordsMouseClicked
 
     public void refreshTable() {
-        listAllLeaves();
+        listAllUsers();
         LoggerService.logInfo("Table Refreshed");
     }
 
@@ -214,20 +271,25 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (javax.swing.UIManager.LookAndFeelInfo info
+                    : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PasswordManagerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PasswordManagerDashboard.class.
+                    getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PasswordManagerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PasswordManagerDashboard.class.
+                    getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PasswordManagerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PasswordManagerDashboard.class.
+                    getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PasswordManagerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PasswordManagerDashboard.class.
+                    getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -243,60 +305,56 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_leaveapproval;
+    private javax.swing.JButton btn_resetpassword;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel_passmanager;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_empid;
+    private javax.swing.JLabel lbl_selectedEmpId;
+    private javax.swing.JLabel lbl_selectedEmpId1;
     private javax.swing.JLabel lbl_user;
-    private javax.swing.JTable tbl_leaveapproval;
+    private javax.swing.JTable tbl_users_passwords;
+    private javax.swing.JTextField txt_selectedEmpId;
+    private javax.swing.JTextField txt_selectedEmpPassword;
     // End of variables declaration//GEN-END:variables
 
-    public void listAllLeaves() {
+    private void listAllUsers() {
+        DefaultTableModel model = (DefaultTableModel) tbl_users_passwords.
+                getModel();
+        model.setRowCount(0); // Clear existing rows
+        model.setColumnIdentifiers(
+                    new String[]{"User ID", "Employee ID", "Password",
+                        "EMployee Role"});
+
         try {
+            // Establish database connection
             Connection conn = DatabaseConnection.getConnection();
-            String sql = "SELECT * FROM leave_requests ORDER BY leave_id DESC";
+            String sql = "SELECT user_id, employee_id, emp_password, emp_role FROM useraccounts";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
 
-            DefaultTableModel model = (DefaultTableModel) tbl_leaveapproval.getModel();
-            model.setRowCount(0); // Clear existing data
-            model.setColumnIdentifiers(new String[]{"Leave ID", "Employee ID", "Name", "Surname", "Leave_Type", "Start Date", "End Date", "Remarks", "Status"});
-
+            // Populate the table with data
             while (rs.next()) {
-                LeaveRecords record = new LeaveRecords(
-                        rs.getInt("leave_id"),
-                        rs.getString("employee_id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
-                        rs.getString("leave_type"),
-                        rs.getString("start_date"),
-                        rs.getString("end_date"),
-                        rs.getString("remarks"),
-                        rs.getString("status")
-                );
+                int userId = rs.getInt("user_id");
+                int employeeId = rs.getInt("employee_id");
+                String empPassword = rs.getString("emp_password");
+                int empRole = rs.getInt("emp_role");
 
-                Object[] row = new Object[]{
-                    record.getLeaveId(),
-                    record.getEmployee_id(),
-                    record.getFirstName(),
-                    record.getLastName(),
-                    record.getLeaveStart(),
-                    record.getLeaveEnd(),
-                    record.getLeaveType(),
-                    record.getRemarks(),
-                    record.getStatus()
-                };
-                model.addRow(row);
+                // Add row to the table
+                model.addRow(
+                            new Object[]{userId, employeeId, empPassword, empRole});
             }
 
+            // Close resources
             rs.close();
             pstmt.close();
             conn.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Error loading user accounts: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
