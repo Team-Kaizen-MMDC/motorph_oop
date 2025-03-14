@@ -63,11 +63,12 @@ public class ITDashboard extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel_EmpDashboard = new javax.swing.JPanel();
+        jPanel_ITDashboard = new javax.swing.JPanel();
         jPanel_UserActions = new javax.swing.JPanel();
         btn_timeout = new javax.swing.JButton();
         btn_timein = new javax.swing.JButton();
         btn_fileleave = new javax.swing.JButton();
+        btn_passManager = new javax.swing.JButton();
         jPanel_EmployeeInformation = new javax.swing.JPanel();
         lbl_fullname = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -97,8 +98,8 @@ public class ITDashboard extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel_EmpDashboard.setBorder(javax.swing.BorderFactory.createTitledBorder("Employee Dashboard"));
-        jPanel_EmpDashboard.setName("Empoyee Dashboard"); // NOI18N
+        jPanel_ITDashboard.setBorder(javax.swing.BorderFactory.createTitledBorder("IT Dashboard"));
+        jPanel_ITDashboard.setName("Empoyee Dashboard"); // NOI18N
 
         jPanel_UserActions.setBorder(javax.swing.BorderFactory.createTitledBorder("User Actions"));
 
@@ -123,6 +124,8 @@ public class ITDashboard extends JFrame {
             }
         });
 
+        btn_passManager.setText("Password Management");
+
         javax.swing.GroupLayout jPanel_UserActionsLayout = new javax.swing.GroupLayout(jPanel_UserActions);
         jPanel_UserActions.setLayout(jPanel_UserActionsLayout);
         jPanel_UserActionsLayout.setHorizontalGroup(
@@ -131,7 +134,8 @@ public class ITDashboard extends JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_timeout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_fileleave, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                    .addComponent(btn_fileleave, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .addComponent(btn_passManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
@@ -146,7 +150,9 @@ public class ITDashboard extends JFrame {
                 .addComponent(btn_timeout)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_fileleave)
-                .addContainerGap(289, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_passManager)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
                     .addGap(24, 24, 24)
@@ -341,21 +347,21 @@ public class ITDashboard extends JFrame {
                 .addContainerGap(170, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel_EmpDashboardLayout = new javax.swing.GroupLayout(jPanel_EmpDashboard);
-        jPanel_EmpDashboard.setLayout(jPanel_EmpDashboardLayout);
-        jPanel_EmpDashboardLayout.setHorizontalGroup(
-            jPanel_EmpDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_EmpDashboardLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel_ITDashboardLayout = new javax.swing.GroupLayout(jPanel_ITDashboard);
+        jPanel_ITDashboard.setLayout(jPanel_ITDashboardLayout);
+        jPanel_ITDashboardLayout.setHorizontalGroup(
+            jPanel_ITDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_ITDashboardLayout.createSequentialGroup()
                 .addComponent(jPanel_EmployeeInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(24, 24, 24)
                 .addComponent(jPanel_UserActions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel_EmpDashboardLayout.setVerticalGroup(
-            jPanel_EmpDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_EmpDashboardLayout.createSequentialGroup()
+        jPanel_ITDashboardLayout.setVerticalGroup(
+            jPanel_ITDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_ITDashboardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel_EmpDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel_ITDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel_UserActions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel_EmployeeInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -375,14 +381,14 @@ public class ITDashboard extends JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel_EmpDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel_ITDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel_EmpDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel_ITDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -479,14 +485,15 @@ public class ITDashboard extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_fileleave;
+    private javax.swing.JButton btn_passManager;
     private javax.swing.JButton btn_timein;
     private javax.swing.JButton btn_timeout;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel_EmpDashboard;
     private javax.swing.JPanel jPanel_EmployeeInformation;
+    private javax.swing.JPanel jPanel_ITDashboard;
     private javax.swing.JPanel jPanel_UserActions;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_address;
