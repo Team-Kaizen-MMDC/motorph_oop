@@ -12,11 +12,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import services.LoggerService;
-import domain.LeaveRecords;
-import java.sql.Date;
-import java.sql.Time;
 import services.DatabaseConnection;
-import services.AttendanceService;
 
 /**
  *
@@ -183,77 +179,70 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
         int selectedRow = tbl_users_passwords.getSelectedRow();
 
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Please select a leave request to approve or reject.",
-                    "Selection Required", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Please select a user to reset the password.",
+                    "Selection Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        Object[] options = {"Approve", "Reject", "Cancel"};
-        int choice = JOptionPane.showOptionDialog(this,
-                "Do you want to approve or reject the selected leave request?",
-                "Approve/Reject Leave", JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+        // Retrieve user_id from the selected row
+        int userId = (int) tbl_users_passwords.getValueAt(selectedRow, 0);
+        String newPassword = txt_selectedEmpPassword.getText().trim();
 
-        if (choice == JOptionPane.CANCEL_OPTION || choice == JOptionPane.CLOSED_OPTION) {
-            // User cancelled or closed the dialog
+        if (newPassword.isEmpty()) {
+            JOptionPane.showMessageDialog(null,
+                    "Password field cannot be empty.", "Input Error",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        String status = (choice == JOptionPane.YES_OPTION) ? "Approved" : "Rejected";
-        int leaveId = (Integer) tbl_users_passwords.getValueAt(selectedRow, 0); // Assuming leave_id is in the first column
-
+        Connection conn = null;
         try {
-            Connection conn = DatabaseConnection.getConnection();
-            String sql = "UPDATE leave_requests SET status = ? WHERE leave_id = ?";
+            // Establish database connection
+            conn = DatabaseConnection.getConnection();
+            String sql = "UPDATE useraccounts SET emp_password = ? WHERE user_id = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, status);
-            pstmt.setInt(2, leaveId);
-            pstmt.executeUpdate();
+            pstmt.setString(1, newPassword);
+            pstmt.setInt(2, userId);
+
+            int rowsUpdated = pstmt.executeUpdate();
+            String user = txt_selectedEmpId.getText();
+            String pass = txt_selectedEmpPassword.getText();
+
+            if (rowsUpdated > 0) {
+                String statusMessage = "Password updated successfully!";
+
+                JOptionPane.showMessageDialog(null,
+                        statusMessage, "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+                LoggerService.logInfo(statusMessage + " " + user + " " + pass);
+                // Refresh the table
+                listAllUsers();
+            } else {
+                String statusMessage = "Failed to update password. User not found.";
+                JOptionPane.showMessageDialog(null,
+                        statusMessage, "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                LoggerService.
+                        logWarning(statusMessage + " " + user + " " + pass);
+
+            }
 
             pstmt.close();
             conn.close();
-
-            // Refresh the table
-            refreshTable();
-
-            JOptionPane.showMessageDialog(this,
-                    "The leave request has been " + status.toLowerCase() + ".",
-                    "Request " + status, JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            String messageStatus = "Error updating leave request status";
-            LoggerService.logError(messageStatus, ex);
-            JOptionPane.showMessageDialog(this, messageStatus, "Database Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-        int empID = Integer.parseInt(tbl_users_passwords.getValueAt(selectedRow,
-                1).toString());
-        String fname = tbl_users_passwords.getValueAt(selectedRow, 2).toString();
-        String lname = tbl_users_passwords.getValueAt(selectedRow, 3).toString();
-        Date startDate = Date.valueOf(tbl_users_passwords.
-                getValueAt(selectedRow, 5).toString());
-        Time defaultTimeIn = Time.valueOf("08:00:00");
-        Time defaultTimeOut = Time.valueOf("17:00:00");
-
-        if ("Approved".equals(status)) {
-
-            AttendanceService.recordAttendance(empID, startDate, defaultTimeIn,
-                    defaultTimeOut);
-            LoggerService.logInfo(
-                    "Leave recorded in Attenance table : " + empID + " | " + startDate);
-        } else if ("Rejected".equals(status)) {
-            AttendanceService.deleteRecord(empID, startDate);
-            LoggerService.logInfo(
-                    "Leave deleted in Attenance table : " + empID + " | " + startDate);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.
+                    getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_resetpasswordActionPerformed
 
     private void tbl_users_passwordsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_users_passwordsMouseClicked
         int selected_row = tbl_users_passwords.getSelectedRow();
-        DefaultTableModel model = (DefaultTableModel) tbl_users_passwords.getModel();
+        DefaultTableModel model = (DefaultTableModel) tbl_users_passwords.
+                getModel();
         txt_selectedEmpId.setText(model.getValueAt(selected_row, 1).toString());
-        txt_selectedEmpPassword.setText(model.getValueAt(selected_row, 2).toString());
+        txt_selectedEmpPassword.setText(model.getValueAt(selected_row, 4).
+                toString());
     }//GEN-LAST:event_tbl_users_passwordsMouseClicked
 
     public void refreshTable() {
@@ -325,13 +314,13 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
                 getModel();
         model.setRowCount(0); // Clear existing rows
         model.setColumnIdentifiers(
-                    new String[]{"User ID", "Employee ID", "Password",
-                        "EMployee Role"});
+                new String[]{"User ID", "Employee ID", "First Name", "Last Name", "Password"});
 
         try {
             // Establish database connection
             Connection conn = DatabaseConnection.getConnection();
-            String sql = "SELECT user_id, employee_id, emp_password, emp_role FROM useraccounts";
+            String sql = "SELECT * FROM public.useraccountview ORDER BY employee_id DESC";
+            //"SELECT user_id, employee_id, emp_password, emp_role FROM useraccounts";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
 
@@ -339,12 +328,14 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
             while (rs.next()) {
                 int userId = rs.getInt("user_id");
                 int employeeId = rs.getInt("employee_id");
+                String empfname = rs.getString("first_name");
+                String emplname = rs.getString("last_name");
                 String empPassword = rs.getString("emp_password");
-                int empRole = rs.getInt("emp_role");
+                //int empRole = rs.getInt("emp_role");
 
                 // Add row to the table
                 model.addRow(
-                            new Object[]{userId, employeeId, empPassword, empRole});
+                        new Object[]{userId, employeeId, empfname, emplname, empPassword});
             }
 
             // Close resources
