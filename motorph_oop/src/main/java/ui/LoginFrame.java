@@ -143,6 +143,8 @@ public class LoginFrame extends javax.swing.JFrame {
             payroll_dashboard.setVisible(true);
         } else if (role.equals("IT")) {
             new ITDashboard(employeeId);
+            ITDashboard it_dashboard = new ITDashboard(employeeId);
+            it_dashboard.setVisible(true);
         } else {
             EmployeeDashboard employee_dashboard = new EmployeeDashboard(employeeId);
             employee_dashboard.setVisible(true);

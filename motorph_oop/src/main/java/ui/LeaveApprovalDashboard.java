@@ -260,7 +260,8 @@ public class LeaveApprovalDashboard extends javax.swing.JFrame {
 
             DefaultTableModel model = (DefaultTableModel) tbl_leaveapproval.getModel();
             model.setRowCount(0); // Clear existing data
-            model.setColumnIdentifiers(new String[]{"Leave ID", "Employee ID", "Name", "Surname", "Leave_Type", "Start Date", "End Date", "Remarks", "Status"});
+            model.setColumnIdentifiers(new String[]{"Leave ID", "Employee ID", "Name", "Surname",
+                "Leave_Type", "Start Date", "End Date", "Remarks", "Status"});
 
             while (rs.next()) {
                 LeaveRecords record = new LeaveRecords(
