@@ -13,12 +13,14 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import services.LoggerService;
 import services.DatabaseConnection;
+import domain.ITAdministrator;
 
 /**
  *
  * @author brianjancarlos
  */
-public class PasswordManagerDashboard extends javax.swing.JFrame {
+public class PasswordManagerDashboard extends javax.swing.JFrame implements
+        ITAdministrator {
 
     /**
      * Creates new form LeaveApprovalDashboard
@@ -176,64 +178,7 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_resetpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetpasswordActionPerformed
-        int selectedRow = tbl_users_passwords.getSelectedRow();
-
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null,
-                    "Please select a user to reset the password.",
-                    "Selection Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Retrieve user_id from the selected row
-        int userId = (int) tbl_users_passwords.getValueAt(selectedRow, 0);
-        String newPassword = txt_selectedEmpPassword.getText().trim();
-
-        if (newPassword.isEmpty()) {
-            JOptionPane.showMessageDialog(null,
-                    "Password field cannot be empty.", "Input Error",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        Connection conn = null;
-        try {
-            // Establish database connection
-            conn = DatabaseConnection.getConnection();
-            String sql = "UPDATE useraccounts SET emp_password = ? WHERE user_id = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, newPassword);
-            pstmt.setInt(2, userId);
-
-            int rowsUpdated = pstmt.executeUpdate();
-            String user = txt_selectedEmpId.getText();
-            String pass = txt_selectedEmpPassword.getText();
-
-            if (rowsUpdated > 0) {
-                String statusMessage = "Password updated successfully!";
-
-                JOptionPane.showMessageDialog(null,
-                        statusMessage, "Success",
-                        JOptionPane.INFORMATION_MESSAGE);
-                LoggerService.logInfo(statusMessage + " " + user + " " + pass);
-                // Refresh the table
-                listAllUsers();
-            } else {
-                String statusMessage = "Failed to update password. User not found.";
-                JOptionPane.showMessageDialog(null,
-                        statusMessage, "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                LoggerService.
-                        logWarning(statusMessage + " " + user + " " + pass);
-
-            }
-
-            pstmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "An error occurred: " + e.
-                    getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-        }
+        resetPassword();
     }//GEN-LAST:event_btn_resetpasswordActionPerformed
 
     private void tbl_users_passwordsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_users_passwordsMouseClicked
@@ -349,4 +294,67 @@ public class PasswordManagerDashboard extends javax.swing.JFrame {
         }
     }
 
+    @Override
+    public void resetPassword() {
+        int selectedRow = tbl_users_passwords.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null,
+                    "Please select a user to reset the password.",
+                    "Selection Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Retrieve user_id from the selected row
+        int userId = (int) tbl_users_passwords.getValueAt(selectedRow, 0);
+        String newPassword = txt_selectedEmpPassword.getText().trim();
+
+        if (newPassword.isEmpty()) {
+            JOptionPane.showMessageDialog(null,
+                    "Password field cannot be empty.", "Input Error",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Connection conn = null;
+        try {
+            // Establish database connection
+            conn = DatabaseConnection.getConnection();
+            String sql = "UPDATE useraccounts SET emp_password = ? WHERE user_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newPassword);
+            pstmt.setInt(2, userId);
+
+            int rowsUpdated = pstmt.executeUpdate();
+            String user = txt_selectedEmpId.getText();
+            String pass = txt_selectedEmpPassword.getText();
+
+            if (rowsUpdated > 0) {
+                String statusMessage = "Password updated successfully!";
+
+                JOptionPane.showMessageDialog(null,
+                        statusMessage, "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+                LoggerService.logInfo(
+                        statusMessage + " " + user + " " + pass);
+                // Refresh the table
+                listAllUsers();
+            } else {
+                String statusMessage = "Failed to update password. User not found.";
+                JOptionPane.showMessageDialog(null,
+                        statusMessage, "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                LoggerService.
+                        logWarning(statusMessage + " " + user + " " + pass);
+
+            }
+
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.
+                    getMessage(), "Database Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
