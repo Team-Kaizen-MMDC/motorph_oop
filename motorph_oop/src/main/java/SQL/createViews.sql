@@ -177,3 +177,16 @@ SELECT edv.employee_id,
    FROM employeedetailsview edv
      LEFT JOIN government_ids g ON edv.employee_id = g.employee_id
      LEFT JOIN compensation_details c ON edv.employee_id = c.employee_id;
+
+
+--UserAccountView
+DROP VIEW IF EXISTS UserAccountView;
+CREATE VIEW UserAccountView AS
+SELECT 
+    ua.user_id,
+    ua.employee_id,
+    e.first_name,
+    e.last_name,
+    ua.emp_password
+FROM useraccounts ua
+JOIN employee e ON ua.employee_id = e.employee_id;
