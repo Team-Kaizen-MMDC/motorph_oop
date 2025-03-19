@@ -42,7 +42,7 @@ public class LoginFrame extends javax.swing.JFrame {
         lbl_motorphHeader = new javax.swing.JLabel();
         txt_username = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lbl_username.setText("EMPLOYEE ID");
 

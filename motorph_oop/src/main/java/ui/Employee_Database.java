@@ -453,12 +453,14 @@ public class Employee_Database extends javax.swing.JFrame {
         txtarea_address.setLineWrap(true);
         txtarea_address.setText(model.getValueAt(selected_row, 4).toString());
         txt_phone.setText(model.getValueAt(selected_row, 5).toString());
-        jcombo_status.setSelectedItem(model.getValueAt(selected_row, 6).toString());
+        jcombo_status.setSelectedItem(model.getValueAt(selected_row, 6).
+                toString());
         txt_sss_num.setText(model.getValueAt(selected_row, 7).toString());
         txt_philhealth_num.setText(model.getValueAt(selected_row, 8).toString());
         txt_tin_number.setText(model.getValueAt(selected_row, 9).toString());
         txt_pagibig_num.setText(model.getValueAt(selected_row, 10).toString());
-        jCombo_position.setSelectedItem(model.getValueAt(selected_row, 11).toString());
+        jCombo_position.setSelectedItem(model.getValueAt(selected_row, 11).
+                toString());
         txt_supervisor.setText(model.getValueAt(selected_row, 12).toString());
 
     }//GEN-LAST:event_tbl_employeesMouseClicked
@@ -526,7 +528,8 @@ public class Employee_Database extends javax.swing.JFrame {
                 employeeId = rsEmp.getInt("employee_id");
                 LoggerService.logInfo("Generated Employee ID: " + employeeId);
             } else {
-                LoggerService.logWarning("Failed to retrieve generated Employee ID.");
+                LoggerService.logWarning(
+                        "Failed to retrieve generated Employee ID.");
                 conn.rollback();
                 return;
             }
@@ -545,9 +548,11 @@ public class Employee_Database extends javax.swing.JFrame {
             int govtId = 0;
             if (rsGovt.next()) {
                 govtId = rsGovt.getInt("gov_id");
-                LoggerService.logInfo("Generated Government ID Record: " + govtId);
+                LoggerService.logInfo(
+                        "Generated Government ID Record: " + govtId);
             } else {
-                LoggerService.logWarning("Failed to retrieve generated Government ID.");
+                LoggerService.logWarning(
+                        "Failed to retrieve generated Government ID.");
                 conn.rollback();
                 return;
             }
@@ -557,9 +562,6 @@ public class Employee_Database extends javax.swing.JFrame {
             java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
             String sqlComp = "INSERT INTO compensation_details (employee_id, effective_date, basic_salary, rice_subsidy, phone_allowance, clothing_allowance, gross_semi_monthly_rate, hourly_rate) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING compensation_id";
-//            String sqlComp = "INSERT INTO compensation_details (employee_id, effective_date, basic_salary, rice_subsidy, phone_allowance, "
-//                    + "clothing_allowance, gross_semi_monthly_rate, hourly_rate) "
-//                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmtComp = conn.prepareStatement(sqlComp);
             pstmtComp.setInt(1, employeeId);
             pstmtComp.setDate(2, sqlDate); // Ensure valid date format
@@ -577,14 +579,25 @@ public class Employee_Database extends javax.swing.JFrame {
             }
             // Update employee table with compensation_id
             String sqlUpdateEmp = "UPDATE employee SET compensation_id = ? WHERE employee_id = ?";
-            PreparedStatement pstmtUpdateEmp = conn.prepareStatement(sqlUpdateEmp);
+            PreparedStatement pstmtUpdateEmp = conn.prepareStatement(
+                    sqlUpdateEmp);
             pstmtUpdateEmp.setInt(1, compensationId);
             pstmtUpdateEmp.setInt(2, employeeId);
             pstmtUpdateEmp.executeUpdate();
 
+            // Insert new user into useraccount table with default password '1234'
+            String sqlUser = "INSERT INTO useraccounts (employee_id, emp_password, emp_role) VALUES (?, ?, ?)";
+            PreparedStatement pstmtUser = conn.prepareStatement(sqlUser);
+            pstmtUser.setInt(1, employeeId);
+            pstmtUser.setString(2, "1234");  // Default password
+            pstmtUser.setInt(3, 4); // default role as '4' - Employee
+            pstmtUser.executeUpdate();
+
             // Commit transaction
             conn.commit();
-            JOptionPane.showMessageDialog(null, "Record Added: " + txt_first_name.getText() + " " + txt_last_name.getText(), "Add Record", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Record Added: " + txt_first_name.getText() + " " + txt_last_name.
+                    getText(), "Add Record", JOptionPane.INFORMATION_MESSAGE);
 
             // Close resources
             try {
@@ -595,23 +608,33 @@ public class Employee_Database extends javax.swing.JFrame {
                 }
                 if (pstmtEmp != null) {
                     pstmtEmp.close();
-                    LoggerService.logInfo("PreparedStatement pstmtEmp closed successfully");
+                    LoggerService.logInfo(
+                            "PreparedStatement pstmtEmp closed successfully");
                 }
                 if (rsGovt != null) {
                     rsGovt.close();
-                    LoggerService.logInfo("ResultSet rsGovt closed successfully");
+                    LoggerService.
+                            logInfo("ResultSet rsGovt closed successfully");
                 }
                 if (pstmtGovt != null) {
                     pstmtGovt.close();
-                    LoggerService.logInfo("PreparedStatement pstmtGovt closed successfully");
+                    LoggerService.logInfo(
+                            "PreparedStatement pstmtGovt closed successfully");
                 }
                 if (pstmtComp != null) {
                     pstmtComp.close();
-                    LoggerService.logInfo("PreparedStatement pstmtComp closed successfully");
+                    LoggerService.logInfo(
+                            "PreparedStatement pstmtComp closed successfully");
+                }
+                if (pstmtUser != null) {
+                    pstmtUser.close();
+                    LoggerService.logInfo(
+                            "PreparedStatement pstmtUser closed successfully");
                 }
                 if (conn != null) {
                     conn.close();
-                    LoggerService.logInfo("Database connection closed successfully");
+                    LoggerService.logInfo(
+                            "Database connection closed successfully");
                 }
                 refreshTable();
                 LoggerService.logInfo("Table refreshed successfully");
@@ -620,7 +643,8 @@ public class Employee_Database extends javax.swing.JFrame {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.
+                    getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             LoggerService.logError("Database Error: ", e);
 
     }//GEN-LAST:event_btn_add_recordActionPerformed
@@ -629,13 +653,15 @@ public class Employee_Database extends javax.swing.JFrame {
     private void btn_delete_recordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_delete_recordActionPerformed
         int selected_row = tbl_employees.getSelectedRow();
         if (selected_row == -1) {
-            JOptionPane.showMessageDialog(null, "No record selected", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No record selected", "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         // Get the employee_id of the selected row
         DefaultTableModel model = (DefaultTableModel) tbl_employees.getModel();
-        int employee_id = Integer.parseInt(model.getValueAt(selected_row, 0).toString());
+        int employee_id = Integer.parseInt(model.getValueAt(selected_row, 0).
+                toString());
 
         // Show a confirmation dialog box
         int confirm = JOptionPane.showConfirmDialog(null,
@@ -649,6 +675,13 @@ public class Employee_Database extends javax.swing.JFrame {
                 // Establish connection and disable auto-commit
                 conn = DatabaseConnection.getConnection();
                 conn.setAutoCommit(false);
+
+                // Delete related records from useraccount table
+                String sqlDeleteUser = "DELETE FROM useraccounts WHERE employee_id = ?";
+                PreparedStatement pstmtUser = conn.prepareStatement(
+                        sqlDeleteUser);
+                pstmtUser.setInt(1, employee_id);
+                pstmtUser.executeUpdate();
 
                 // Delete from government_ids first (due to foreign key constraint)
                 String sqlGovt = "DELETE FROM government_ids WHERE employee_id = ?";
@@ -664,15 +697,24 @@ public class Employee_Database extends javax.swing.JFrame {
 
                 // Delete related compensation details first
                 String sqlDeleteComp = "DELETE FROM compensation_details WHERE employee_id = ?";
-                PreparedStatement pstmtComp = conn.prepareStatement(sqlDeleteComp);
+                PreparedStatement pstmtComp = conn.prepareStatement(
+                        sqlDeleteComp);
                 pstmtComp.setInt(1, employee_id);
                 pstmtComp.executeUpdate();
 
                 // Commit transaction
                 conn.commit();
-                JOptionPane.showMessageDialog(null, "Record deleted successfully", "Delete Record", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "Record deleted successfully", "Delete Record",
+                        JOptionPane.INFORMATION_MESSAGE);
 
                 // Refresh the table
+                // Close resources
+                pstmtUser.close();
+                pstmtComp.close();
+                pstmtGovt.close();
+                pstmtEmp.close();
+                conn.close();
                 refreshTable();
             } catch (SQLException e) {
                 // Roll back transaction on error
@@ -680,10 +722,12 @@ public class Employee_Database extends javax.swing.JFrame {
                     try {
                         conn.rollback();
                     } catch (SQLException ex) {
-                        LoggerService.logError("Error rolling back transaction: ", ex);
+                        LoggerService.logError(
+                                "Error rolling back transaction: ", ex);
                     }
                 }
-                JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "An error occurred: " + e.
+                        getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 LoggerService.logError("Database Error: ", e);
             } finally {
                 // Close connection
@@ -745,7 +789,8 @@ public class Employee_Database extends javax.swing.JFrame {
             // Commit transaction
             conn.commit();
             JOptionPane.showMessageDialog(null,
-                    "Record Updated: " + txt_first_name.getText() + " " + txt_last_name.getText(),
+                    "Record Updated: " + txt_first_name.getText() + " " + txt_last_name.
+                    getText(),
                     "Edit Record",
                     JOptionPane.INFORMATION_MESSAGE);
 
@@ -757,10 +802,12 @@ public class Employee_Database extends javax.swing.JFrame {
                 try {
                     conn.rollback();
                 } catch (SQLException ex) {
-                    LoggerService.logError("Error rolling back transaction: ", ex);
+                    LoggerService.logError("Error rolling back transaction: ",
+                            ex);
                 }
             }
-            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.
+                    getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             LoggerService.logError("Database Error: ", e);
         } finally {
             // Close connection
@@ -798,15 +845,22 @@ public class Employee_Database extends javax.swing.JFrame {
     // This Search function is used for case-insensitive search/filter via Search textbox
     public void Search(String str) {
         DefaultTableModel model = (DefaultTableModel) tbl_employees.getModel();
-        TableRowSorter<DefaultTableModel> tableSorter = new TableRowSorter<>(model);
+        TableRowSorter<DefaultTableModel> tableSorter = new TableRowSorter<>(
+                model);
         tbl_employees.setRowSorter(tableSorter);
         tableSorter.setRowFilter(RowFilter.regexFilter("(?i)" + str)); // "(?i)" + makes the search case-INsensitive
     }
 
     private boolean validateFields() {
         // Check if any field is empty
-        if (txt_first_name.getText().isEmpty() || txt_last_name.getText().isEmpty() || txt_birthday.getText().isEmpty() || txtarea_address.getText().isEmpty() || txt_phone.getText().isEmpty() || txt_sss_num.getText().isEmpty() || txt_philhealth_num.getText().isEmpty() || txt_tin_number.getText().isEmpty() || txt_pagibig_num.getText().isEmpty() || txt_supervisor.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "All fields are mandatory", "Error", JOptionPane.ERROR_MESSAGE);
+        if (txt_first_name.getText().isEmpty() || txt_last_name.getText().
+                isEmpty() || txt_birthday.getText().isEmpty() || txtarea_address.
+                getText().isEmpty() || txt_phone.getText().isEmpty() || txt_sss_num.
+                getText().isEmpty() || txt_philhealth_num.getText().isEmpty() || txt_tin_number.
+                getText().isEmpty() || txt_pagibig_num.getText().isEmpty() || txt_supervisor.
+                getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "All fields are mandatory",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         // Check if the fields that should only contain integers contain valid integers
@@ -816,17 +870,24 @@ public class Employee_Database extends javax.swing.JFrame {
             Long.valueOf(txt_tin_number.getText());
             Long.valueOf(txt_pagibig_num.getText());
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Invalid Number value. Please enter numbers only on " + "SSS: " + txt_sss_num.getText()
-                    + " Philhealth:" + txt_philhealth_num.getText() + " TIN:" + txt_tin_number.getText() + " PAGIBIG:" + txt_pagibig_num.getText(), "Error", JOptionPane.ERROR_MESSAGE
+            JOptionPane.showMessageDialog(null,
+                    "Invalid Number value. Please enter numbers only on " + "SSS: " + txt_sss_num.
+                            getText()
+                    + " Philhealth:" + txt_philhealth_num.getText() + " TIN:" + txt_tin_number.
+                    getText() + " PAGIBIG:" + txt_pagibig_num.getText(), "Error",
+                    JOptionPane.ERROR_MESSAGE
             );
             return false;
         }
 
         // Check if txt_birthday contains a valid date
         try {
-            LocalDate.parse(txt_birthday.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate.parse(txt_birthday.getText(), DateTimeFormatter.ofPattern(
+                    "yyyy-MM-dd"));
         } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(null, "Invalid date value:" + txt_birthday.getText() + " Please enter in yyyy-MM-dd format", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Invalid date value:" + txt_birthday.getText() + " Please enter in yyyy-MM-dd format",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
@@ -842,11 +903,16 @@ public class Employee_Database extends javax.swing.JFrame {
             conn.close();
 
             for (HRAdmin employeeDetail : employeeDetailArray) {
-                Object[] rowData = {employeeDetail.getEmployeeId(), employeeDetail.getFirstName(), employeeDetail.getLastName(),
-                    employeeDetail.getBirthday(), employeeDetail.getAddress(), employeeDetail.getPhoneNumber(),
-                    employeeDetail.getEmploymentStatus(), employeeDetail.getSssNumber(), employeeDetail.getPhilhealthNumber(),
-                    employeeDetail.getTinNumber(), employeeDetail.getPagibigNumber(),
-                    employeeDetail.getJobPosition(), employeeDetail.getSupervisorId()};
+                Object[] rowData = {employeeDetail.getEmployeeId(), employeeDetail.
+                    getFirstName(), employeeDetail.getLastName(),
+                    employeeDetail.getBirthday(), employeeDetail.getAddress(), employeeDetail.
+                    getPhoneNumber(),
+                    employeeDetail.getEmploymentStatus(), employeeDetail.
+                    getSssNumber(), employeeDetail.getPhilhealthNumber(),
+                    employeeDetail.getTinNumber(), employeeDetail.
+                    getPagibigNumber(),
+                    employeeDetail.getJobPosition(), employeeDetail.
+                    getSupervisorId()};
                 model.addRow(rowData);
             }
         } else {
@@ -862,19 +928,26 @@ public class Employee_Database extends javax.swing.JFrame {
 
         HRDatabaseConnection dbConnection = new HRDatabaseConnection();
         if (dbConnection.connect()) {
-            List<HRAdmin> employeeDetailArray = dbConnection.getAllEmployeeDetails();
+            List<HRAdmin> employeeDetailArray = dbConnection.
+                    getAllEmployeeDetails();
             dbConnection.close();
 
             for (HRAdmin EmployeeDetail : employeeDetailArray) {
-                Object[] rowData = {EmployeeDetail.getEmployeeId(), EmployeeDetail.getFirstName(), EmployeeDetail.getLastName(),
-                    EmployeeDetail.getBirthday(), EmployeeDetail.getAddress(), EmployeeDetail.getPhoneNumber(),
-                    EmployeeDetail.getEmploymentStatus(), EmployeeDetail.getSssNumber(), EmployeeDetail.getPhilhealthNumber(),
-                    EmployeeDetail.getTinNumber(), EmployeeDetail.getPagibigNumber(),
-                    EmployeeDetail.getJobPosition(), EmployeeDetail.getSupervisorId()};
+                Object[] rowData = {EmployeeDetail.getEmployeeId(), EmployeeDetail.
+                    getFirstName(), EmployeeDetail.getLastName(),
+                    EmployeeDetail.getBirthday(), EmployeeDetail.getAddress(), EmployeeDetail.
+                    getPhoneNumber(),
+                    EmployeeDetail.getEmploymentStatus(), EmployeeDetail.
+                    getSssNumber(), EmployeeDetail.getPhilhealthNumber(),
+                    EmployeeDetail.getTinNumber(), EmployeeDetail.
+                    getPagibigNumber(),
+                    EmployeeDetail.getJobPosition(), EmployeeDetail.
+                    getSupervisorId()};
                 model.addRow(rowData);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Failed to connect to the database.");
+            JOptionPane.showMessageDialog(this,
+                    "Failed to connect to the database.");
         }
     }
 
@@ -900,7 +973,8 @@ public class Employee_Database extends javax.swing.JFrame {
             pstmt.close();
             conn.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error loading statuses: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error loading statuses: " + e.
+                    getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -920,7 +994,8 @@ public class Employee_Database extends javax.swing.JFrame {
             LoggerService.logInfo("Corresponding Status ID: " + statusId);
             return statusId; // Return the status ID as an int
         } else {
-            LoggerService.logWarning("Status ID not found for: " + selectedStatus);
+            LoggerService.logWarning(
+                    "Status ID not found for: " + selectedStatus);
             return -1; // Return -1 as an error indicator if status is not found
         }
     }
@@ -947,7 +1022,8 @@ public class Employee_Database extends javax.swing.JFrame {
             pstmt.close();
             conn.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error loading positions: " + e.getMessage(),
+            JOptionPane.showMessageDialog(null, "Error loading positions: " + e.
+                    getMessage(),
                     "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -968,7 +1044,8 @@ public class Employee_Database extends javax.swing.JFrame {
 
             // Populate the HashMap with database values
             while (rs.next()) {
-                positionMap.put(rs.getString("position_name"), rs.getInt("position_id"));
+                positionMap.put(rs.getString("position_name"), rs.getInt(
+                        "position_id"));
             }
 
             // Close resources
@@ -976,7 +1053,9 @@ public class Employee_Database extends javax.swing.JFrame {
             pstmt.close();
             conn.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error loading position mappings: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Error loading position mappings: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
             return -1; // Return error indicator
         }
 
@@ -988,7 +1067,8 @@ public class Employee_Database extends javax.swing.JFrame {
             LoggerService.logInfo("Corresponding Position ID: " + positionId);
             return positionId; // Return the position ID as an int
         } else {
-            LoggerService.logWarning("Position ID not found for: " + selectedPosition);
+            LoggerService.logWarning(
+                    "Position ID not found for: " + selectedPosition);
             return -1; // Return -1 as an error indicator if position is not found
         }
     }
@@ -1003,7 +1083,8 @@ public class Employee_Database extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (javax.swing.UIManager.LookAndFeelInfo info
+                    : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
