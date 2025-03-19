@@ -677,7 +677,7 @@ public class Employee_Database extends javax.swing.JFrame {
                 conn.setAutoCommit(false);
 
                 // Delete related records from useraccount table
-                String sqlDeleteUser = "DELETE FROM useraccount WHERE employee_id = ?";
+                String sqlDeleteUser = "DELETE FROM useraccounts WHERE employee_id = ?";
                 PreparedStatement pstmtUser = conn.prepareStatement(
                         sqlDeleteUser);
                 pstmtUser.setInt(1, employee_id);
