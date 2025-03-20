@@ -32,6 +32,7 @@ public class PayrollProcessor {
     private List<Integer> getAllEmployees() {
         List<Integer> employeeIds = new ArrayList<>();
         try {
+            Connection conn = DatabaseConnection.getConnection();
             String sql = "SELECT employee_id FROM employee";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -42,9 +43,11 @@ public class PayrollProcessor {
 
             rs.close();
             pstmt.close();
+            conn.close();
+            LoggerService.logInfo(
+                    "Retrieved " + employeeIds.size() + " employees from the database.");
         } catch (SQLException e) {
-            System.err.
-                    println("Error fetching employee list: " + e.getMessage());
+            LoggerService.logError("Error fetching employee list: ", e);
         }
         return employeeIds;
     }
@@ -114,8 +117,10 @@ public class PayrollProcessor {
         double baseTax = 0.0;
         double taxRatePercent = 0.0;
         double plusInExcess = 0.0;
+        double totalTax = 0.0;
 
         try {
+            Connection conn = DatabaseConnection.getConnection();
             String sql = "SELECT base_tax, tax_rate_percent, plus_in_excess FROM withholding_tax "
                     + "WHERE ? >= plus_in_excess ORDER BY plus_in_excess DESC LIMIT 1";
 
@@ -131,13 +136,22 @@ public class PayrollProcessor {
 
             rs.close();
             pstmt.close();
-        } catch (SQLException e) {
-            System.err.println("Error fetching tax bracket: " + e.getMessage());
-        }
+            conn.close();
 
-        double excessSalary = grossSalary - plusInExcess;
-        double taxOnExcess = excessSalary * taxRatePercent;
-        double totalTax = baseTax + taxOnExcess;
+            double excessSalary = grossSalary - plusInExcess;
+            double taxOnExcess = excessSalary * taxRatePercent;
+            totalTax = baseTax + taxOnExcess;
+
+            LoggerService.logInfo(
+                    "Calculated deductions for Gross Salary: " + grossSalary
+                    + " | Base Tax: " + baseTax
+                    + " | Excess Tax: " + taxOnExcess
+                    + " | Total Deductions: " + totalTax);
+        } catch (SQLException e) {
+            LoggerService.logError(
+                    "Error fetching tax bracket for Gross Salary " + grossSalary + ": ",
+                    e);
+        }
 
         return totalTax;
     }
