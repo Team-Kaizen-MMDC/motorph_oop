@@ -143,7 +143,8 @@ public class PayrollProcessor {
     }
 
     // Process payroll for a single employee in a given pay period
-    private void processPayroll(int employeeId, String startDate, String endDate) {
+    private boolean processPayroll(int employeeId, String startDate,
+            String endDate) {
         double hourlyRate = getHourlyRate(employeeId);
         double totalHoursWorked = getTotalHoursWorked(employeeId, startDate,
                 endDate);
@@ -154,7 +155,7 @@ public class PayrollProcessor {
         try {
             Connection conn = DatabaseConnection.getConnection();
 
-            // **Check for existing payroll entry in the same period**
+            // Check for existing payroll record
             String checkSql = "SELECT 1 FROM payroll WHERE employee_id = ? AND payroll_period_start = ? AND payroll_period_end = ?";
             PreparedStatement checkStmt = conn.prepareStatement(checkSql);
             checkStmt.setInt(1, employeeId);
@@ -164,15 +165,15 @@ public class PayrollProcessor {
 
             if (rs.next()) {
                 System.out.println(
-                        "Skipping payroll for Employee ID: " + employeeId + " (Already exists for " + startDate + " to " + endDate + ")");
+                        "⚠️ Skipping payroll for Employee ID: " + employeeId + " (Already exists for " + startDate + " to " + endDate + ")");
                 rs.close();
                 checkStmt.close();
-                return; // **Exit to prevent duplicate insertion**
+                return false; // Payroll was skipped
             }
             rs.close();
             checkStmt.close();
 
-            // **Insert new payroll entry**
+            // Insert new payroll record
             String sql = "INSERT INTO payroll (employee_id, payroll_period_start, payroll_period_end, hours_worked, gross_pay, deductions, net_pay) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -191,10 +192,12 @@ public class PayrollProcessor {
 
             System.out.println(
                     "Payroll processed for Employee ID: " + employeeId + " (" + startDate + " to " + endDate + ")");
+            return true; // Payroll was successfully inserted
         } catch (SQLException e) {
             System.err.println(
                     "Error inserting payroll record for Employee ID " + employeeId + ": " + e.
                             getMessage());
+            return false;
         }
     }
 
@@ -204,6 +207,7 @@ public class PayrollProcessor {
         int year = today.getYear();
         int month = today.getMonthValue();
 
+        // Define two pay periods per month
         String period1Start = year + "-" + String.format("%02d", month) + "-01";
         String period1End = year + "-" + String.format("%02d", month) + "-15";
         String period2Start = year + "-" + String.format("%02d", month) + "-16";
@@ -211,18 +215,27 @@ public class PayrollProcessor {
                 lengthOfMonth();
 
         List<Integer> employeeIds = getAllEmployees();
+        int totalPayrollProcessed = 0;
 
         try {
             conn.setAutoCommit(false); // Start transaction
 
             for (int employeeId : employeeIds) {
-                processPayroll(employeeId, period1Start, period1End);
-                processPayroll(employeeId, period2Start, period2End);
+                boolean processed1 = processPayroll(employeeId, period1Start,
+                        period1End);
+                boolean processed2 = processPayroll(employeeId, period2Start,
+                        period2End);
+                if (processed1) {
+                    totalPayrollProcessed++;
+                }
+                if (processed2) {
+                    totalPayrollProcessed++;
+                }
             }
 
             conn.commit();
-            System.out.
-                    println("Payroll processing completed for all employees.");
+            System.out.println(
+                    "\n Payroll processing completed. Total payrolls processed: " + totalPayrollProcessed);
         } catch (SQLException e) {
             try {
                 conn.rollback(); // Rollback transaction on error
