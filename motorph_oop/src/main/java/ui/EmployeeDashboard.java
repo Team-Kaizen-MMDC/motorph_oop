@@ -68,6 +68,7 @@ public class EmployeeDashboard extends JFrame {
         btn_timeout = new javax.swing.JButton();
         btn_timein = new javax.swing.JButton();
         btn_fileleave = new javax.swing.JButton();
+        btn_payslip = new javax.swing.JButton();
         jPanel_EmployeeInformation = new javax.swing.JPanel();
         lbl_fullname = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -123,6 +124,8 @@ public class EmployeeDashboard extends JFrame {
             }
         });
 
+        btn_payslip.setText("Payslip");
+
         javax.swing.GroupLayout jPanel_UserActionsLayout = new javax.swing.GroupLayout(jPanel_UserActions);
         jPanel_UserActions.setLayout(jPanel_UserActionsLayout);
         jPanel_UserActionsLayout.setHorizontalGroup(
@@ -131,7 +134,8 @@ public class EmployeeDashboard extends JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_timeout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_fileleave, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                    .addComponent(btn_fileleave, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .addComponent(btn_payslip, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
@@ -146,7 +150,9 @@ public class EmployeeDashboard extends JFrame {
                 .addComponent(btn_timeout)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_fileleave)
-                .addContainerGap(289, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_payslip)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
                     .addGap(24, 24, 24)
@@ -425,20 +431,20 @@ public class EmployeeDashboard extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_fnameActionPerformed
 
-    private void btn_timeinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_timeinActionPerformed
-       FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
-       employee.timeIn();
-    }//GEN-LAST:event_btn_timeinActionPerformed
-
-    private void btn_timeoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_timeoutActionPerformed
-       FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
-       employee.timeOut();
-    }//GEN-LAST:event_btn_timeoutActionPerformed
-
     private void btn_fileleaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fileleaveActionPerformed
         LeaveFiling x = new LeaveFiling();
         x.setVisible(true);
     }//GEN-LAST:event_btn_fileleaveActionPerformed
+
+    private void btn_timeinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_timeinActionPerformed
+        FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
+        employee.timeIn();
+    }//GEN-LAST:event_btn_timeinActionPerformed
+
+    private void btn_timeoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_timeoutActionPerformed
+        FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
+        employee.timeOut();
+    }//GEN-LAST:event_btn_timeoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -478,6 +484,7 @@ public class EmployeeDashboard extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_fileleave;
+    private javax.swing.JButton btn_payslip;
     private javax.swing.JButton btn_timein;
     private javax.swing.JButton btn_timeout;
     private javax.swing.JLabel jLabel3;
