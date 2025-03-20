@@ -101,9 +101,9 @@ public class PayrollProcessor {
             pstmt.close();
             conn.close();
         } catch (SQLException e) {
-            System.err.println(
-                    "Error fetching total hours worked for Employee ID " + employeeId + ": " + e.
-                            getMessage());
+            LoggerService.logError(
+                    "Error fetching total hours worked for Employee ID " + employeeId + ": ",
+                    e);
         }
 
         return totalHours;
@@ -164,7 +164,7 @@ public class PayrollProcessor {
             ResultSet rs = checkStmt.executeQuery();
 
             if (rs.next()) {
-                System.out.println(
+                LoggerService.logWarning(
                         "Skipping payroll for Employee ID: " + employeeId + " (Already exists for " + startDate + " to " + endDate + ")");
                 rs.close();
                 checkStmt.close();
@@ -190,13 +190,13 @@ public class PayrollProcessor {
             pstmt.close();
             conn.close();
 
-            System.out.println(
+            LoggerService.logInfo(
                     "Payroll processed for Employee ID: " + employeeId + " (" + startDate + " to " + endDate + ")");
             return true; // Payroll was successfully inserted
         } catch (SQLException e) {
-            System.err.println(
-                    "Error inserting payroll record for Employee ID " + employeeId + ": " + e.
-                            getMessage());
+            LoggerService.logError(
+                    "Error inserting payroll record for Employee ID " + employeeId + ": ",
+                    e);
             return false;
         }
     }
@@ -215,6 +215,8 @@ public class PayrollProcessor {
 
         try {
             conn.setAutoCommit(false); // Start transaction
+            LoggerService.logInfo(
+                    "Starting payroll processing for " + year + "-" + month);
 
             for (int employeeId : employeeIds) {
                 boolean processed1 = processPayroll(employeeId, period1Start,
@@ -230,24 +232,23 @@ public class PayrollProcessor {
             }
 
             conn.commit();
-            System.out.println(
-                    "\n Payroll processing completed for " + year + "-" + month + ". Total payrolls processed: " + totalPayrollProcessed);
+            LoggerService.logInfo(
+                    "Payroll processing completed for " + year + "-" + month + ". Total payrolls processed: " + totalPayrollProcessed);
         } catch (SQLException e) {
             try {
                 conn.rollback(); // Rollback transaction on error
-                System.err.println(
-                        "Error in batch payroll processing. Rolling back transactions.");
+                LoggerService.logError(
+                        "Error in batch payroll processing. Rolling back transactions.",
+                        e);
             } catch (SQLException rollbackEx) {
-                System.err.
-                        println("Rollback failed: " + rollbackEx.getMessage());
+                LoggerService.logError("Rollback failed: ", rollbackEx);
             }
         } finally {
             try {
                 conn.setAutoCommit(true); // Restore auto-commit
                 conn.close();
             } catch (SQLException e) {
-                System.err.println("Error closing database connection: " + e.
-                        getMessage());
+                LoggerService.logError("Error closing database connection: ", e);
             }
         }
     }
