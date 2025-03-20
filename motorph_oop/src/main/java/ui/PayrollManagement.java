@@ -30,6 +30,8 @@ public class PayrollManagement extends javax.swing.JFrame {
 
         jpanel_payrolmgmt = new javax.swing.JPanel();
         btn_process_payroll = new javax.swing.JButton();
+        jMonthChooser_payroll = new com.toedter.calendar.JMonthChooser();
+        jYearChooser_payroll = new com.toedter.calendar.JYearChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -46,16 +48,23 @@ public class PayrollManagement extends javax.swing.JFrame {
         jpanel_payrolmgmt.setLayout(jpanel_payrolmgmtLayout);
         jpanel_payrolmgmtLayout.setHorizontalGroup(
             jpanel_payrolmgmtLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpanel_payrolmgmtLayout.createSequentialGroup()
-                .addContainerGap(323, Short.MAX_VALUE)
+            .addGroup(jpanel_payrolmgmtLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jMonthChooser_payroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jYearChooser_payroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70)
                 .addComponent(btn_process_payroll)
-                .addGap(185, 185, 185))
+                .addContainerGap(300, Short.MAX_VALUE))
         );
         jpanel_payrolmgmtLayout.setVerticalGroup(
             jpanel_payrolmgmtLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpanel_payrolmgmtLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addComponent(btn_process_payroll)
+                .addGroup(jpanel_payrolmgmtLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jYearChooser_payroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jMonthChooser_payroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_process_payroll))
                 .addContainerGap(318, Short.MAX_VALUE))
         );
 
@@ -80,8 +89,11 @@ public class PayrollManagement extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_process_payrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_process_payrollActionPerformed
+        int selectedMonth = jMonthChooser_payroll.getMonth() + 1; // jMonthChooser indexes from 0 (Jan=0, Feb=1)
+        int selectedYear = jYearChooser_payroll.getYear();
+
         PayrollProcessor payrollProcessor = new PayrollProcessor();
-        payrollProcessor.processMonthlyPayroll(); // Process payroll for all employees
+        payrollProcessor.processMonthlyPayroll(selectedYear, selectedMonth);
     }//GEN-LAST:event_btn_process_payrollActionPerformed
 
     /**
@@ -130,6 +142,8 @@ public class PayrollManagement extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_process_payroll;
+    private com.toedter.calendar.JMonthChooser jMonthChooser_payroll;
+    private com.toedter.calendar.JYearChooser jYearChooser_payroll;
     private javax.swing.JPanel jpanel_payrolmgmt;
     // End of variables declaration//GEN-END:variables
 }

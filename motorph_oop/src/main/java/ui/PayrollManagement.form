@@ -53,10 +53,14 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="323" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                  <Component id="jMonthChooser_payroll" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jYearChooser_payroll" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                   <Component id="btn_process_payroll" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="185" max="-2" attributes="0"/>
+                  <EmptySpace pref="300" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -64,7 +68,11 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                  <Component id="btn_process_payroll" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="jYearChooser_payroll" min="-2" max="-2" attributes="0"/>
+                      <Component id="jMonthChooser_payroll" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_process_payroll" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace pref="318" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -78,6 +86,10 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_process_payrollActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="com.toedter.calendar.JMonthChooser" name="jMonthChooser_payroll">
+        </Component>
+        <Component class="com.toedter.calendar.JYearChooser" name="jYearChooser_payroll">
         </Component>
       </SubComponents>
     </Container>

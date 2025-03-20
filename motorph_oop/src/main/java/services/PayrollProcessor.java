@@ -165,7 +165,7 @@ public class PayrollProcessor {
 
             if (rs.next()) {
                 System.out.println(
-                        "⚠️ Skipping payroll for Employee ID: " + employeeId + " (Already exists for " + startDate + " to " + endDate + ")");
+                        "Skipping payroll for Employee ID: " + employeeId + " (Already exists for " + startDate + " to " + endDate + ")");
                 rs.close();
                 checkStmt.close();
                 return false; // Payroll was skipped
@@ -202,17 +202,13 @@ public class PayrollProcessor {
     }
 
     // Process payroll for all employees for both pay periods of the month
-    public void processMonthlyPayroll() {
-        LocalDate today = LocalDate.now();
-        int year = today.getYear();
-        int month = today.getMonthValue();
-
-        // Define two pay periods per month
+    public void processMonthlyPayroll(int year, int month) {
+        // Define two pay periods for the selected month
         String period1Start = year + "-" + String.format("%02d", month) + "-01";
         String period1End = year + "-" + String.format("%02d", month) + "-15";
         String period2Start = year + "-" + String.format("%02d", month) + "-16";
-        String period2End = year + "-" + String.format("%02d", month) + "-" + today.
-                lengthOfMonth();
+        String period2End = year + "-" + String.format("%02d", month) + "-" + LocalDate.
+                of(year, month, 1).lengthOfMonth();
 
         List<Integer> employeeIds = getAllEmployees();
         int totalPayrollProcessed = 0;
@@ -235,7 +231,7 @@ public class PayrollProcessor {
 
             conn.commit();
             System.out.println(
-                    "\n Payroll processing completed. Total payrolls processed: " + totalPayrollProcessed);
+                    "\n Payroll processing completed for " + year + "-" + month + ". Total payrolls processed: " + totalPayrollProcessed);
         } catch (SQLException e) {
             try {
                 conn.rollback(); // Rollback transaction on error
