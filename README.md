@@ -1,7 +1,8 @@
 # OOP MotorPH System
 
 Team Kaizen New MotorPH Payroll Sytems Using OOP
-![image](https://github.com/user-attachments/assets/887caf1c-6f7f-41f3-8b98-dc72655e15b0)
+![image](https://github.com/user-attachments/assets/4881b799-60e1-4945-a4ea-00bc8759f129)
+
 
 
 ## Table of Contents
