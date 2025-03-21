@@ -69,6 +69,7 @@ public class ITDashboard extends JFrame {
         btn_timein = new javax.swing.JButton();
         btn_fileleave = new javax.swing.JButton();
         btn_passManager = new javax.swing.JButton();
+        btn_payslip = new javax.swing.JButton();
         jPanel_EmployeeInformation = new javax.swing.JPanel();
         lbl_fullname = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -131,6 +132,13 @@ public class ITDashboard extends JFrame {
             }
         });
 
+        btn_payslip.setText("Payslip");
+        btn_payslip.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_payslipActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel_UserActionsLayout = new javax.swing.GroupLayout(jPanel_UserActions);
         jPanel_UserActions.setLayout(jPanel_UserActionsLayout);
         jPanel_UserActionsLayout.setHorizontalGroup(
@@ -140,7 +148,8 @@ public class ITDashboard extends JFrame {
                 .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_timeout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_fileleave, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .addComponent(btn_passManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btn_passManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_payslip, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
@@ -157,6 +166,8 @@ public class ITDashboard extends JFrame {
                 .addComponent(btn_fileleave)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_passManager)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_payslip)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel_UserActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel_UserActionsLayout.createSequentialGroup()
@@ -456,6 +467,11 @@ public class ITDashboard extends JFrame {
         x.setVisible(true);
     }//GEN-LAST:event_btn_passManagerActionPerformed
 
+    private void btn_payslipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_payslipActionPerformed
+        PayslipViewer x = new PayslipViewer(employeeId);
+        x.setVisible(true);
+    }//GEN-LAST:event_btn_payslipActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -496,6 +512,7 @@ public class ITDashboard extends JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_fileleave;
     private javax.swing.JButton btn_passManager;
+    private javax.swing.JButton btn_payslip;
     private javax.swing.JButton btn_timein;
     private javax.swing.JButton btn_timeout;
     private javax.swing.JLabel jLabel3;
