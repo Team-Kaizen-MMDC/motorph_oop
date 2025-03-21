@@ -111,6 +111,7 @@
                           <Component id="btn_timeout" max="32767" attributes="0"/>
                           <Component id="btn_fileleave" pref="218" max="32767" attributes="0"/>
                           <Component id="btn_passManager" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btn_payslip" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -132,6 +133,8 @@
                       <Component id="btn_fileleave" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btn_passManager" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btn_payslip" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
@@ -175,6 +178,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_passManagerActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btn_payslip">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Payslip"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_payslipActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

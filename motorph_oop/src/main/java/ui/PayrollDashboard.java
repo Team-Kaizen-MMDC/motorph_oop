@@ -3,12 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ui;
+
 import domain.FullTimeEmployee;
 import domain.EmployeeID;
 import services.EmployeeService;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import services.LoggerService;
+
 /**
  *
  * @author brianjancarlos
@@ -16,7 +18,6 @@ import services.LoggerService;
 public class PayrollDashboard extends JFrame {
 
     private int employeeId;
-    
 
     /**
      * Creates new form EmployeeDashboard
@@ -26,21 +27,26 @@ public class PayrollDashboard extends JFrame {
         this.employeeId = employeeId;
         EmployeeID.empid = employeeId;
         setLocationRelativeTo(null);
-        
-        LoggerService.logInfo(" EmployeeDashboard: Requesting details for Employee ID: " + employeeId);
+
+        LoggerService.logInfo(
+                " EmployeeDashboard: Requesting details for Employee ID: " + employeeId);
         // Fetch employee details
 
-         FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
+        FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId,
+                true);
         //  Prevent NullPointerException if employee is not found
         if (employee == null) {
-            LoggerService.logWarning("EmployeeDashboard: Employee not found for ID: " + employeeId);
-            JOptionPane.showMessageDialog(null, "Employee not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            LoggerService.logWarning(
+                    "EmployeeDashboard: Employee not found for ID: " + employeeId);
+            JOptionPane.showMessageDialog(null, "Employee not found!", "Error",
+                    JOptionPane.ERROR_MESSAGE);
             dispose();
             return;
         }
-        
-         LoggerService.logInfo("EmployeeDashboard: Employee found: " + employee.getFullName());
-         
+
+        LoggerService.logInfo("EmployeeDashboard: Employee found: " + employee.
+                getFullName());
+
         // Populate fields
         txt_fname.setText(employee.getFullName());
         txt_empid.setText(String.valueOf(EmployeeID.empid));
@@ -126,6 +132,11 @@ public class PayrollDashboard extends JFrame {
         });
 
         btn_payslip.setText("Payslip");
+        btn_payslip.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_payslipActionPerformed(evt);
+            }
+        });
 
         btn_payroll.setText("Payroll Management");
         btn_payroll.addActionListener(new java.awt.event.ActionListener() {
@@ -448,12 +459,14 @@ public class PayrollDashboard extends JFrame {
     }//GEN-LAST:event_btn_fileleaveActionPerformed
 
     private void btn_timeinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_timeinActionPerformed
-        FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
+        FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId,
+                true);
         employee.timeIn();
     }//GEN-LAST:event_btn_timeinActionPerformed
 
     private void btn_timeoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_timeoutActionPerformed
-        FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
+        FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId,
+                true);
         employee.timeOut();
     }//GEN-LAST:event_btn_timeoutActionPerformed
 
@@ -461,6 +474,11 @@ public class PayrollDashboard extends JFrame {
         PayrollManagement x = new PayrollManagement();
         x.setVisible(true);
     }//GEN-LAST:event_btn_payrollActionPerformed
+
+    private void btn_payslipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_payslipActionPerformed
+        PayslipViewer x = new PayslipViewer(employeeId);
+        x.setVisible(true);
+    }//GEN-LAST:event_btn_payslipActionPerformed
 
     /**
      * @param args the command line arguments
@@ -472,20 +490,25 @@ public class PayrollDashboard extends JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (javax.swing.UIManager.LookAndFeelInfo info
+                    : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PayrollDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PayrollDashboard.class.getName()).
+                    log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PayrollDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PayrollDashboard.class.getName()).
+                    log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PayrollDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PayrollDashboard.class.getName()).
+                    log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PayrollDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PayrollDashboard.class.getName()).
+                    log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
