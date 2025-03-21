@@ -125,6 +125,11 @@ public class EmployeeDashboard extends JFrame {
         });
 
         btn_payslip.setText("Payslip");
+        btn_payslip.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_payslipActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel_UserActionsLayout = new javax.swing.GroupLayout(jPanel_UserActions);
         jPanel_UserActions.setLayout(jPanel_UserActionsLayout);
@@ -445,6 +450,11 @@ public class EmployeeDashboard extends JFrame {
         FullTimeEmployee employee = EmployeeService.getEmployeeById(employeeId, true);
         employee.timeOut();
     }//GEN-LAST:event_btn_timeoutActionPerformed
+
+    private void btn_payslipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_payslipActionPerformed
+        PayslipViewer x = new PayslipViewer(employeeId);
+        x.setVisible(true);
+    }//GEN-LAST:event_btn_payslipActionPerformed
 
     /**
      * @param args the command line arguments
