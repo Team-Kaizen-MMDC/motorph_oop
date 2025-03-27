@@ -9,7 +9,7 @@ import ui.LoginFrame;
  *
  * @author brianjancarlos
  */
-public class Main {
+public class Motorph_oop {
 
     public static void main(String[] args) {
         LoginFrame login_ui = new LoginFrame();

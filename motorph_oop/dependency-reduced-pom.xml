@@ -18,7 +18,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.teamkaizen.motorph_oop.Main</mainClass>
+                  <mainClass>com.teamkaizen.motorph_oop.Motorph_oop</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -29,7 +29,7 @@
   </build>
   <properties>
     <maven.compiler.release>17</maven.compiler.release>
-    <exec.mainClass>com.teamkaizen.motorph_oop.Main</exec.mainClass>
+    <exec.mainClass>com.teamkaizen.motorph_oop.Motorph_oop</exec.mainClass>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>
